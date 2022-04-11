@@ -33,3 +33,5 @@ class svgDetails{
         double getHeight(){return height;};
 
 };
+
+

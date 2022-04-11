@@ -22,8 +22,8 @@ void verifyParameters(double xValue, double yValue,xml_node<>* node ){
         else{
             cout<<"noo"<< endl;;
         }*/
-        for()
-        cout<<"\tValor: "<<value.substr(value.find("M")+1+value.find(","),value.find(",")-1)<< endl;
+        //for()
+        //cout<<"\tValor: "<<value.substr(value.find("M")+1+value.find(","),value.find(",")-1)<< endl;
 
 
       }
@@ -32,21 +32,19 @@ void verifyParameters(double xValue, double yValue,xml_node<>* node ){
 }
 
 void extractNodeData(xml_node<>* node){
-  //for (node = node->first_node(); node != NULL; node = node->next_sibling()){
-  node = node->first_node();
-  node = node->next_sibling();
+  for (node = node->first_node(); node != NULL; node = node->next_sibling()){
     if (node->type() == node_element){
       cout << "Etiqueta: " << node->name() << endl;
 
-      //for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
+      for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
         //cout << "\tAtributo: " << attrib->name() << endl;
         //cout << "\t-Valor: " << attrib->value() << endl;
         verifyParameters(331.91711,410.02944,node);
-      //}
+      }
 
       extractNodeData(node);
     }
-  //}
+  }
 }
 
 void extractXMLData(xml_document<>* doc, svgDetails* svg){
@@ -66,13 +64,22 @@ void extractXMLData(xml_document<>* doc, svgDetails* svg){
 }
 
 
-void readFile(svgDetails& svg){
+void readFile(svgDetails& svg,file<> file,xml_document<>* myDocument){
     //istringstream archivo(fileName);
     //file<> file(archivo);
-    file<> file("Images/girl-1.svg");
-    xml_document<> myDocument;
-    myDocument.parse<0>(file.data());
-    extractXMLData(&myDocument, &svg);
+    //file<> file("Images/girl-1.svg");
+    //xml_document<> myDocument;
+    //myDocument.parse<0>(file.data());
+    extractXMLData(myDocument, &svg);
 
 
+}
+
+void saveFile(string fileName, xml_document<>* myDoc){
+    ofstream copyFile(fileName); //Nuevo archivo
+    stringstream stringStream;
+    stringStream << *myDoc->first_node(); //Pasa el nodo raíz a ss
+    string stringXML = stringStream.str(); //ss.toString
+    copyFile << stringXML;
+    copyFile.close(); //Escribe y cierra
 }
