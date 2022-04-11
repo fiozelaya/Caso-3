@@ -6,12 +6,25 @@ Ericka Yu Min Guo Chen
 
 */
 
-#include <iostream>
 #include "rapidxml/rapidxml_ext.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
+#include <iostream>
+#include "functions.hpp"
+#include "path.hpp"
+#include <vector>
+//#include "svgPaths.hpp"
 
-using namespace rapidxml;
 using namespace std;
+
+int main()
+{
+  //char nombre='Images/gato1.svg';
+    svgDetails mySvg;
+    readFile(mySvg);
+    cout<<mySvg.getHeight()<<"\n";
+    cout<<mySvg.getWidth();
+
+    return 0;
 
 class Punto
 {
@@ -68,8 +81,3 @@ private:
 public:
     Generacion() = default;
 };
-
-
-void main(){
-
-}
