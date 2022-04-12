@@ -1,6 +1,6 @@
 /*
 
-Caso 3 
+Caso 3
 Fiorella Zelaya
 Ericka Yu Min Guo Chen
 
@@ -20,12 +20,18 @@ int main()
 {
   //char nombre='Images/gato1.svg';
     svgDetails mySvg;
-    readFile(mySvg);
+    file<> file("Images/girl-1.svg");
+    xml_document<> myDocument;
+    myDocument.parse<0>(file.data());
+    //extractXMLData(&myDocument,&mySvg);//readFile
+
+    readFile(mySvg,file,&myDocument);
+
     cout<<mySvg.getHeight()<<"\n";
     cout<<mySvg.getWidth();
 
     return 0;
-
+}
 class Punto
 {
 public:
@@ -37,7 +43,7 @@ private:
     int y;
 };
 
-
+/*
 class Path
 {
 public:
@@ -51,7 +57,7 @@ private:
     string datos; //puntos y líneas
     string posInicial;
     string posDestino;
-};
+};*/
 
 class AnimatorGenerator{
 private:
@@ -81,3 +87,4 @@ private:
 public:
     Generacion() = default;
 };
+
