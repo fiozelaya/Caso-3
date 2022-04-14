@@ -13,6 +13,10 @@ Ericka Yu Min Guo Chen
 #include "path.hpp"
 #include <vector>
 #include "IObserverPattern.hpp"
+#include "animatorGenerator.hpp"
+#include "seleccion.hpp"
+#include "enrutamiento.hpp"
+#include "generacion.hpp"
 //#include "svgPaths.hpp"
 
 using namespace std;
