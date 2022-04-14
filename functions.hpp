@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-void verifyParameters(double xValue, double yValue,xml_node<>* node ){
+void checkParameters(double xValue, double yValue,xml_node<>* node ){
     string arrayPathCategories[]={"M","L","H","V","C","S","Q","T","A"};
     for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
         cout << "\tAtributo: " << attrib->name() << endl;
@@ -37,9 +37,9 @@ void extractNodeData(xml_node<>* node){
       cout << "Etiqueta: " << node->name() << endl;
 
       for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
-        //cout << "\tAtributo: " << attrib->name() << endl;
-        //cout << "\t-Valor: " << attrib->value() << endl;
-        verifyParameters(331.91711,410.02944,node);
+        cout << "\tAtributo: " << attrib->name() << endl;
+        cout << "\t-Valor: " << attrib->value() << endl;
+        //verifyParameters(331.91711,410.02944,node);
       }
 
       extractNodeData(node);
@@ -48,19 +48,20 @@ void extractNodeData(xml_node<>* node){
 }
 
 void extractXMLData(xml_document<>* doc, svgDetails* svg){
-  xml_node<>* node = doc->first_node();
+    xml_node<>* node = doc->first_node();
 
-  cout << "Etiqueta: " << node->name() << endl;
-  for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
-    string attribute=attrib->name();
-    if(attribute=="height"){
-        svg->setHeight(stod(attrib->value()));
+    cout << "Etiqueta: " << node->name() << endl;
+    for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
+        string attribute=attrib->name();
+        if(attribute=="height"){
+            svg->setHeight(stod(attrib->value()));
+        }
+        if(attribute=="width"){
+            svg->setWidth(stod(attrib->value()));
+        }
     }
-    if(attribute=="width"){
-        svg->setWidth(stod(attrib->value()));
-    }
-  }
-  extractNodeData(node);
+
+    extractNodeData(node);
 }
 
 

@@ -28,7 +28,7 @@ private:
     int y;
 };
 
-
+/*
 class Seleccion: public Subject{
 private:
     Observer* animator;
@@ -46,8 +46,9 @@ public:
         animator->update();
     }
 
-};
+};*/
 
+/*
 class Enrutamiento: public Subject{
 private:
     Observer* animator;
@@ -65,7 +66,9 @@ public:
         animator->update();
     }
 };
+*/
 
+/*
 class Generacion: public Subject{
 private:
     Observer* animator;
@@ -84,6 +87,9 @@ public:
     }
 };
 
+*/
+
+/*
 class AnimatorGenerator: public Observer{
 private:
 
@@ -95,7 +101,7 @@ public:
     }
 
 };
-
+*/
 int main()
 {
   //char nombre='Images/gato1.svg';
