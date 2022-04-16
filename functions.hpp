@@ -84,3 +84,7 @@ void saveFile(string fileName, xml_document<>* myDoc){
     copyFile << stringXML;
     copyFile.close(); //Escribe y cierra
 }
+
+void prueba(){
+    cout<<"Hola";
+}

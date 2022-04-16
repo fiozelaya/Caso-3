@@ -1,20 +1,14 @@
-#include <iostream>
-
-using namespace std;
-
-class Observer{
+class Observer {
 public:
-    ~Observer(){}
-    virtual void update() = 0;
+  virtual ~Observer(){};
+  virtual void update(void* elemento) = 0;
 };
 
-
-class Subject{
+class Subject {
 public:
-    ~Subject(){}
-    virtual void attach(Observer* observer) = 0;
-    virtual void detach(Observer* observer) = 0;
-    virtual void notify() = 0;
-
+  virtual ~Subject(){};
+  virtual void attach(Observer *observer) = 0;
+  virtual void detach(Observer *observer) = 0;
+  virtual void notify(void* elemento) = 0;
 };
 
