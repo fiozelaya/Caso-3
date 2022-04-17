@@ -12,6 +12,6 @@ public:
     }
     void notify(){
         cout << "generacion" << endl;
-        animator->update();
+        animator->update(caso);
     }
 };
