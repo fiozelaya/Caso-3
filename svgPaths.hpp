@@ -6,7 +6,7 @@
 
 
 //Falta interface observer
-
+//Clase padre
 class Element{
     protected:
         double coordX, coordY,side, area;
@@ -28,6 +28,7 @@ class Element{
         string getColor(){return color;};
 };
 
+//Clases hijas que heredan del padre
 class Circle:public Element{
     public:
         Circle(){};
@@ -89,6 +90,32 @@ class Polygon:public Element{
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
 
 };
+
+//FALTA
+/*
+class Line:public Element{
+    private:
+        vector<vector<double>> xyCoords;
+    public:
+        Polygon(){};
+        void setXYCoord(vector<double> newxyCoords){xyCoords.push_back(newxyCoords);};
+        vector<vector<double>> getXYCoord(){return xyCoords;};
+        /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
+        +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+
+//};*/
+/*
+class Path:public Element{
+    private:
+        vector<vector<double>> xyCoords;
+    public:
+        Polygon(){};
+        void setXYCoord(vector<double> newxyCoords){xyCoords.push_back(newxyCoords);};
+        vector<vector<double>> getXYCoord(){return xyCoords;};
+        /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
+        +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+
+//};
 
 class svgDetails{
     protected:

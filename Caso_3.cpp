@@ -137,20 +137,20 @@ int main()
     Circle* circulo=new Circle();
     circulo->setXCoord(3);
     cout<<circulo->getXCoord();*/
-/*
+
     AnimatorGenerator* animator = new AnimatorGenerator();
 
     Selection* seleccion = new Selection();
     seleccion->attach(animator);
     seleccion->notify(cursoPointer);
     curso=1;
-    seleccion->notify(cursoPointer);*/
+    seleccion->notify(cursoPointer);
 
-    queue<string> cola;
+    //queue<string> cola;
     //cola.push("h");
-    prueba2(cola);
-    cola.push("hola");
-    prueba2(cola);
+    //prueba2(cola);
+    //cola.push("hola");
+    //prueba2(cola);
    /* Enrutamiento* enrutamiento = new Enrutamiento();
     Generacion* generacion = new Generacion();
 
