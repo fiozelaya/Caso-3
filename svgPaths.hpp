@@ -37,6 +37,8 @@ class Element{
         double getArea(){return area;};
         string getColor(){return color;};
         double getDisplacement(){return displacement;};
+        double getFinalXCoord(){return finalCoordX;};
+        double getFinalYCoord(){return finalCoordY;};
         void addMovement(int x, int y){vector<int> point = {x,y}; movements.push_back(point);};
 };
 

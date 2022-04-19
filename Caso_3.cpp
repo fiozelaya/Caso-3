@@ -173,7 +173,7 @@ int main()
     vector<Element> elements;
     elements.push_back(*nuevo);
     cout << "ok" << endl;
-    enrutamiento->enrutar(elements, 20, 280, 666, 780);
+    enrutamiento->enrutar(elements, 20, 360, 666, 780);
     cout << "ok" << endl;
 
     // seleccion->attach(animator);

@@ -7,7 +7,79 @@
 
 using namespace std;
 
-void firstQuadrant(Element &element, int lastX, int lastY, int width, int degrees, bool rect){ 
+void degrees90(Element &element, int x, int y){
+    int displacement = element.getDisplacement(), auxDisplacement = displacement;
+    while (auxDisplacement < 10){
+        cout << "desplazamiento insignificativo" << endl;
+        auxDisplacement += displacement;
+    }
+    while (element.getMovements().size() < element.getHypotenuse() / displacement){
+        y -= auxDisplacement;
+        if (y < element.getFinalYCoord()){
+            y += auxDisplacement;
+            element.addMovement(x, y);
+            continue;
+        }
+        element.addMovement(x, y);
+    }
+}
+
+void degrees180(Element &element, int x, int y){
+    int displacement = element.getDisplacement(), auxDisplacement = displacement;
+    while (auxDisplacement < 10){
+        cout << "desplazamiento insignificativo" << endl;
+        auxDisplacement += displacement;
+    }
+    while (element.getMovements().size() < element.getHypotenuse() / displacement){
+        x -= auxDisplacement;
+        if (x < element.getFinalXCoord()){
+            x += auxDisplacement;
+            element.addMovement(x, y);
+            continue;
+        }
+        element.addMovement(x, y);
+    }
+    return;
+}
+
+void degrees270(Element &element, int x, int y){
+    int displacement = element.getDisplacement(), auxDisplacement = displacement;
+    cout << x << " " << y << endl; 
+    while (auxDisplacement < 10){
+        cout << "desplazamiento insignificativo" << endl;
+        auxDisplacement += displacement;
+    }
+    while (element.getMovements().size() < element.getHypotenuse() / displacement){
+        y += auxDisplacement;
+        if (y > element.getFinalYCoord()){
+            y -= auxDisplacement;
+            element.addMovement(x, y);
+            continue;
+        }
+        element.addMovement(x, y);
+    }
+    return;
+}
+
+void degrees360(Element &element, int x, int y){
+    int displacement = element.getDisplacement(), auxDisplacement = displacement;
+    while (auxDisplacement < 10){
+        cout << "desplazamiento insignificativo" << endl;
+        auxDisplacement += displacement;
+    }
+    while (element.getMovements().size() < element.getHypotenuse() / displacement){
+        x += auxDisplacement;
+        if (x > element.getFinalXCoord()){
+            x -= auxDisplacement;
+            element.addMovement(x, y);
+            continue;
+        }
+        element.addMovement(x, y);
+    }
+    return;
+}
+
+void firstQuadrant(Element &element, int lastX, int lastY, int width, double degrees, bool rect){ 
     int newX, newY, displacement = element.getDisplacement(), auxDisplacement = displacement;
     if (element.getMovements().size() >= element.getHypotenuse() / displacement){ //si ya el vector está lleno
         return;
@@ -20,6 +92,7 @@ void firstQuadrant(Element &element, int lastX, int lastY, int width, int degree
         }
         //nuevas coordenadas x y y
         newX = (lastX + auxDisplacement) /*- element.getXCoord()*/;
+        cout << degrees << " " << tan(degrees * (3.14159265358979323846/180)) << endl;
         newY = element.getYCoord() - ((newX - element.getXCoord()) * (tan(degrees * (3.14159265358979323846/180))));
         cout << newX << " " << newY << endl;
 
@@ -40,13 +113,12 @@ void firstQuadrant(Element &element, int lastX, int lastY, int width, int degree
     firstQuadrant(element, newX, newY, width, degrees, rect);
 }
 
-void secondQuadrant(Element &element, int lastX, int lastY, int degrees, bool rect){
+void secondQuadrant(Element &element, int lastX, int lastY, double degrees, bool rect){
     int newX, newY, displacement = element.getDisplacement(), auxDisplacement = displacement;
 
     if (element.getMovements().size() >= element.getHypotenuse() / displacement){ //si ya el vector está lleno
         return;
     }
-
     if (rect){
         while (auxDisplacement < 10){
             cout << "desplazamiento insignificativo" << endl;
@@ -76,13 +148,12 @@ void secondQuadrant(Element &element, int lastX, int lastY, int degrees, bool re
     secondQuadrant(element, newX, newY, degrees, rect);
 }
 
-void thirdQuadrant(Element &element, int lastX, int lastY, int height, int degrees, bool rect){
+void thirdQuadrant(Element &element, int lastX, int lastY, int height, double degrees, bool rect){
     int newX, newY, displacement = element.getDisplacement(), auxDisplacement = displacement;
 
     if (element.getMovements().size() >= element.getHypotenuse() / displacement){ //si ya el vector está lleno
         return;
     }
-
     if (rect){
         while (auxDisplacement < 10){
             cout << "desplazamiento insignificativo" << endl;
@@ -112,13 +183,12 @@ void thirdQuadrant(Element &element, int lastX, int lastY, int height, int degre
     thirdQuadrant(element, newX, newY, height, degrees, rect);
 }
 
-void fourthQuadrant(Element &element, int lastX, int lastY, int height, int width, int degrees, bool rect){
+void fourthQuadrant(Element &element, int lastX, int lastY, int height, int width, double degrees, bool rect){
     int newX, newY, displacement = element.getDisplacement(), auxDisplacement = displacement;
 
     if (element.getMovements().size() >= element.getHypotenuse() / displacement){ //si ya el vector está lleno
         return;
     }
-
     if (rect){
         while (auxDisplacement < 10){
             cout << "desplazamiento insignificativo" << endl;
@@ -148,10 +218,18 @@ void fourthQuadrant(Element &element, int lastX, int lastY, int height, int widt
     fourthQuadrant(element, newX, newY, height, width, degrees, rect);
 }
 
-void determinePoints90(Element &element, int width, int degrees, int frames){
+void determinePoints90(Element &element, int width, double degrees, int frames){
     double x = element.getXCoord(), y = element.getYCoord();
     double finalX = width - x, finalY, hypotenuse, displacement;
-    if ((y - ((tan(degrees * (3.14159265358979323846/180))) * finalX) < 0)){ //si el límite de la hipotenusa está en el extremo de arriba
+    if (degrees == 90){
+        element.setFinalXCoord(x);
+        element.setFinalYCoord(0);
+        element.setHypotenuse(y);
+        element.setDisplacement(y / frames);
+        degrees90(element, x, y);
+        return;
+    }
+    if ((y - ((tan(degrees * (3.14159265358979323846/180))) * finalX) <= 0)){ //si el límite de la hipotenusa está en el extremo de arriba
         finalY = 0;
         finalX = x + (y / (tan(degrees * (3.14159265358979323846/180))));
         hypotenuse = y / (sin(degrees * (3.14159265358979323846/180)));
@@ -168,15 +246,24 @@ void determinePoints90(Element &element, int width, int degrees, int frames){
 
     displacement = hypotenuse / frames;
     element.setDisplacement(displacement);
+
+    cout << (y - ((tan(degrees * (3.14159265358979323846/180))) * finalX) ) << " " << finalX << " " << finalY << " " << degrees << " " << hypotenuse << " " << displacement << endl;
     firstQuadrant(element, x, y, width, degrees, true); //lamada a la funcion para enrutar el elemento
 }
 
-void determinePoints180(Element &element, int degrees, int frames){
+void determinePoints180(Element &element, double degrees, int frames){
     double x = element.getXCoord(), y = element.getYCoord();
     double finalX = 0, finalY, hypotenuse, displacement;
     degrees = 180 - degrees;
-
-    if ((y - ((tan(degrees * (3.14159265358979323846/180))) * x) < 0)){ //si el límite de la hipotenusa está en el extremo de arriba
+    if (degrees == 0){
+        element.setFinalXCoord(0);
+        element.setFinalYCoord(y);
+        element.setHypotenuse(x);
+        element.setDisplacement(x / frames);
+        degrees180(element, x, y);
+        return;
+    }
+    if ((y - ((tan(degrees * (3.14159265358979323846/180))) * x) <= 0)){ //si el límite de la hipotenusa está en el extremo de arriba
         finalY = 0;
         finalX = x - (y / (tan(degrees * (3.14159265358979323846/180))));
         hypotenuse = y / (sin(degrees * (3.14159265358979323846/180)));
@@ -193,15 +280,24 @@ void determinePoints180(Element &element, int degrees, int frames){
 
     displacement = hypotenuse / frames;
     element.setDisplacement(displacement);
+    
     secondQuadrant(element, x, y, degrees, true); //lamada a la funcion para enrutar el elemento
 }
 
-void determinePoints270(Element &element, int height, int degrees, int frames){
+void determinePoints270(Element &element, int height, double degrees, int frames){
     double x = element.getXCoord(), y = element.getYCoord();
     double finalX = 0, finalY = height - y, hypotenuse, displacement;
     degrees = degrees - 180;
-
-    if ((y + ((tan(degrees * (3.14159265358979323846/180))) * x) > height)){ //si el límite de la hipotenusa está en el extremo de abajo
+    if (degrees == 90){
+        hypotenuse = finalY;
+        element.setFinalXCoord(x);
+        element.setFinalYCoord(height);
+        element.setHypotenuse(hypotenuse);
+        element.setDisplacement(hypotenuse / frames);
+        degrees270(element, x, y);
+        return;
+    }
+    if ((y + ((tan(degrees * (3.14159265358979323846/180))) * x) >= height)){ //si el límite de la hipotenusa está en el extremo de abajo
         finalY = height;
         finalX = x - (finalY / (tan(degrees * (3.14159265358979323846/180))));
         hypotenuse = finalY / (sin(degrees * (3.14159265358979323846/180)));
@@ -222,12 +318,20 @@ void determinePoints270(Element &element, int height, int degrees, int frames){
 
 }
 
-void determinePoints360(Element &element, int width, int height, int degrees, int frames){
+void determinePoints360(Element &element, int width, int height, double degrees, int frames){
     double x = element.getXCoord(), y = element.getYCoord();
     double finalX = width, finalY = height, hypotenuse, displacement;
     degrees = 360 - degrees;
-
-    if ((y + ((tan(degrees * (3.14159265358979323846/180))) * (finalX - x)) > height)){ //si el límite de la hipotenusa está en el extremo de abajo
+    if (degrees == 0){
+        hypotenuse = finalX - x;
+        element.setFinalXCoord(finalX);
+        element.setFinalYCoord(y);
+        element.setHypotenuse(finalX - x);
+        element.setDisplacement(hypotenuse / frames);
+        degrees360(element, x, y);
+        return;
+    }
+    if ((y + ((tan(degrees * (3.14159265358979323846/180))) * (finalX - x)) >= height) || degrees == 0){ //si el límite de la hipotenusa está en el extremo de abajo
         finalY = height;
         finalX = x + ((finalY - y) / (tan(degrees * (3.14159265358979323846/180))));
         hypotenuse = (finalY - y) / (sin(degrees * (3.14159265358979323846/180)));
@@ -247,5 +351,8 @@ void determinePoints360(Element &element, int width, int height, int degrees, in
     fourthQuadrant(element, x, y, height, width, degrees, true); //lamada a la funcion para enrutar el elemento
 
 }
+
+
+
 
 #endif

@@ -24,7 +24,7 @@ public:
     void detach(Observer* observer){
 
     }
-    void enrutar(vector<Element> pVector, int frames, int degrees, int height, int width){
+    void enrutar(vector<Element> pVector, int frames, double degrees, int height, int width){
         bool lineaRecta;
         for (int i = 0; i < pVector.size(); i++){
             if (rand() % 2 == 0){
@@ -33,13 +33,13 @@ public:
             else{
                 lineaRecta = false;
             }
-            if(degrees < 90){ //I cuadrante
+            if(degrees <= 90){ //I cuadrante
                 determinePoints90(pVector[i], width, degrees, frames);
             }
-            else if (degrees >= 90 && degrees < 180){ //II cuadrante
+            else if (degrees > 90 && degrees <= 180){ //II cuadrante
                 determinePoints180(pVector[i], degrees, frames);
             }
-            else if (degrees >= 180 && degrees < 270){ //III cuadrante
+            else if (degrees > 180 && degrees <= 270){ //III cuadrante
                 determinePoints270(pVector[i], height, degrees, frames);
             }
             else{ //IV cuadrante
