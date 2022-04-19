@@ -1,3 +1,6 @@
+#ifndef __ANIMATOR_GENERATOR_HEADER__
+#define __ANIMATOR_GENERATOR_HEADER__
+
 class AnimatorGenerator: public Observer{
 private:
 
@@ -22,3 +25,5 @@ public:
     }
 
 };
+
+#endif

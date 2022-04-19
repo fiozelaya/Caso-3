@@ -1,3 +1,6 @@
+#ifndef __SELECTION_HEADER__
+#define __SELECTION_HEADER__
+
 #include <thread>
 #include <list>
 class Selection: public Subject{
@@ -24,3 +27,5 @@ public:
     }
 
 };
+
+#endif

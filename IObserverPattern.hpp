@@ -1,3 +1,6 @@
+#ifndef __INTERFACE_OBSERVER_PATTERN_HEADER__
+#define __INTERFACE_OBSERVER_PATTERN_HEADER__
+
 class Observer {
 public:
   virtual ~Observer(){};
@@ -12,3 +15,4 @@ public:
   virtual void notify(void* elemento) = 0;
 };
 
+#endif

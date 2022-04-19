@@ -1,3 +1,6 @@
+#ifndef __SVG_PATHS_HEADER__
+#define __SVG_PATHS_HEADER__
+
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -9,7 +12,8 @@
 //Clase padre
 class Element{
     protected:
-        double coordX, coordY,side, area;
+        double coordX, coordY,side, area, finalCoordX, finalCoordY, hypotenuse, displacement;
+        vector<vector<int>> movements; // { {x,y}, {}, {}, {} }
         string color;
     public:
         Element(){};
@@ -17,15 +21,23 @@ class Element{
         Element(double newYValue, double newXValue){};
         void setXCoord(double newXValue){coordX=newXValue;};
         void setYCoord(double newYValue){coordY=newYValue;};
+        void setFinalXCoord(double newXValue){finalCoordX=newXValue;};
+        void setFinalYCoord(double newYValue){finalCoordY=newYValue;};
+        void setHypotenuse(double newHypotenuse){hypotenuse = newHypotenuse;};
         void setSide(double newSide){side=newSide;};
+        void setDisplacement(double pDisplacement){displacement = pDisplacement;};
         //void setArea(double newArea){area=newArea;};
         virtual void setArea(){};
         void setColor(string newColor){color=newColor;};
         double getXCoord(){return coordX;};
         double getYCoord(){return coordY;};
+        vector<vector<int>> getMovements(){return movements;};
+        double getHypotenuse(){return hypotenuse;};
         double getSide(){return side;};
         double getArea(){return area;};
         string getColor(){return color;};
+        double getDisplacement(){return displacement;};
+        void addMovement(int x, int y){vector<int> point = {x,y}; movements.push_back(point);};
 };
 
 //Clases hijas que heredan del padre
@@ -132,3 +144,4 @@ class svgDetails{
 };
 
 
+#endif

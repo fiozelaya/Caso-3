@@ -1,3 +1,6 @@
+#ifndef __GENERATION_HEADER__
+#define __GENERATION_HEADER__
+
 class Generacion: public Subject{
 private:
     Observer* animator;
@@ -12,6 +15,8 @@ public:
     }
     void notify(){
         cout << "generacion" << endl;
-        animator->update(caso);
+        animator->update(nullptr);
     }
 };
+
+#endif
