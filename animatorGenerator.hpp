@@ -1,11 +1,29 @@
+#ifndef __ANIMATOR_GENERATOR_HEADER__
+#define __ANIMATOR_GENERATOR_HEADER__
+
 class AnimatorGenerator: public Observer{
 private:
 
 public:
     AnimatorGenerator() = default;
     ~AnimatorGenerator(){}
-    void update(){
+    /*void update(){
         cout << "nuevo update" << endl;
+    }*/
+    void update(void* curso) {
+        // (int*) = castear el puntero void a puntero a int
+        // *(int*) = valor del int al que apunta
+        int value = *(int*)curso;
+
+        if (value == 0)
+            cout << "Se ha publicado una nueva tarea del curso Analisis de Algoritmos" << endl;
+        else if (value == 1)
+            //cout << "Se ha publicado una nueva tarea del curso Bases de Datos 1" << endl;
+            prueba();
+        else if (value == 2)
+            cout << "Se ha publicado una nueva tarea del curso Ambiente Humano" << endl;
     }
 
 };
+
+#endif

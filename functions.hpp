@@ -1,3 +1,6 @@
+#ifndef __FUNCTIONS_HEADER__
+#define __FUNCTIONS_HEADER__
+
 #include <sstream>
 #include "main.hpp"
 #include "svgPaths.hpp"
@@ -79,8 +82,14 @@ void readFile(svgDetails& svg,file<> file,xml_document<>* myDocument){
 void saveFile(string fileName, xml_document<>* myDoc){
     ofstream copyFile(fileName); //Nuevo archivo
     stringstream stringStream;
-    stringStream << *myDoc->first_node(); //Pasa el nodo raíz a ss
+    stringStream << *myDoc->first_node(); //Pasa el nodo raï¿½z a ss
     string stringXML = stringStream.str(); //ss.toString
     copyFile << stringXML;
     copyFile.close(); //Escribe y cierra
 }
+
+void prueba(){
+    cout<<"Hola";
+}
+
+#endif

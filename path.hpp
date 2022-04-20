@@ -1,3 +1,6 @@
+#ifndef __PATH_HEADER__
+#define __PATH_HEADER__
+
 #include <iostream>
 #include <vector>
 /*
@@ -16,3 +19,5 @@ class Path{
         string getColor(){return color;};
 };
 */
+
+#endif
