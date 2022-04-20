@@ -20,6 +20,7 @@ Ericka Yu Min Guo Chen
 #include "Routing.hpp"
 #include "Generation.hpp"
 #include "svgPaths.hpp"
+#include <queue>
 
 using namespace std;
 
@@ -28,97 +29,6 @@ int frames;
 int degrees;
 int height;
 int width;
-
-class Punto
-{
-public:
-	Punto() = default;
-
-
-private:
-	int x;
-    int y;
-};
-
-/*
-class Seleccion: public Subject{
-private:
-    Observer* animator;
-public:
-    Seleccion() = default;
-    ~Seleccion(){}
-    void attach(Observer* observer){
-        animator = observer;
-    }
-    void detach(Observer* observer){
-
-    }
-    void notify(){
-        cout << "seleccion" << endl;
-        animator->update();
-    }
-
-};*/
-
-/*
-class Enrutamiento: public Subject{
-private:
-    Observer* animator;
-public:
-    Enrutamiento() = default;
-    ~Enrutamiento(){}
-    void attach(Observer* observer){
-        animator = observer;
-    }
-    void detach(Observer* observer){
-
-    }
-    void notify(){
-        cout << "enrtut" << endl;
-        animator->update();
-    }
-};
-*/
-
-/*
-class Generacion: public Subject{
-private:
-    Observer* animator;
-public:
-    Generacion() = default;
-    ~Generacion(){}
-    void attach(Observer* observer){
-        animator = observer;
-    }
-    void detach(Observer* observer){
-
-    }
-    void notify(){
-        cout << "generacion" << endl;
-        animator->update();
-    }
-};
-
-*/
-
-/*
-class AnimatorGenerator: public Observer{
-private:
-
-public:
-    AnimatorGenerator() = default;
-    ~AnimatorGenerator(){}
-    void update(){
-        cout << "nuevo update" << endl;
-    }
-
-};
-*/
-
-
-
-#include <vector>
-#include <queue>
 
 
 void prueba2(queue<string> &cola){
