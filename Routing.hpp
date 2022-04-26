@@ -1,6 +1,5 @@
 #ifndef __ROUTING_HEADER__
 #define __ROUTING_HEADER__
-# define M_PI 3.14159265358979323846
 
 // #include "IObserverPattern.hpp"
 // #include "svgPaths.hpp"
@@ -24,26 +23,28 @@ public:
     void detach(Observer* observer){
 
     }
-    void enrutar(vector<Element> pVector, int frames, double degrees, int height, int width){
-        bool lineaRecta;
+    void enrutar(vector<Element> &pVector, int pFrames, double pDegrees, int pHeight, int pWidth){
+        bool rect;
         for (int i = 0; i < pVector.size(); i++){
             if (rand() % 2 == 0){
-                lineaRecta = true;
+                rect = true;
             }
             else{
-                lineaRecta = false;
+                rect = false;
             }
-            if(degrees <= 90){ //I cuadrante
-                determinePoints90(pVector[i], width, degrees, frames);
+            pVector[i].setRect(false);
+
+            if(pDegrees <= 90){ //I cuadrante
+                determinePoints90(pVector[i], pWidth, pDegrees, pFrames);
             }
-            else if (degrees > 90 && degrees <= 180){ //II cuadrante
-                determinePoints180(pVector[i], degrees, frames);
+            else if (pDegrees > 90 && pDegrees <= 180){ //II cuadrante
+                determinePoints180(pVector[i], pDegrees, pFrames);
             }
-            else if (degrees > 180 && degrees <= 270){ //III cuadrante
-                determinePoints270(pVector[i], height, degrees, frames);
+            else if (pDegrees > 180 && pDegrees <= 270){ //III cuadrante
+                determinePoints270(pVector[i], pHeight, pDegrees, pFrames);
             }
             else{ //IV cuadrante
-                determinePoints360(pVector[i], width, height, degrees, frames);
+                determinePoints360(pVector[i], pWidth, pHeight, pDegrees, pFrames);
             }
 
             vector<vector<int>> movimientos = pVector[i].getMovements();
