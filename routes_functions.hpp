@@ -1,5 +1,6 @@
 #ifndef __ROUTE_FUNCTIONS_HEADER__
 #define __ROUTE_FUNCTIONS_HEADER__
+# define M_PI 3.14159265358979323846
 
 #include <iostream>
 #include "svgPaths.hpp"
@@ -7,327 +8,362 @@
 
 using namespace std;
 
-void degrees90(Element &element, int x, int y){
-    int displacement = element.getDisplacement(), auxDisplacement = displacement;
+void generatePointsDegrees90(Element &pElement, int pX, int pY){
+    int displacement = pElement.getDisplacement(), auxDisplacement = displacement;
     while (auxDisplacement < 10){ //ajustar el desplazamiento para que sea significativo
         auxDisplacement += displacement;
     }
-    while (element.getMovements().size() < element.getHypotenuse() / displacement){ //generar puntos
-        y -= auxDisplacement;
-        if (y < element.getFinalYCoord()){ //si se pasa del limite, se mantiene el punto anterior
-            y += auxDisplacement;
-            element.addMovement(x, y);
+    while (pElement.getMovements().size() < pElement.getHypotenuse() / displacement){ //generar puntos
+        pY -= auxDisplacement;
+        if (pY < pElement.getFinalYCoord()){ //si se pasa del limite, se mantiene el punto anterior
+            pY += auxDisplacement;
+            pElement.addMovement(pX, pY);
             continue;
         }
-        element.addMovement(x, y);
+        pElement.addMovement(pX, pY);
     }
 }
 
-void degrees180(Element &element, int x, int y){
-    int displacement = element.getDisplacement(), auxDisplacement = displacement;
+void generatePointsDegrees180(Element &pElement, int pX, int pY){
+    int displacement = pElement.getDisplacement(), auxDisplacement = displacement;
     while (auxDisplacement < 10){ //ajustar el desplazamiento para que sea significativo
         auxDisplacement += displacement;
     }
-    while (element.getMovements().size() < element.getHypotenuse() / displacement){ //generar puntos
-        x -= auxDisplacement;
-        if (x < element.getFinalXCoord()){ //si se pasa del limite, se mantiene el punto anterior
-            x += auxDisplacement;
-            element.addMovement(x, y);
+    while (pElement.getMovements().size() < pElement.getHypotenuse() / displacement){ //generar puntos
+        pX -= auxDisplacement;
+        if (pX < pElement.getFinalXCoord()){ //si se pasa del limite, se mantiene el punto anterior
+            pX += auxDisplacement;
+            pElement.addMovement(pX, pY);
             continue;
         }
-        element.addMovement(x, y);
+        pElement.addMovement(pX, pY);
     }
     return;
 }
 
-void degrees270(Element &element, int x, int y){
-    int displacement = element.getDisplacement(), auxDisplacement = displacement;
+void generatePointsDegrees270(Element &pElement, int pX, int pY){
+    int displacement = pElement.getDisplacement(), auxDisplacement = displacement;
     while (auxDisplacement < 10){ //ajustar el desplazamiento para que sea significativo
         auxDisplacement += displacement;
     }
-    while (element.getMovements().size() < element.getHypotenuse() / displacement){ //generar puntos
-        y += auxDisplacement;
-        if (y > element.getFinalYCoord()){ //si se pasa del limite, se mantiene el punto anterior
-            y -= auxDisplacement;
-            element.addMovement(x, y);
+    while (pElement.getMovements().size() < pElement.getHypotenuse() / displacement){ //generar puntos
+        pY += auxDisplacement;
+        if (pY > pElement.getFinalYCoord()){ //si se pasa del limite, se mantiene el punto anterior
+            pY -= auxDisplacement;
+            pElement.addMovement(pX, pY);
             continue;
         }
-        element.addMovement(x, y);
+        pElement.addMovement(pX, pY);
     }
     return;
 }
 
-void degrees360(Element &element, int x, int y){
-    int displacement = element.getDisplacement(), auxDisplacement = displacement;
+void generatePointsDegrees360(Element &pElement, int pX, int pY){
+    int displacement = pElement.getDisplacement(), auxDisplacement = displacement;
     while (auxDisplacement < 10){ //ajustar el desplazamiento para que sea significativo
         auxDisplacement += displacement;
     }
-    while (element.getMovements().size() < element.getHypotenuse() / displacement){ //generar puntos
-        x += auxDisplacement;
-        if (x > element.getFinalXCoord()){ //si se pasa del limite, se mantiene el punto anterior
-            x -= auxDisplacement;
-            element.addMovement(x, y);
+    while (pElement.getMovements().size() < pElement.getHypotenuse() / displacement){ //generar puntos
+        pX += auxDisplacement;
+        if (pX > pElement.getFinalXCoord()){ //si se pasa del limite, se mantiene el punto anterior
+            pX -= auxDisplacement;
+            pElement.addMovement(pX, pY);
             continue;
         }
-        element.addMovement(x, y);
+        pElement.addMovement(pX, pY);
     }
     return;
 }
 
-void firstQuadrant(Element &element, int lastX, int lastY, int width, double degrees, bool rect){ 
-    int newX, newY, displacement = element.getDisplacement(), auxDisplacement = displacement;
-    if (element.getMovements().size() >= element.getHypotenuse() / displacement){ //si ya el vector está lleno
+void firstQuadrant(Element &pElement, int pLastX, int pLastY, int pWidth, double pDegrees, double lastDegrees){ 
+    int newX, newY, displacement = pElement.getDisplacement(), auxDisplacement = displacement, frames = pElement.getHypotenuse() / displacement;
+    int actualDegrees = pDegrees;
+
+    if (pElement.getMovements().size() >= frames){ //si ya el vector está lleno retorna
         return;
     }
-    if (rect){ //si es en linea recta
-        while (auxDisplacement < 10){ 
-            auxDisplacement += displacement;
-            element.addMovement(lastX, lastY);
-        }
-        //nuevas coordenadas x y y
-        newX = (lastX + auxDisplacement); //nueva X
-        newY = element.getYCoord() - ((newX - element.getXCoord()) * (tan(degrees * (3.14159265358979323846/180)))); // nueva Y = coord y actual - (coord X en una grafica * tan(angulo))
 
-        if (newX > width || newY < 0){ //si el siguiente punto queda afuera del SVG se descarta y se mantiene el viejo punto
-            newX = lastX; newY = lastY;
-            element.addMovement(newX, newY);
-        }
-        else{ //si no, se agrega el nuevo punto
-            element.addMovement(newX, newY);
+    if (!pElement.isRect()){ //si es linea curva, se modifica el angulo que debe ser usado
+        int finalDegrees = pDegrees + (frames / 4); //grados en los que tiene que empezar a "devolverse" para construir la curva
+        lastDegrees++;
+        actualDegrees = lastDegrees;
+        if (lastDegrees > finalDegrees){ //si ya tiene que comenzar a devolverse le va restando 1 al finalDegrees en cada iteración recursiva
+            actualDegrees = (finalDegrees + 1 - (lastDegrees - finalDegrees));
         }
     }
-    else{
 
+    while (auxDisplacement < 10){ //se modifica el desplazamiento para que sea significativo
+        auxDisplacement += displacement;
+        pElement.addMovement(pLastX, pLastY);
+    }
+
+    newX = (pLastX + auxDisplacement); //nueva X
+    newY = pElement.getYCoord() - ((newX - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+
+    if (newX > pWidth || newY < 0){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
+            newX = pLastX; newY = pLastY;
+            pElement.addMovement(newX, newY);
+        }
+    else{ //si no, se agrega el nuevo punto
+        pElement.addMovement(newX, newY);
     }
 
     //lamada recursiva
-    firstQuadrant(element, newX, newY, width, degrees, rect);
+    firstQuadrant(pElement, newX, newY, pWidth, pDegrees, lastDegrees);
 }
 
-void secondQuadrant(Element &element, int lastX, int lastY, double degrees, bool rect){
-    int newX, newY, displacement = element.getDisplacement(), auxDisplacement = displacement;
+void secondQuadrant(Element &pElement, int pLastX, int pLastY, double pDegrees, double lastDegrees){
+    int newX, newY, displacement = pElement.getDisplacement(), auxDisplacement = displacement, frames = pElement.getHypotenuse() / displacement;
+    int actualDegrees = pDegrees;
 
-    if (element.getMovements().size() >= element.getHypotenuse() / displacement){ //si ya el vector está lleno
+    if (pElement.getMovements().size() >= pElement.getHypotenuse() / displacement){ //si ya el vector está lleno
         return;
     }
-    if (rect){
-        while (auxDisplacement < 10){
-            auxDisplacement -= displacement;
-            element.addMovement(lastX, lastY);
-        }
-        //nuevas coordenadas x y y
-        newX = (lastX - auxDisplacement); //nueva X
-        newY = element.getYCoord() - ((element.getXCoord() - newX) * (tan(degrees * (3.14159265358979323846/180)))); // nueva Y = coord y actual - (coord X en una grafica * tan(angulo))
 
-        if (newX < 0 || newY < 0){ //si el siguiente punto queda afuera del SVG se descarta y se mantiene el viejo punto
-            newX = lastX; newY = lastY;
-            element.addMovement(newX, newY);
-        }
-        else{ //si no, se agrega el nuevo punto
-            element.addMovement(newX, newY);
+    if (!pElement.isRect()){
+        int finalDegrees = pDegrees + (frames / 4); //grados en los que tiene que empezar a "devolverse" para construir la curva
+        lastDegrees++;
+        actualDegrees = lastDegrees;
+        if (lastDegrees > finalDegrees){ //si ya tiene que comenzar a devolverse le va restando 1 al finalDegrees en cada iteración recursiva
+            actualDegrees = (finalDegrees + 1 - (lastDegrees - finalDegrees));
         }
     }
-    else{
-        
+
+    while (auxDisplacement < 10){
+        auxDisplacement -= displacement;
+        pElement.addMovement(pLastX, pLastY);
+    }
+    //nuevas coordenadas pX pY pY
+    newX = (pLastX - auxDisplacement); //nueva X
+    newY = pElement.getYCoord() - ((pElement.getXCoord() - newX) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+
+    if (newX < 0 || newY < 0){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
+        newX = pLastX; newY = pLastY;
+        pElement.addMovement(newX, newY);
+    }
+    else{ //si no, se agrega el nuevo punto
+        pElement.addMovement(newX, newY);
     }
 
     //llamada recursiva
-    secondQuadrant(element, newX, newY, degrees, rect);
+    secondQuadrant(pElement, newX, newY, pDegrees, lastDegrees);
 }
 
-void thirdQuadrant(Element &element, int lastX, int lastY, int height, double degrees, bool rect){
-    int newX, newY, displacement = element.getDisplacement(), auxDisplacement = displacement;
+void thirdQuadrant(Element &pElement, int pLastX, int pLastY, int pHeight, double pDegrees, double lastDegrees){
+    int newX, newY, displacement = pElement.getDisplacement(), auxDisplacement = displacement, frames = pElement.getHypotenuse() / displacement;
+    int actualDegrees = pDegrees;
 
-    if (element.getMovements().size() >= element.getHypotenuse() / displacement){ //si ya el vector está lleno
+    if (pElement.getMovements().size() >= pElement.getHypotenuse() / displacement){ //si ya el vector está lleno
         return;
     }
-    if (rect){
-        while (auxDisplacement < 10){
-            auxDisplacement -= displacement;
-            element.addMovement(lastX, lastY);
-        }
-        //nuevas coordenadas x y y
-        newX = (lastX - auxDisplacement); //nueva X
-        newY = element.getYCoord() + ((element.getXCoord() - newX) * (tan(degrees * (3.14159265358979323846/180)))); // nueva Y = coord y actual + (coord X en una grafica * tan(angulo))
 
-        if (newX < 0 || newY > height){ //si el siguiente punto queda afuera del SVG se descarta y se mantiene el viejo punto
-            newX = lastX; newY = lastY;
-            element.addMovement(newX, newY);
-        }
-        else{ //si no, se agrega el nuevo punto
-            element.addMovement(newX, newY);
+    if (!pElement.isRect()){
+        int finalDegrees = pDegrees + (frames / 4); //grados en los que tiene que empezar a "devolverse" para construir la curva
+        lastDegrees++;
+        actualDegrees = lastDegrees;
+        if (lastDegrees > finalDegrees){ //si ya tiene que comenzar a devolverse le va restando 1 al finalDegrees en cada iteración recursiva
+            actualDegrees = (finalDegrees + 1 - (lastDegrees - finalDegrees));
         }
     }
-    else{
-        
+
+    while (auxDisplacement < 10){
+        auxDisplacement -= displacement;
+        pElement.addMovement(pLastX, pLastY);
+    }
+    //nuevas coordenadas pX pY pY
+    newX = (pLastX - auxDisplacement); //nueva X
+    newY = pElement.getYCoord() + ((pElement.getXCoord() - newX) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual + (coord X en una grafica * tan(angulo))
+
+    if (newX < 0 || newY > pHeight){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
+        newX = pLastX; newY = pLastY;
+        pElement.addMovement(newX, newY);
+    }
+    else{ //si no, se agrega el nuevo punto
+        pElement.addMovement(newX, newY);
     }
 
     //llamada recursiva
-    thirdQuadrant(element, newX, newY, height, degrees, rect);
+    thirdQuadrant(pElement, newX, newY, pHeight, pDegrees, lastDegrees);
 }
 
-void fourthQuadrant(Element &element, int lastX, int lastY, int height, int width, double degrees, bool rect){
-    int newX, newY, displacement = element.getDisplacement(), auxDisplacement = displacement;
+void fourthQuadrant(Element &pElement, int pLastX, int pLastY, int pHeight, int pWidth, double pDegrees, double lastDegrees){
+    int newX, newY, displacement = pElement.getDisplacement(), auxDisplacement = displacement, frames = pElement.getHypotenuse() / displacement;
+    int actualDegrees = pDegrees;
 
-    if (element.getMovements().size() >= element.getHypotenuse() / displacement){ //si ya el vector está lleno
+    if (pElement.getMovements().size() >= pElement.getHypotenuse() / displacement){ //si ya el vector está lleno
         return;
     }
-    if (rect){
-        while (auxDisplacement < 10){
-            auxDisplacement += displacement;
-            element.addMovement(lastX, lastY);
-        }
-        //nuevas coordenadas x y y
-        newX = (lastX + auxDisplacement); //nueva X
-        newY = element.getYCoord() + ((newX - element.getXCoord()) * (tan(degrees * (3.14159265358979323846/180)))); // nueva Y = coord y actual + (coord X en una grafica * tan(angulo))
-
-        if (newX > width || newY > height){ //si el siguiente punto queda afuera del SVG se descarta y se mantiene el viejo punto
-            newX = lastX; newY = lastY;
-            element.addMovement(newX, newY);
-        }
-        else{ //si no, se agrega el nuevo punto
-            element.addMovement(newX, newY);
+    if (!pElement.isRect()){
+        int finalDegrees = pDegrees + (frames / 4); //grados en los que tiene que empezar a "devolverse" para construir la curva
+        lastDegrees++;
+        actualDegrees = lastDegrees;
+        if (lastDegrees > finalDegrees){ //si ya tiene que comenzar a devolverse le va restando 1 al finalDegrees en cada iteración recursiva
+            actualDegrees = (finalDegrees + 1 - (lastDegrees - finalDegrees));
         }
     }
-    else{
-        
+
+    while (auxDisplacement < 10){
+        auxDisplacement += displacement;
+        pElement.addMovement(pLastX, pLastY);
+    }
+    //nuevas coordenadas pX pY pY
+    newX = (pLastX + auxDisplacement); //nueva X
+    newY = pElement.getYCoord() + ((newX - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual + (coord X en una grafica * tan(angulo))
+
+    if (newX > pWidth || newY > pHeight){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
+        newX = pLastX; newY = pLastY;
+        pElement.addMovement(newX, newY);
+    }
+    else{ //si no, se agrega el nuevo punto
+         pElement.addMovement(newX, newY);
     }
 
     //llamada recursiva
-    fourthQuadrant(element, newX, newY, height, width, degrees, rect);
+    fourthQuadrant(pElement, newX, newY, pHeight, pWidth, pDegrees, lastDegrees);
 }
 
-void determinePoints90(Element &element, int width, double degrees, int frames){
-    double x = element.getXCoord(), y = element.getYCoord();
-    double finalX = width - x, finalY, hypotenuse, displacement;
-    if (degrees == 90){ //si el angulo es de 90
-        element.setFinalXCoord(x);
-        element.setFinalYCoord(0);
-        element.setHypotenuse(y);
-        element.setDisplacement(y / frames);
-        degrees90(element, x, y);
+void determinePoints90(Element &pElement, int pWidth, double pDegrees, int pFrames){
+    double pX = pElement.getXCoord(), pY = pElement.getYCoord();
+    double finalX = pWidth - pX, finalY, hypotenuse, displacement;
+    double tangentOfAngle = tan(pDegrees * (M_PI/180));
+
+    if (pDegrees == 90){ //si el angulo es de 90
+        pElement.setFinalXCoord(pX);
+        pElement.setFinalYCoord(0);
+        pElement.setHypotenuse(pY);
+        pElement.setDisplacement(pY / pFrames);
+        generatePointsDegrees90(pElement, pX, pY);
         return;
     }
-    if ((y - ((tan(degrees * (3.14159265358979323846/180))) * finalX) <= 0)){ //si el límite de la hipotenusa está en el extremo de arriba
-        finalY = 0; //punto final de Y
-        finalX = x + (y / (tan(degrees * (3.14159265358979323846/180)))); //punto final de X (X actual + (y actual / tan(angulo)))
-        hypotenuse = y / (sin(degrees * (3.14159265358979323846/180))); //hipotenusa = y actual / sen(angulo)
-        element.setHypotenuse(hypotenuse);
-    } 
-    else{ //si el limite esta en el extremo de la derecha
-        finalY = (y - ((tan(degrees * (3.14159265358979323846/180))) * finalX)); //punto final en Y (y actual - (x final en la imagen * tan(angulo)))
-        finalX = width;
-        hypotenuse = finalX / (cos(degrees * (3.14159265358979323846/180))); //hipotenusa = x final en la imagen / cos(angulo)
-        element.setHypotenuse(hypotenuse);
-    }
-    element.setFinalXCoord(finalX);
-    element.setFinalYCoord(finalY);
 
-    displacement = hypotenuse / frames;
-    element.setDisplacement(displacement);
+    // -----------------------------------------------POR EL MOMENTO, EL PUNTO FINAL ES ASÍ PARA LINEA CURVA Y RECTA ------------------------------------------
+    //Calculo del punto (x,y) final del elemento 
+    if ((pY - ((tangentOfAngle) * finalX) <= 0)){ //si el límite de la hipotenusa está en el extremo de arriba
+            finalY = 0; //punto final de Y
+            finalX = pX + (pY / (tangentOfAngle)); //punto final de X (X actual + (pY actual / tan(angulo)))
+            hypotenuse = pY / (sin(pDegrees * (M_PI/180))); //hipotenusa = pY actual / sen(angulo)
+            pElement.setHypotenuse(hypotenuse);
+        } 
+        else{ //si el limite esta en el extremo de la derecha
+            finalY = (pY - ((tangentOfAngle) * finalX)); //punto final en Y (pY actual - (pX final en la imagen * tan(angulo)))
+            finalX = pWidth;
+            hypotenuse = finalX / (cos(pDegrees * (M_PI/180))); //hipotenusa = pX final en la imagen / cos(angulo)
+            pElement.setHypotenuse(hypotenuse);
+        }
+    pElement.setFinalXCoord(finalX);
+    pElement.setFinalYCoord(finalY);
+    displacement = hypotenuse / pFrames;
+    pElement.setDisplacement(displacement);
 
-    firstQuadrant(element, x, y, width, degrees, true); //lamada a la funcion para enrutar el elemento
+    firstQuadrant(pElement, pX, pY, pWidth, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
 }
 
-void determinePoints180(Element &element, double degrees, int frames){
-    double x = element.getXCoord(), y = element.getYCoord();
+void determinePoints180(Element &pElement, double pDegrees, int pFrames){
+    double pX = pElement.getXCoord(), pY = pElement.getYCoord();
     double finalX = 0, finalY, hypotenuse, displacement;
-    degrees = 180 - degrees;
-    if (degrees == 0){ //Si el angulo es de 180
-        element.setFinalXCoord(0);
-        element.setFinalYCoord(y);
-        element.setHypotenuse(x);
-        element.setDisplacement(x / frames);
-        degrees180(element, x, y);
+    pDegrees = 180 - pDegrees;
+    double tangentOfAngle = tan(pDegrees * (M_PI/180));
+
+    if (pDegrees == 0){ //Si el angulo es de 180
+        pElement.setFinalXCoord(0);
+        pElement.setFinalYCoord(pY);
+        pElement.setHypotenuse(pX);
+        pElement.setDisplacement(pX / pFrames);
+        generatePointsDegrees180(pElement, pX, pY);
         return;
     }
-    if ((y - ((tan(degrees * (3.14159265358979323846/180))) * x) <= 0)){ //si el límite de la hipotenusa está en el extremo de arriba
-        finalY = 0;
-        finalX = x - (y / (tan(degrees * (3.14159265358979323846/180)))); //punto final de X = x actual - (y actual / tan(angulo))
-        hypotenuse = y / (sin(degrees * (3.14159265358979323846/180))); // hipotenusa = y actual / sen(angulo)
-        element.setHypotenuse(hypotenuse);
-    } 
-    else{ //si el limite esta en el extremo de la izquierda
-        finalY = (y - ((tan(degrees * (3.14159265358979323846/180))) * x)); //punto final de Y = y actual - (x actual * tan(angulo))
-        finalX = 0;
-        hypotenuse = x / (cos(degrees * (3.14159265358979323846/180))); // hipotenusa = x actual / cos(angulo)
-        element.setHypotenuse(hypotenuse);
-    }
-    element.setFinalXCoord(finalX);
-    element.setFinalYCoord(finalY);
-
-    displacement = hypotenuse / frames;
-    element.setDisplacement(displacement);
     
-    secondQuadrant(element, x, y, degrees, true); //lamada a la funcion para enrutar el elemento
-}
-
-void determinePoints270(Element &element, int height, double degrees, int frames){
-    double x = element.getXCoord(), y = element.getYCoord();
-    double finalX = 0, finalY = height - y, hypotenuse, displacement;
-    degrees = degrees - 180;
-    if (degrees == 90){
-        hypotenuse = finalY;
-        element.setFinalXCoord(x);
-        element.setFinalYCoord(height);
-        element.setHypotenuse(hypotenuse);
-        element.setDisplacement(hypotenuse / frames);
-        degrees270(element, x, y);
-        return;
-    }
-    if ((y + ((tan(degrees * (3.14159265358979323846/180))) * x) >= height)){ //si el límite de la hipotenusa está en el extremo de abajo
-        finalY = height;
-        finalX = x - (finalY / (tan(degrees * (3.14159265358979323846/180)))); //punto final de X = x actual - (y final en la imagen / tan(angulo))
-        hypotenuse = finalY / (sin(degrees * (3.14159265358979323846/180))); //hipotenusa = y final en la imagen / sen(angulo)
-        element.setHypotenuse(hypotenuse);
+    if ((pY - ((tangentOfAngle) * pX) <= 0)){ //si el límite de la hipotenusa está en el extremo de arriba
+        finalY = 0;
+        finalX = pX - (pY / (tangentOfAngle)); //punto final de X = pX actual - (pY actual / tan(angulo))
+        hypotenuse = pY / (sin(pDegrees * (M_PI/180))); // hipotenusa = pY actual / sen(angulo)
+        pElement.setHypotenuse(hypotenuse);
     } 
     else{ //si el limite esta en el extremo de la izquierda
-        finalY = (y + ((tan(degrees * (3.14159265358979323846/180))) * x)); //punto final de y = y actual + (x actual * tan(angulo))
+        finalY = (pY - ((tangentOfAngle) * pX)); //punto final de Y = pY actual - (pX actual * tan(angulo))
         finalX = 0;
-        hypotenuse = x / (cos(degrees * (3.14159265358979323846/180))); //hipotenusa = x actual / cos(angulo)
-        element.setHypotenuse(hypotenuse);
+        hypotenuse = pX / (cos(pDegrees * (M_PI/180))); // hipotenusa = pX actual / cos(angulo)
+        pElement.setHypotenuse(hypotenuse);
     }
-    element.setFinalXCoord(finalX);
-    element.setFinalYCoord(finalY);
+    pElement.setFinalXCoord(finalX);
+    pElement.setFinalYCoord(finalY);
+    displacement = hypotenuse / pFrames;
+    pElement.setDisplacement(displacement);
+        
+    secondQuadrant(pElement, pX, pY, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+}
 
-    displacement = hypotenuse / frames;
-    element.setDisplacement(displacement);
-    thirdQuadrant(element, x, y, height, degrees, true); //lamada a la funcion para enrutar el elemento
+void determinePoints270(Element &pElement, int pHeight, double pDegrees, int pFrames){
+    double pX = pElement.getXCoord(), pY = pElement.getYCoord();
+    double finalX = 0, finalY = pHeight - pY, hypotenuse, displacement;
+    pDegrees = pDegrees - 180;
+    double tangentOfAngle = tan(pDegrees * (M_PI/180));
+
+    if (pDegrees == 90){
+        hypotenuse = finalY;
+        pElement.setFinalXCoord(pX);
+        pElement.setFinalYCoord(pHeight);
+        pElement.setHypotenuse(hypotenuse);
+        pElement.setDisplacement(hypotenuse / pFrames);
+        generatePointsDegrees270(pElement, pX, pY);
+        return;
+    }
+    
+    if ((pY + ((tangentOfAngle) * pX) >= pHeight)){ //si el límite de la hipotenusa está en el extremo de abajo
+        finalY = pHeight;
+        finalX = pX - (finalY / (tangentOfAngle)); //punto final de X = pX actual - (pY final en la imagen / tan(angulo))
+        hypotenuse = finalY / (sin(pDegrees * (M_PI/180))); //hipotenusa = pY final en la imagen / sen(angulo)
+        pElement.setHypotenuse(hypotenuse);
+    } 
+    else{ //si el limite esta en el extremo de la izquierda
+        finalY = (pY + ((tangentOfAngle) * pX)); //punto final de pY = pY actual + (pX actual * tan(angulo))
+        finalX = 0;
+        hypotenuse = pX / (cos(pDegrees * (M_PI/180))); //hipotenusa = pX actual / cos(angulo)
+        pElement.setHypotenuse(hypotenuse);
+    }
+    pElement.setFinalXCoord(finalX);
+    pElement.setFinalYCoord(finalY);
+    displacement = hypotenuse / pFrames;
+    pElement.setDisplacement(displacement);
+
+    thirdQuadrant(pElement, pX, pY, pHeight, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
 
 }
 
-void determinePoints360(Element &element, int width, int height, double degrees, int frames){
-    double x = element.getXCoord(), y = element.getYCoord();
-    double finalX = width, finalY = height, hypotenuse, displacement;
-    degrees = 360 - degrees;
-    if (degrees == 0){
-        hypotenuse = finalX - x;
-        element.setFinalXCoord(finalX);
-        element.setFinalYCoord(y);
-        element.setHypotenuse(finalX - x);
-        element.setDisplacement(hypotenuse / frames);
-        degrees360(element, x, y);
+void determinePoints360(Element &pElement, int pWidth, int pHeight, double pDegrees, int pFrames){
+    double pX = pElement.getXCoord(), pY = pElement.getYCoord();
+    double finalX = pWidth, finalY = pHeight, hypotenuse, displacement;
+    pDegrees = 360 - pDegrees;
+    double tangentOfAngle = tan(pDegrees * (M_PI/180));
+
+    if (pDegrees == 0){
+        hypotenuse = finalX - pX;
+        pElement.setFinalXCoord(finalX);
+        pElement.setFinalYCoord(pY);
+        pElement.setHypotenuse(finalX - pX);
+        pElement.setDisplacement(hypotenuse / pFrames);
+        generatePointsDegrees360(pElement, pX, pY);
         return;
     }
-    if ((y + ((tan(degrees * (3.14159265358979323846/180))) * (finalX - x)) >= height) || degrees == 0){ //si el límite de la hipotenusa está en el extremo de abajo
-        finalY = height;
-        finalX = x + ((finalY - y) / (tan(degrees * (3.14159265358979323846/180)))); //punto final de X = x actual + (y en una grafica / tan(angulo))
-        hypotenuse = (finalY - y) / (sin(degrees * (3.14159265358979323846/180))); // hipotenusa = y en una grafica - sen(angulo)
-        element.setHypotenuse(hypotenuse);
+
+    if ((pY + ((tangentOfAngle) * (finalX - pX)) >= pHeight) || pDegrees == 0){ //si el límite de la hipotenusa está en el extremo de abajo
+        finalY = pHeight;
+        finalX = pX + ((finalY - pY) / (tangentOfAngle)); //punto final de X = pX actual + (pY en una grafica / tan(angulo))
+        hypotenuse = (finalY - pY) / (sin(pDegrees * (M_PI/180))); // hipotenusa = pY en una grafica - sen(angulo)
+        pElement.setHypotenuse(hypotenuse);
     } 
     else{ //si el limite esta en el extremo de la derecha
-        finalY = (y + ((tan(degrees * (3.14159265358979323846/180))) * (finalX - x))); //punto final de y = y actual + (x en una grafica * tan(angulo))
-        finalX = width;
-        hypotenuse = (finalX - x) / (cos(degrees * (3.14159265358979323846/180))); //hipotenusa = x en una grafica / cos(angulo)
-        element.setHypotenuse(hypotenuse);
-    }
-    element.setFinalXCoord(finalX);
-    element.setFinalYCoord(finalY);
+        finalY = (pY + ((tangentOfAngle) * (finalX - pX))); //punto final de pY = pY actual + (pX en una grafica * tan(angulo))
+        finalX = pWidth;
+        hypotenuse = (finalX - pX) / (cos(pDegrees * (M_PI/180))); //hipotenusa = pX en una grafica / cos(angulo)
+        pElement.setHypotenuse(hypotenuse);
+        }
+    pElement.setFinalXCoord(finalX);
+    pElement.setFinalYCoord(finalY);
+    displacement = hypotenuse / pFrames;
+    pElement.setDisplacement(displacement);
 
-    displacement = hypotenuse / frames;
-    element.setDisplacement(displacement);
-    fourthQuadrant(element, x, y, height, width, degrees, true); //lamada a la funcion para enrutar el elemento
-
+    fourthQuadrant(pElement, pX, pY, pHeight, pWidth, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
 }
 
 

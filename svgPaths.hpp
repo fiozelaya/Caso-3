@@ -13,6 +13,7 @@
 class Element{
     protected:
         double coordX, coordY,side, area, finalCoordX, finalCoordY, hypotenuse, displacement;
+        bool rect;
         vector<vector<int>> movements; // { {x,y}, {}, {}, {} }
         string color;
     public:
@@ -26,6 +27,7 @@ class Element{
         void setHypotenuse(double newHypotenuse){hypotenuse = newHypotenuse;};
         void setSide(double newSide){side=newSide;};
         void setDisplacement(double pDisplacement){displacement = pDisplacement;};
+        void setRect(bool pRect){rect = pRect;};
         //void setArea(double newArea){area=newArea;};
         virtual void setArea(){};
         void setColor(string newColor){color=newColor;};
@@ -39,7 +41,11 @@ class Element{
         double getDisplacement(){return displacement;};
         double getFinalXCoord(){return finalCoordX;};
         double getFinalYCoord(){return finalCoordY;};
-        void addMovement(int x, int y){vector<int> point = {x,y}; movements.push_back(point);};
+        bool isRect(){return rect;};
+        void addMovement(int x, int y){
+
+            vector<int> point = {x,y}; movements.push_back(point);
+        };
 };
 
 //Clases hijas que heredan del padre
