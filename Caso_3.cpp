@@ -42,7 +42,7 @@ int main()
 {
 
     /*
-    
+
     cout << tan(20) << endl;
     cout << tan(20 * (3.14159265358979323846 / 180));
 
@@ -67,7 +67,7 @@ int main()
     file<> theFile("Images/wifi-3.svg");
     xml_document<> myDoc;
     myDoc.parse<0>(theFile.data());
-    
+
     readFile(mySvg, theFile, &myDoc);
 
     return 0;
