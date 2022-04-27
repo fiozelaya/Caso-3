@@ -11,19 +11,19 @@ private:
 public:
     Selection() = default;
     ~Selection(){}
-    void attach(Observer* element){
-        elementsList.push_back(element);
+    void attach(Observer* pElement){
+        elementsList.push_back(pElement);
     }
-    void detach(Observer* whichElement){
-        elementsList.remove(whichElement);
+    void detach(Observer* pWhichElement){
+        elementsList.remove(pWhichElement);
     }
-    void notify(void* curso){
+    void notify(void* pCurso){
         cout << "seleccion" << endl;
         for (Observer* actual : elementsList) {
-            thread t(&Observer::update, actual, curso); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
+            thread t(&Observer::update, actual, pCurso); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
             t.join(); // espere a que t termine
         }
-        //animator->update(curso);
+        //animator->update(pCurso);
     }
 
 };

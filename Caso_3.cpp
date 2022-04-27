@@ -63,7 +63,7 @@ int main()
     */
 
 
-    svgDetails mySvg;
+    SVG mySvg;
     file<> theFile("Images/wifi-3.svg");
     xml_document<> myDoc;
     myDoc.parse<0>(theFile.data());
