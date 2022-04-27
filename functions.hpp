@@ -30,7 +30,7 @@ vector<vector<double>> getPoints(string points){
 
 void matchPosition(xml_node<>* pNode, vector<string>pColors, vector<vector<double>>pPositions,string matchColor){
     //cout<<pNode->name()<<"\n";
-    /*
+    vector<Element*> selectedElements;
 
     if(string(pNode->name())=="circle"){
         Circle* newCircle=new Circle(atof(pNode->first_attribute("cx")->value()),atof(pNode->first_attribute("cy")->value()),
@@ -70,7 +70,7 @@ void matchPosition(xml_node<>* pNode, vector<string>pColors, vector<vector<doubl
         }
         else{
             Polygon* newPolygon=new Polygon(points);
-        } -*-/
+        }*/
         Polyline* newPolyline=new Polyline(points);
         for(int position=0;position<pPositions.size();position++){
             if(newPolyline->findMatchPosition(pPositions[position][0],pPositions[position][1])){
@@ -92,7 +92,7 @@ void matchPosition(xml_node<>* pNode, vector<string>pColors, vector<vector<doubl
 
     else if(string(pNode->name())=="line"){
        /* Line* newLine=new Line(atof(pNode->first_attribute("y1")->value()),atof(pNode->first_attribute("x1")->value()),
-                                     atof(pNode->first_attribute("x2")->value()),atof(pNode->first_attribute("y2")->value()),matchColor); *-/-
+                                     atof(pNode->first_attribute("x2")->value()),atof(pNode->first_attribute("y2")->value()),matchColor);*/
     }
     else if(string(pNode->name())=="path"){
         Path* newPath=new Path();
@@ -104,17 +104,16 @@ void matchPosition(xml_node<>* pNode, vector<string>pColors, vector<vector<doubl
 
     /*for (xml_attribute<>* attrib = pNode->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
         if(string(pNode->name())=="path"){
-            Circle* newCircle=new Circle(atof(pDocument->first_node()->first_attribute("x")->value()),
+            /*Circle* newCircle=new Circle(atof(pDocument->first_node()->first_attribute("x")->value()),
                                          atof(pDocument->first_node()->first_attribute("y")->value()),
-                                         atof(pDocument->first_node()->first_attribute("r")->value()));
-            cout << "\tAtributo: " << attrib->name() << endl;
+                                         atof(pDocument->first_node()->first_attribute("r")->value()));*/
+          /*  cout << "\tAtributo: " << attrib->name() << endl;
             cout << "\t-Valor: " << attrib->value() << endl;
         }
-    } *-/-
 
-*/
+    }*/
+
 }
-
 
 void seleccion(xml_node<>* node, vector<string> pColors, vector<vector<double>>pPositions){
     for (node = node->first_node(); node != NULL; node = node->next_sibling()){

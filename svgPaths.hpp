@@ -1,15 +1,29 @@
-#ifndef __SVG_PATHS_HEADER__
-#define __SVG_PATHS_HEADER__
+/*class Plataforma : public Subject {
+private:
+    list<Observer*> estudiantes;
 
-#include <iostream>
-#include <vector>
+public:
+    Plataforma() {}
+    ~Plataforma() {}
+
+    void attach(Observer* est) {
+        estudiantes.emplace_back(est);
+    }
+
+    void detach(Observer* est) {
+        estudiantes.remove(est);
+    }
+
+    void notify(void* curso) {
+        for (Observer* actual : estudiantes) {
+            thread t(&Observer::update, actual, curso); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
+            t.join(); // espere a que t termine
+        }
+    }
+};*/
+
 #include <math.h>
-#include <string>
-//#include "path.hpp"
 
-
-//Falta interface observer
-//Clase padre
 class Element{
     protected:
         double coordX, coordY,side, area, finalCoordX, finalCoordY, hypotenuse, displacement;
@@ -22,19 +36,13 @@ class Element{
         Element(double newYValue, double newXValue){};
         void setXCoord(double newXValue){coordX=newXValue;};
         void setYCoord(double newYValue){coordY=newYValue;};
-        void setFinalXCoord(double newXValue){finalCoordX=newXValue;};
-        void setFinalYCoord(double newYValue){finalCoordY=newYValue;};
-        void setHypotenuse(double newHypotenuse){hypotenuse = newHypotenuse;};
         void setSide(double newSide){side=newSide;};
-        void setDisplacement(double pDisplacement){displacement = pDisplacement;};
-        void setRect(bool pRect){rect = pRect;};
         //void setArea(double newArea){area=newArea;};
-        virtual void setArea(){};
+        //virtual void setArea(){};
+        virtual void findMatchPosition(){};
         void setColor(string newColor){color=newColor;};
         double getXCoord(){return coordX;};
         double getYCoord(){return coordY;};
-        vector<vector<int>> getMovements(){return movements;};
-        double getHypotenuse(){return hypotenuse;};
         double getSide(){return side;};
         double getArea(){return area;};
         string getColor(){return color;};
@@ -50,7 +58,6 @@ class Element{
         virtual void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> myDoc);
 };
 
-//Clases hijas que heredan del padre
 class Circle:public Element{
     private:
     public:
@@ -282,6 +289,3 @@ class SVG{
         double getHeight(){return height;};
         double getWidth(){return width;};
 };
-
-
-#endif
