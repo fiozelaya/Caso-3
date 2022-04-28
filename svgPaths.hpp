@@ -61,9 +61,8 @@ class Element{
         void addMovement(int x, int y){
             vector<int> point = {x,y}; movements.push_back(point);
         };
-        vector<vector<int>> getMovements(){return movements;};
 
-        virtual void createSVGAttribute(xml_document<> *myDoc);
+        virtual void createSVGAttribute(xml_document<> *myDoc){};
 };
 
 class Circle:public Element{
@@ -145,9 +144,11 @@ bool Rectangle::findMatchPosition(double pXValue, double pYValue){
     //cout<<pXValue<<" "<<pYValue;
     if((pXValue<=maxWidth&&(pXValue>=Element::getXCoord()))&&(pYValue<=maxLength&&(pYValue>=Element::getYCoord()))){
         cout<<"\nDENTRO\n";
+        return true;
     }
     else{
         cout<<"\nAFUERA\n";
+        return false;
     }
 
 /*
@@ -203,9 +204,11 @@ bool Ellipse::findMatchPosition(double pXValue, double pYValue){
     if((pXValue>=(Element::getXCoord()-Element::getSide()))&&(pXValue<=(Element::getXCoord()+Element::getSide()))&&
        (pYValue>=(Element::getYCoord()-yRadio))&&(pYValue<=(Element::getYCoord()+yRadio))){
         cout<<"\nDENTRO\n";
+        return true;
        }
     else{
         cout<<"\nFUERA\n";
+        return false;
     }
 }
 
@@ -245,9 +248,11 @@ bool Polyline::findMatchPosition(double pXValue, double pYValue){
     }
     if((pXValue>=minXValue)&&(pXValue<=maxXValue)&&(pYValue>=minYValue)&&(pYValue<=maxYValue)){
         cout<<"\ndentro\n";
+        return true;
     }
     else{
         cout<<"\nafuera\n";
+        return false;
     }
 
 }
@@ -288,9 +293,11 @@ bool Polygon::findMatchPosition(double pXValue, double pYValue){
     }
     if((pXValue>=minXValue)&&(pXValue<=maxXValue)&&(pYValue>=minYValue)&&(pYValue<=maxYValue)){
         cout<<"\ndentro\n";
+        return true;
     }
     else{
         cout<<"\nafuera\n";
+        return false;
     }
 
     cout<<minXValue<<" "<<minYValue<<" "<<maxXValue<<" "<<maxYValue<<" "<<pXValue<<" "<<pYValue<<endl;
@@ -307,7 +314,7 @@ class Line:public Element{
         void setEndYValue(double newEndYValue){endYValue=newEndYValue;};
         double getEndXValue(){return endXValue;};
         double getEndYValue(){return endYValue;};
-        void findMatchPosition(double pXValue, double pYValue);
+        bool findMatchPosition(double pXValue, double pYValue);
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
         void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
@@ -327,12 +334,14 @@ class Line:public Element{
 
 };
 
-void Line::findMatchPosition(double pXValue, double pYValue){
+bool Line::findMatchPosition(double pXValue, double pYValue){
     if((pXValue>=Element::getXCoord()&&pXValue<=endXValue)&&(pYValue>=Element::getYCoord()&&pYValue<=(endYValue-Element::getXCoord()))){
         cout<<"dentro";
+        return true;
     }
     else{
         cout<<"afuera";
+        return false;
     }
 }
 //falta

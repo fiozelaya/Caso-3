@@ -3,7 +3,7 @@
 # define M_PI 3.14159265358979323846
 
 #include <iostream>
-#include "svgPaths.hpp"
+//#include "svgPaths.hpp"
 #include <vector>
 
 using namespace std;

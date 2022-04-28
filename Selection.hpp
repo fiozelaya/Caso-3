@@ -1,7 +1,7 @@
 #ifndef __SELECTION_HEADER__
 #define __SELECTION_HEADER__
 
-#include <thread>
+//#include <thread>
 #include <list>
 class Selection: public Subject{
 private:
@@ -19,10 +19,10 @@ public:
     }
     void notify(void* pCurso){
         cout << "seleccion" << endl;
-        for (Observer* actual : elementsList) {
-            thread t(&Observer::update, actual, pCurso); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
-            t.join(); // espere a que t termine
-        }
+        // for (Observer* actual : elementsList) {
+        //     thread t(&Observer::update, actual, pCurso); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
+        //     t.join(); // espere a que t termine
+        // }
         //animator->update(pCurso);
     }
 

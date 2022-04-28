@@ -2,7 +2,7 @@
 #define __GENERATION_HEADER__
 
 #include <vector>
-#include "svgPaths.hpp"
+//#include "svgPaths.hpp"
 #include <queue>
 #include <thread>
 #include <iostream>
@@ -48,7 +48,7 @@ public:
     
     */
     void producer(vector<Element> &pElementsList, int pFrames){ //producer ????
-        int currentElementPointer = 0, auxFrames = frames;
+        int currentElementPointer = 0, auxFrames = pFrames;
         int newX, newY;
         bool createAnotherSVG = true;
         while(true){
@@ -60,7 +60,7 @@ public:
 
             queueOfElements.push(currentElement); //push a la cola de eventos
 
-            if(currentElementPointer != frames){ 
+            if(currentElementPointer != pFrames){ 
                 currentElementPointer++;
                 continue;
             }
@@ -128,7 +128,7 @@ public:
         //thread hilo1(productor);
         Element elementoActual;
 
-        thread thread1(&consumer);
+        thread thread1(consumer);
         producer(pElementsList, pFrames);
 
         //join permite que un hilo espere a que otro termine su ejecución

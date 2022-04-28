@@ -165,7 +165,7 @@ void readFile(SVG& svg,file<> file,xml_document<>* myDocument){
     //file<> file("Images/girl-1.svg");
     //xml_document<> myDocument;
     //myDocument.parse<0>(file.data());
-    extractXMLData(myDocument);
+    //extractXMLData(myDocument);
 
 
 }

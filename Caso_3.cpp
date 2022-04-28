@@ -19,7 +19,7 @@ Ericka Yu Min Guo Chen
 #include "Selection.hpp"
 #include "Routing.hpp"
 #include "Generation.hpp"
-#include "svgPaths.hpp"
+//#include "svgPaths.hpp"
 #include <queue>
 
 using namespace std;
@@ -63,12 +63,7 @@ int main()
     */
 
 
-    SVG mySvg;
-    file<> theFile("Images/wifi-3.svg");
-    xml_document<> myDoc;
-    myDoc.parse<0>(theFile.data());
-
-    readFile(mySvg, theFile, &myDoc);
+    
 
     return 0;
 }
