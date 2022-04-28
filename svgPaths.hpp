@@ -36,7 +36,12 @@ class Element{
         Element(double newYValue, double newXValue){};
         void setXCoord(double newXValue){coordX=newXValue;};
         void setYCoord(double newYValue){coordY=newYValue;};
+        void setFinalXCoord(double pNewfinalCoordX){finalCoordX = pNewfinalCoordX;};
+        void setFinalYCoord(double pNewfinalCoordY){finalCoordY = pNewfinalCoordY;};
+        void setHypotenuse(double pNewHypotenuse){hypotenuse = pNewHypotenuse;};
+        void setDisplacement(double pNewDisplacement){displacement = pNewDisplacement;};
         void setSide(double newSide){side=newSide;};
+        void setRect(bool newRect){rect = newRect;};
         //void setArea(double newArea){area=newArea;};
         //virtual void setArea(){};
         virtual void findMatchPosition(){};
@@ -49,13 +54,16 @@ class Element{
         double getDisplacement(){return displacement;};
         double getFinalXCoord(){return finalCoordX;};
         double getFinalYCoord(){return finalCoordY;};
+        double getHypotenuse(){return hypotenuse;};
         string getAttribute(){return attribute;};
+        vector<vector<int>> getMovements(){return movements;};
         bool isRect(){return rect;};
         void addMovement(int x, int y){
-
             vector<int> point = {x,y}; movements.push_back(point);
         };
-        virtual void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> myDoc);
+        vector<vector<int>> getMovements(){return movements;};
+
+        virtual void createSVGAttribute(xml_document<> *myDoc);
 };
 
 class Circle:public Element{
@@ -69,6 +77,19 @@ class Circle:public Element{
         bool findMatchPosition(double pXValue, double pYValue);
         string getString(){return "Circle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Radio = "+to_string(Element::side)+" Area = "+to_string(Element::getArea())+"\n";};
+
+        void createSVGAttribute(xml_document<> *myDoc){
+            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
+            myDoc->first_node()->append_node(newNode);
+            xml_attribute<> *cx = myDoc->allocate_attribute("cx", to_string(coordX).c_str());
+            newNode->append_attribute(cx);
+            xml_attribute<> *cy = myDoc->allocate_attribute("cy", to_string(coordY).c_str());
+            newNode->append_attribute(cy);
+            xml_attribute<> *r = myDoc->allocate_attribute("r", to_string(side).c_str());
+            newNode->append_attribute(r);
+            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+            newNode->append_attribute(fill);
+        }
 
 };
 
@@ -87,18 +108,35 @@ class Circle:public Element{
 
 class Rectangle:public Element{
     private:
-        double width;
+        int width, height;
     public:
         Rectangle(){Element::attribute = "rect";};
         Rectangle(double newWidth){width=newWidth;};
         Rectangle(double newWidth, double newXCoord, double newYCoord, string newColor, double newHeight){width=newWidth;Element::setXCoord(newXCoord);
         Element::setYCoord(newYCoord);Element::setSide(newHeight);Element::setColor(newColor); Element::attribute = "rect";};
         void setWidth(double newWidth){width=newWidth;};
-        double getWidth(){return width;};
+        void setHeight(double newHeight){height=newHeight;};
+        int getWidth(){return width;};
+        int getHeight(){return height;};
         bool findMatchPosition(double pXValue, double pYValue);
         /*void setArea(){Element::area= Element::side*width;};
         string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Length = "+to_string(Element::side)+" Width = "+to_string(width)+" Area = "+to_string(Element::getArea())+"\n";};*/
+        
+        void createSVGAttribute(xml_document<> *myDoc){
+            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
+            myDoc->first_node()->append_node(newNode);
+            xml_attribute<> *x = myDoc->allocate_attribute("x", to_string(coordX).c_str());
+            newNode->append_attribute(x);
+            xml_attribute<> *y = myDoc->allocate_attribute("y", to_string(coordY).c_str());
+            newNode->append_attribute(y);
+            xml_attribute<> *attrWidth = myDoc->allocate_attribute("width", to_string(width).c_str());
+            newNode->append_attribute(attrWidth);
+            xml_attribute<> *attrHeight = myDoc->allocate_attribute("height", to_string(height).c_str());
+            newNode->append_attribute(attrHeight);
+            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+            newNode->append_attribute(fill);
+        }
 
 };
 
@@ -144,6 +182,20 @@ class Ellipse:public Element{
        /* void setArea(){Element::area= (2 * acos(0.0))*xRadio*yRadio;};
         string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
+            myDoc->first_node()->append_node(newNode);
+            xml_attribute<> *cx = myDoc->allocate_attribute("cx", to_string(coordX).c_str());
+            newNode->append_attribute(cx);
+            xml_attribute<> *cy = myDoc->allocate_attribute("cy", to_string(coordY).c_str());
+            newNode->append_attribute(cy);
+            xml_attribute<> *rx = myDoc->allocate_attribute("rx", to_string(side).c_str());
+            newNode->append_attribute(rx);
+            xml_attribute<> *ry = myDoc->allocate_attribute("ry", to_string(yRadio).c_str());
+            newNode->append_attribute(ry);
+            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+            newNode->append_attribute(fill);
+        }
 
 };
 
@@ -168,6 +220,9 @@ class Polyline:public Element{
         bool findMatchPosition(double pXValue, double pYValue);
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+            
+        }
 
 };
 
@@ -208,6 +263,9 @@ class Polygon:public Element{
         bool findMatchPosition(double pXValue, double pYValue);
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+            
+        }
 
 };
 
@@ -252,6 +310,20 @@ class Line:public Element{
         void findMatchPosition(double pXValue, double pYValue);
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
+            myDoc->first_node()->append_node(newNode);
+            xml_attribute<> *x1 = myDoc->allocate_attribute("x1", to_string(coordX).c_str());
+            newNode->append_attribute(x1);
+            xml_attribute<> *y1 = myDoc->allocate_attribute("y1", to_string(coordY).c_str());
+            newNode->append_attribute(y1);
+            xml_attribute<> *x2 = myDoc->allocate_attribute("x2", to_string(endXValue).c_str());
+            newNode->append_attribute(x2);
+            xml_attribute<> *y2 = myDoc->allocate_attribute("y2", to_string(endYValue).c_str());
+            newNode->append_attribute(y2);
+            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+            newNode->append_attribute(fill);
+        }
 
 };
 
@@ -267,15 +339,21 @@ void Line::findMatchPosition(double pXValue, double pYValue){
 
 class Path:public Element{
     private:
+        string d;
         vector<vector<double>>curvePositions;
     public:
         Path(){Element::attribute = "path";};
         Path(double newXMove, double newYMove, vector<vector<double>>newCurvePositions){Element::setXCoord(newXMove);Element::setXCoord(newYMove);
         curvePositions=newCurvePositions;Element::attribute = "path";};
         void setCurvePositions(vector<double> newCurvePosition){curvePositions.push_back(newCurvePosition);};
+        void setD(string pNewD){Path::d = pNewD;};
+        string getD(){return Path::d;}
         vector<vector<double>> getCurvePositions(){return curvePositions;};
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+            
+        }
 
 };
 

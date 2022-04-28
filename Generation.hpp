@@ -3,15 +3,24 @@
 
 #include <vector>
 #include "svgPaths.hpp"
+#include <queue>
+#include <thread>
+#include <iostream>
+//#include <unistd.h>
+
 
 class Generacion: public Subject{
 private:
     Observer* animator;
-    vector<vector<vector<Element>>> elementsByFrame;
-    //xml_document<> myDoc;
+    //vector<vector<vector<Element>>> elementsByFrame;
+    queue<Element> queueOfElements;//Declarando la cola de strings
+    xml_document<> myDoc;
+    bool createAnotherSVG;
+    int currentFrame;
+    Element currentElement;
 public:
     Generacion() = default;
-    ~Generacion(){}
+    ~Generacion(){createAnotherSVG = false; currentFrame = 0;}
     //void setMyDoc(xml_document<> *pMyDoc){myDoc = pMyDoc;};
     void attach(Observer* pObserver){
         animator = pObserver;
@@ -23,87 +32,110 @@ public:
         cout << "generacion" << endl;
         animator->update(nullptr);
     }
-    void start(xml_document<> myDoc, vector<Element> &pElementsList, int pFrames){
-        int i = 0, j = 0, auxFrames = frames;
+
+    /*
+    Función producer: Procesa los datos que van a ser utilizados por el consumer
+    @param: Lista de elementos seleccionados, frames
+
+    Esta función recorre una estructura implícita del siguiente tipo:
+
+        {  { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }  } 
+        ^  j0  i0   i1  i2  i3    j1 i0    i1  i2  i3    j2  i0   i1  i2  i3    ^
+
+        i = punto del elementos que corresponde al #frame que se está procesando
+        j = recorre los elementos de la lista
+
+    
+    */
+    void producer(vector<Element> &pElementsList, int pFrames){ //producer ????
+        int currentElementPointer = 0, auxFrames = frames;
         int newX, newY;
         bool createAnotherSVG = true;
         while(true){
-            //parsing / agregar / cambiar coordenadas ??
-            newX = pElementsList[j].getMovements()[i][0]; // se agarra el elemento j de la lista, y se le asigna la coordenada x del punto i (frame) de la lista de movimientos
-            newY = pElementsList[j].getMovements()[i][1]; // se agarra el elemento j de la lista, y se le asigna la coordenada y del punto i (frame) de la lista de movimientos
-            pElementsList[j].setXCoord(newX);
-            pElementsList[j].setYCoord(newY);
+            currentElement =  pElementsList[currentElementPointer];
+            newX = currentElement.getMovements()[currentFrame][0]; // se agarra el elemento j de la lista, y se le asigna la coordenada x del punto currentFrame (frame) de la lista de movimientos
+            newY = currentElement.getMovements()[currentFrame][1]; // se agarra el elemento j de la lista, y se le asigna la coordenada y del punto i (frame) de la lista de movimientos
+            currentElement.setXCoord(newX);
+            currentElement.setYCoord(newY);
 
-            //mediante consumer ... generation();
-            generation(&myDoc, pElementsList[j], createAnotherSVG);
+            queueOfElements.push(currentElement); //push a la cola de eventos
 
-            if(j != frames){
-                j++;
+            if(currentElementPointer != frames){ 
+                currentElementPointer++;
                 continue;
             }
-            i++;
-            j = i;
-            createAnotherSVG = true;
+            currentFrame++;
+            currentElementPointer = currentFrame;
+            createAnotherSVG = true; //falta ponerlo de nuevo en false
         }
+
+        currentFrame = -1;
     }
-    void generation(xml_document<> *myDoc, Element pElement, bool pCreateAnotherSVG){
-        if (pCreateAnotherSVG){
-            //crear otro archivo
+    void generation(){
+        if (createAnotherSVG){
+            string fileName = "svg";
+            fileName.append(to_string(currentFrame));
+            fileName.append(".xml");
+            ofstream theNewFile(fileName); //Crea el archivo en la ubicación indicada
+            stringstream ss;
+            ss << myDoc.first_node(); //Convierte el árbol DOM en un stringstream
+            string stringXML = ss.str(); //Convierte de stringstream a string
+
+            theNewFile << stringXML; //Escribe el string en el archivo
+            theNewFile.close();
+
+            createAnotherSVG = false;
         }
         else{
+            string attribute = "";
             //añadir el elemento al del archivo svg actual
-            string attribute = pElement.getAttribute();
-            xml_node<> *newNode = myDoc->allocate_node(node_element, pElement.getAttribute().c_str());
-            myDoc->first_node()->append_node(newNode);
+            currentElement.createSVGAttribute(&myDoc);
 
-            if (attribute == "circle"){
-                xml_attribute<> *cx = myDoc->allocate_attribute("cx", "5");
-                xml_attribute<> *cy = myDoc->allocate_attribute("cy", "5");
-                xml_attribute<> *r = myDoc->allocate_attribute("r", "5");
-                xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
-            }
-            else if (attribute == "rect"){
-                xml_attribute<> *width = myDoc->allocate_attribute("width", "5");
-                xml_attribute<> *height = myDoc->allocate_attribute("height", "5");
-                xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
-            }
-            else if (attribute == "ellipse"){
-                xml_attribute<> *cx = myDoc->allocate_attribute("cx", "5");
-                xml_attribute<> *cy = myDoc->allocate_attribute("cy", "5");
-                xml_attribute<> *rx = myDoc->allocate_attribute("rx", "5");
-                xml_attribute<> *ry = myDoc->allocate_attribute("ry", "5");
-                xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
+            // if (attribute == "polygon"){
+            //     xml_attribute<> *points = myDoc->allocate_attribute("points", "5");
+            //     xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
+            // }
+            // else if (attribute == "polyline"){
+            //     xml_attribute<> *points = myDoc->allocate_attribute("points", "5");
+            //     xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
 
-            }
-            else if (attribute == "line"){
-                xml_attribute<> *x1 = myDoc->allocate_attribute("x1", "5");
-                xml_attribute<> *x2 = myDoc->allocate_attribute("x2", "5");
-                xml_attribute<> *y1 = myDoc->allocate_attribute("y1", "5");
-                xml_attribute<> *y2 = myDoc->allocate_attribute("y2", "5");
-                xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
+            // }
+            // else if (attribute == "path"){
+            //     xml_attribute<> *d = myDoc->allocate_attribute("d", "5");
+            //     xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
 
-            }
-            else if (attribute == "polygon"){
-                xml_attribute<> *points = myDoc->allocate_attribute("points", "5");
-                xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
-            }
-            else if (attribute == "polyline"){
-                xml_attribute<> *points = myDoc->allocate_attribute("points", "5");
-                xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
-
-            }
-            else if (attribute == "path"){
-                xml_attribute<> *d = myDoc->allocate_attribute("d", "5");
-                xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
-
-            }
-
-            //xml_attribute<> *newAttr = myDoc->allocate_attribute("age", "5");
-            xml_attribute<> *newAttr;
-            //pElement.createSVGAttribute(newAttr, &myDoc);
-            newNode->append_attribute(newAttr);
+            // }
+            
         }
     }
+
+    void consumer(){
+        bool finishLoop=false;
+        while(!finishLoop){
+            //sleep(4);
+            if(!queueOfElements.empty()){
+                generation();
+            }
+            if(currentFrame == -1){
+                break;
+            }
+
+        }
+    }
+
+    void start(xml_document<> myDoc, vector<Element> &pElementsList, int pFrames){
+        //Declarando los hilos
+        //thread hilo1(productor);
+        Element elementoActual;
+
+        thread thread1(&consumer);
+        producer(pElementsList, pFrames);
+
+        //join permite que un hilo espere a que otro termine su ejecución
+        //hilo1.join();
+        thread1.join();
+    }
+        
 };
 
 #endif
