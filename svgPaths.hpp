@@ -186,6 +186,7 @@ class Polyline:public Element{
         vector<vector<double>> xyCoords;
     public:
         Polyline(){Element::attribute = "polyline";};
+        Polyline(vector<vector<double>> pNewXYCoords, string pColor){xyCoords=pNewXYCoords; Element::setColor(pColor);};
         Polyline(vector<vector<double>> pNewXYCoords){xyCoords=pNewXYCoords;Element::attribute = "polyline";};
         void setXYCoord(vector<double> pNewxyCoords){xyCoords.push_back(pNewxyCoords);};
         vector<vector<double>> getXYCoord(){return xyCoords;};
@@ -228,6 +229,7 @@ class Polygon:public Element{
         vector<vector<double>> xyCoords;
     public:
         Polygon(){Element::attribute = "polygon";};
+        Polygon(vector<vector<double>> newCoords,string pColor){xyCoords=newCoords; Element::setColor(pColor);};
         Polygon(vector<vector<double>> pNewCoords){xyCoords=pNewCoords;Element::attribute = "polygon";};
         void setXYCoord(vector<double> pNewxyCoords){xyCoords.push_back(pNewxyCoords);};
         vector<vector<double>> getXYCoord(){return xyCoords;};
@@ -269,6 +271,8 @@ class Line:public Element{
         double endXValue, endYValue;
     public:
         Line(){Element::attribute = "line";};
+        Line(double newYCoord, double newXCoord, double newEndXValue,double newEndYValue,string pColor){Element::coordX=newXCoord; Element::coordY=newYCoord;
+        endXValue=newEndXValue;endYValue=newEndYValue; Element::setColor(pColor);};
         Line(double pNewYCoord, double pNewXCoord, double pNewEndXValue,double pNewEndYValue){Element::coordX=pNewYCoord; Element::coordY=pNewXCoord;
         endXValue=pNewEndXValue;endYValue=pNewEndYValue; Element::attribute = "line";};
         void setEndXValue(double pNewEndXValue){endXValue=pNewEndXValue;};
