@@ -68,14 +68,12 @@ class Element{
 class Circle:public Element{
     private:
     public:
-        Circle(){Element::attribute = "circle";};
-        Circle(double newRadio, double newXCoord, double newYCoord, string newColor){Element::setXCoord(newXCoord);Element::setYCoord(newYCoord);
-        Element::setSide(newRadio);Element::setColor(newColor);Element::attribute = "circle";};
+        Circle(){};
+        Circle(double pNewRadio, double pNewXCoord, double pNewYCoord, string pNewColor){Element::setXCoord(pNewXCoord);Element::setYCoord(pNewYCoord);
+        Element::setSide(pNewRadio);Element::setColor(pNewColor);};
         Circle(double newRadio){Element::setSide(newRadio);};
         void setArea(){Element::area= (2 * acos(0.0))*pow(Element::side,2.0);};
         bool findMatchPosition(double pXValue, double pYValue);
-        string getString(){return "Circle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
-        +" Radio = "+to_string(Element::side)+" Area = "+to_string(Element::getArea())+"\n";};
 
         void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
@@ -95,11 +93,9 @@ class Circle:public Element{
  bool Circle::findMatchPosition(double pXValue,double pYValue){
 
     if(pow((pXValue-(Element::coordX)),2.0)+pow((pYValue-(Element::coordY)),2.0)<=pow(Element::getSide(),2.0)){
-        cout<<"\npertenece\n";
         return true;
      }
      else{
-        cout<<"\nNO PERTENECE\n";
         return false;
      }
 }
@@ -110,18 +106,15 @@ class Rectangle:public Element{
         int width, height;
     public:
         Rectangle(){Element::attribute = "rect";};
-        Rectangle(double newWidth){width=newWidth;};
-        Rectangle(double newWidth, double newXCoord, double newYCoord, string newColor, double newHeight){width=newWidth;Element::setXCoord(newXCoord);
-        Element::setYCoord(newYCoord);Element::setSide(newHeight);Element::setColor(newColor); Element::attribute = "rect";};
-        void setWidth(double newWidth){width=newWidth;};
-        void setHeight(double newHeight){height=newHeight;};
+        Rectangle(double pNewWidth){width=pNewWidth;};
+        Rectangle(double pNewWidth, double pNewXCoord, double pNewYCoord, string pNewColor, double pNewHeight){width=pNewWidth;Element::setXCoord(pNewXCoord);
+        Element::setYCoord(pNewYCoord);Element::setSide(pNewHeight);Element::setColor(pNewColor); Element::attribute = "rect";};
+        void setWidth(double pNewWidth){width=pNewWidth;};
+        void setHeight(double pNewHeight){height=pNewHeight;};
         int getWidth(){return width;};
         int getHeight(){return height;};
         bool findMatchPosition(double pXValue, double pYValue);
-        /*void setArea(){Element::area= Element::side*width;};
-        string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
-        +" Length = "+to_string(Element::side)+" Width = "+to_string(width)+" Area = "+to_string(Element::getArea())+"\n";};*/
-        
+
         void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
             myDoc->first_node()->append_node(newNode);
@@ -141,31 +134,12 @@ class Rectangle:public Element{
 
 bool Rectangle::findMatchPosition(double pXValue, double pYValue){
     double maxWidth=Element::getXCoord()+width, maxLength=Element::getYCoord()+Element::getSide();
-    //cout<<pXValue<<" "<<pYValue;
     if((pXValue<=maxWidth&&(pXValue>=Element::getXCoord()))&&(pYValue<=maxLength&&(pYValue>=Element::getYCoord()))){
-        cout<<"\nDENTRO\n";
         return true;
     }
     else{
-        cout<<"\nAFUERA\n";
         return false;
     }
-
-/*
-    if((pXValue<maxWidth)&&(pXValue>Element::getXCoord())&&(pYValue==Element::getYCoord())){
-        cout<<"Borde Superior";
-    }
-    if((pXValue<=maxWidth)&&(pXValue>=Element::getXCoord())&&(pYValue==minLength)){
-        cout<<"Borde Inferior";
-    }
-    if((pXValue==maxWidth)&&((pYValue>=minLength)&&(pYValue<=Element::getYCoord()))){
-        cout<<"Borde Derecha";
-    }
-    if((pXValue==Element::getXCoord())&&((pYValue>=minLength)&&(pYValue<=Element::getYCoord()))){
-        cout<<"Borde izquierda";
-    }*/
-
-
 }
 
 class Ellipse:public Element{
@@ -173,16 +147,14 @@ class Ellipse:public Element{
         double yRadio;
     public:
         Ellipse(){Element::attribute = "ellipse";};//FALTA CAMBIAR LOS XRADIO POR SETSIDE
-        Ellipse(double newXRadio,double newYRadio, double newXCoord, double newYCoord, string newColor){Element::setSide(newXRadio);yRadio=newYRadio;
-        Element::setColor(newColor);Element::setXCoord(newXCoord);Element::setYCoord(newYCoord); Element::attribute = "ellipse";};
-        void setXRadio(double newXRadio){Element::setSide(newXRadio);};
-        void setYRadio(double newYRadio){yRadio=newYRadio;};
+        Ellipse(double pNewXRadio,double pNewYRadio, double pNewXCoord, double pNewYCoord, string pNewColor){Element::setSide(pNewXRadio);yRadio=pNewYRadio;
+        Element::setColor(pNewColor);Element::setXCoord(pNewXCoord);Element::setYCoord(pNewYCoord); Element::attribute = "ellipse";};
+        void setXRadio(double pNewXRadio){Element::setSide(pNewXRadio);};
+        void setYRadio(double pNewYRadio){yRadio=pNewYRadio;};
         double getXRadio(){return Element::getSide();};
         double getYRadio(){return yRadio;};
         bool findMatchPosition(double pXValue, double pYValue);
-       /* void setArea(){Element::area= (2 * acos(0.0))*xRadio*yRadio;};
-        string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
-        +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+
         void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
             myDoc->first_node()->append_node(newNode);
@@ -197,17 +169,14 @@ class Ellipse:public Element{
             xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
             newNode->append_attribute(fill);
         }
-
 };
 
 bool Ellipse::findMatchPosition(double pXValue, double pYValue){
     if((pXValue>=(Element::getXCoord()-Element::getSide()))&&(pXValue<=(Element::getXCoord()+Element::getSide()))&&
        (pYValue>=(Element::getYCoord()-yRadio))&&(pYValue<=(Element::getYCoord()+yRadio))){
-        cout<<"\nDENTRO\n";
         return true;
        }
     else{
-        cout<<"\nFUERA\n";
         return false;
     }
 }
@@ -217,14 +186,13 @@ class Polyline:public Element{
         vector<vector<double>> xyCoords;
     public:
         Polyline(){Element::attribute = "polyline";};
-        Polyline(vector<vector<double>> newXYCoords){xyCoords=newXYCoords;Element::attribute = "polyline";};
-        void setXYCoord(vector<double> newxyCoords){xyCoords.push_back(newxyCoords);};
+        Polyline(vector<vector<double>> pNewXYCoords){xyCoords=pNewXYCoords;Element::attribute = "polyline";};
+        void setXYCoord(vector<double> pNewxyCoords){xyCoords.push_back(pNewxyCoords);};
         vector<vector<double>> getXYCoord(){return xyCoords;};
         bool findMatchPosition(double pXValue, double pYValue);
-        /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
-        +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+
         void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
-            
+
         }
 
 };
@@ -247,11 +215,9 @@ bool Polyline::findMatchPosition(double pXValue, double pYValue){
         }
     }
     if((pXValue>=minXValue)&&(pXValue<=maxXValue)&&(pYValue>=minYValue)&&(pYValue<=maxYValue)){
-        cout<<"\ndentro\n";
         return true;
     }
     else{
-        cout<<"\nafuera\n";
         return false;
     }
 
@@ -262,14 +228,13 @@ class Polygon:public Element{
         vector<vector<double>> xyCoords;
     public:
         Polygon(){Element::attribute = "polygon";};
-        Polygon(vector<vector<double>> newCoords){xyCoords=newCoords;Element::attribute = "polygon";};
-        void setXYCoord(vector<double> newxyCoords){xyCoords.push_back(newxyCoords);};
+        Polygon(vector<vector<double>> pNewCoords){xyCoords=pNewCoords;Element::attribute = "polygon";};
+        void setXYCoord(vector<double> pNewxyCoords){xyCoords.push_back(pNewxyCoords);};
         vector<vector<double>> getXYCoord(){return xyCoords;};
         bool findMatchPosition(double pXValue, double pYValue);
-        /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
-        +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+
         void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
-            
+
         }
 
 };
@@ -292,15 +257,11 @@ bool Polygon::findMatchPosition(double pXValue, double pYValue){
         }
     }
     if((pXValue>=minXValue)&&(pXValue<=maxXValue)&&(pYValue>=minYValue)&&(pYValue<=maxYValue)){
-        cout<<"\ndentro\n";
         return true;
     }
     else{
-        cout<<"\nafuera\n";
         return false;
     }
-
-    cout<<minXValue<<" "<<minYValue<<" "<<maxXValue<<" "<<maxYValue<<" "<<pXValue<<" "<<pYValue<<endl;
 }
 
 class Line:public Element{
@@ -308,15 +269,14 @@ class Line:public Element{
         double endXValue, endYValue;
     public:
         Line(){Element::attribute = "line";};
-        Line(double newYCoord, double newXCoord, double newEndXValue,double newEndYValue){Element::coordX=newXCoord; Element::coordY=newYCoord;
-        endXValue=newEndXValue;endYValue=newEndYValue; Element::attribute = "line";};
-        void setEndXValue(double newEndXValue){endXValue=newEndXValue;};
-        void setEndYValue(double newEndYValue){endYValue=newEndYValue;};
+        Line(double pNewYCoord, double pNewXCoord, double pNewEndXValue,double pNewEndYValue){Element::coordX=pNewYCoord; Element::coordY=pNewXCoord;
+        endXValue=pNewEndXValue;endYValue=pNewEndYValue; Element::attribute = "line";};
+        void setEndXValue(double pNewEndXValue){endXValue=pNewEndXValue;};
+        void setEndYValue(double pNewEndYValue){endYValue=pNewEndYValue;};
         double getEndXValue(){return endXValue;};
         double getEndYValue(){return endYValue;};
         bool findMatchPosition(double pXValue, double pYValue);
-        /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
-        +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+
         void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
             myDoc->first_node()->append_node(newNode);
@@ -336,43 +296,53 @@ class Line:public Element{
 
 bool Line::findMatchPosition(double pXValue, double pYValue){
     if((pXValue>=Element::getXCoord()&&pXValue<=endXValue)&&(pYValue>=Element::getYCoord()&&pYValue<=(endYValue-Element::getXCoord()))){
-        cout<<"dentro";
         return true;
     }
     else{
-        cout<<"afuera";
         return false;
     }
 }
-//falta
 
 class Path:public Element{
     private:
-        string d;
         vector<vector<double>>curvePositions;
     public:
-        Path(){Element::attribute = "path";};
-        Path(double newXMove, double newYMove, vector<vector<double>>newCurvePositions){Element::setXCoord(newXMove);Element::setXCoord(newYMove);
-        curvePositions=newCurvePositions;Element::attribute = "path";};
-        void setCurvePositions(vector<double> newCurvePosition){curvePositions.push_back(newCurvePosition);};
-        void setD(string pNewD){Path::d = pNewD;};
-        string getD(){return Path::d;}
+        Path(){};
+        Path(double pNewXMove, double pNewYMove, vector<vector<double>>pNewCurvePositions){Element::setXCoord(pNewXMove);Element::setXCoord(pNewYMove);
+        curvePositions=pNewCurvePositions;};
+        void setCurvePositions(vector<double> pNewCurvePosition){curvePositions.push_back(pNewCurvePosition);};
         vector<vector<double>> getCurvePositions(){return curvePositions;};
-        /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
-        +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
-        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
-            
-        }
-
+        bool findMatchPosition(double pXValue, double pYValue);
 };
+
+bool Path::findMatchPosition(double pXValue, double pYValue){
+    double maxYValue=curvePositions[0][1], maxXValue=curvePositions[0][0], minYValue=curvePositions[0][1], minXValue=curvePositions[0][0];
+    for(int posicion=1;posicion<curvePositions.size();posicion++){
+        maxYValue=((curvePositions[posicion][1]>maxYValue)?curvePositions[posicion][1]:maxYValue);
+        minYValue=((curvePositions[posicion][1]<minYValue)?curvePositions[posicion][1]:minYValue);
+        maxXValue=((curvePositions[posicion][0]>maxXValue)?curvePositions[posicion][0]:maxXValue);
+        minXValue=((curvePositions[posicion][0]<minXValue)?curvePositions[posicion][0]:minXValue);
+    }
+    if((pXValue>=minXValue)&&(pXValue<=maxXValue)&&(pYValue>=minYValue)&&(pYValue<=maxYValue)){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 class SVG{
     private:
         double height, width;
+        vector<Element*>selectedElements;
     public:
         SVG(){};
-        void setHeight(double newHeight){height=newHeight;};
-        void setWidth(double newWidth){width=newWidth;};
+        void setHeight(double pNewHeight){height=pNewHeight;};
+        void setWidth(double pNewWidth){width=pNewWidth;};
+        void setVectorElements(vector<Element*> pVectorElements){selectedElements=pVectorElements;};
+        void setElement(Element* pElement){selectedElements.push_back(pElement);};
         double getHeight(){return height;};
         double getWidth(){return width;};
+        vector<Element*> getVectorElements(){return selectedElements;};
+
 };
