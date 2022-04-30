@@ -79,7 +79,10 @@ void firstQuadrant(Element &pElement, int pLastX, int pLastY, int pWidth, double
     int newX, newY, displacement = pElement.getDisplacement(), auxDisplacement = displacement, frames = pElement.getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
-    if (pElement.getMovements().size() >= frames){ //si ya el vector está lleno retorna
+    if (pElement.getMovements().size() >= frames && pElement.getAttribute() != "line"){ //si ya el vector está lleno retorna
+        return;
+    }
+    if(pElement.getMovements2().size() >= frames){
         return;
     }
 
@@ -98,26 +101,27 @@ void firstQuadrant(Element &pElement, int pLastX, int pLastY, int pWidth, double
     }
 
     newX = (pLastX + auxDisplacement); //nueva X
-    newY = pElement.getYCoord() - ((newX - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
-
-    if (pElement.getAttribute() == "line"){ //si el elemento es una linea saca las coordenadas de x, y, x2, y2
-        cout << pElement.getAttribute() << endl;
-        int newX2 = pElement.getLineEndXValue();
-        int newY2 = pElement.getLineEndYValue();
-        cout << newX2 << " - " << newY2 << endl;
-        newX2 = (newX2 + auxDisplacement); //nueva X
-        newY2 = pElement.getYCoord() - ((newX2 - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
-        pElement.setLineEndXValue(newX2);
-        pElement.setLineEndXValue(newX2);
-        pElement.addMovement2(newX2, newY2);
-    }
+    if (pElement.getAttribute() == "line"){newY = pElement.getLineEndYValue() - ((newX - pElement.getLineEndXValue()) * (tan(actualDegrees * (M_PI/180))));} // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+    else{newY = pElement.getYCoord() - ((newX - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180))));}
 
     if (newX > pWidth || newY < 0){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
-            newX = pLastX; newY = pLastY;
+        newX = pLastX; newY = pLastY;
+        // (pElement.getAttribute() == "line") ? pElement.addMovement(newX, newY) : pElement.addMovement2(newX, newY);
+        if (pElement.getAttribute() == "line" && pElement.getMovements().size() >= frames){
+            pElement.addMovement2(newX, newY);
+        }
+        else{
             pElement.addMovement(newX, newY);
         }
+    }
     else{ //si no, se agrega el nuevo punto
-        pElement.addMovement(newX, newY);
+        // (pElement.getAttribute() == "line") ? pElement.addMovement(newX, newY) : pElement.addMovement2(newX, newY);
+        if (pElement.getAttribute() == "line" && pElement.getMovements().size() >= frames){
+            pElement.addMovement2(newX, newY);
+        }
+        else{
+            pElement.addMovement(newX, newY);
+        }
     }
 
     //lamada recursiva
@@ -128,7 +132,10 @@ void secondQuadrant(Element &pElement, int pLastX, int pLastY, double pDegrees, 
     int newX, newY, displacement = pElement.getDisplacement(), auxDisplacement = displacement, frames = pElement.getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
-    if (pElement.getMovements().size() >= pElement.getHypotenuse() / displacement){ //si ya el vector está lleno
+    if (pElement.getMovements().size() >= frames && pElement.getAttribute() != "line"){ //si ya el vector está lleno retorna
+        return;
+    }
+    if(pElement.getMovements2().size() >= frames){
         return;
     }
 
@@ -145,16 +152,29 @@ void secondQuadrant(Element &pElement, int pLastX, int pLastY, double pDegrees, 
         auxDisplacement -= displacement;
         pElement.addMovement(pLastX, pLastY);
     }
+    
     //nuevas coordenadas pX pY pY
     newX = (pLastX - auxDisplacement); //nueva X
-    newY = pElement.getYCoord() - ((pElement.getXCoord() - newX) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+    //newY = pElement.getYCoord() - ((pElement.getXCoord() - newX) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+    if (pElement.getAttribute() == "line"){newY =pElement.getLineEndYValue() - ((pElement.getLineEndXValue() - newX) * (tan(actualDegrees * (M_PI/180))));} // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+    else{newY = pElement.getYCoord() - ((pElement.getXCoord() - newX) * (tan(actualDegrees * (M_PI/180))));}
 
     if (newX < 0 || newY < 0){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
         newX = pLastX; newY = pLastY;
-        pElement.addMovement(newX, newY);
+        if (pElement.getAttribute() == "line" && pElement.getMovements().size() >= frames){
+            pElement.addMovement2(newX, newY);
+        }
+        else{
+            pElement.addMovement(newX, newY);
+        }
     }
     else{ //si no, se agrega el nuevo punto
-        pElement.addMovement(newX, newY);
+        if (pElement.getAttribute() == "line" && pElement.getMovements().size() >= frames){
+            pElement.addMovement2(newX, newY);
+        }
+        else{
+            pElement.addMovement(newX, newY);
+        }
     }
 
     //llamada recursiva
@@ -165,7 +185,10 @@ void thirdQuadrant(Element &pElement, int pLastX, int pLastY, int pHeight, doubl
     int newX, newY, displacement = pElement.getDisplacement(), auxDisplacement = displacement, frames = pElement.getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
-    if (pElement.getMovements().size() >= pElement.getHypotenuse() / displacement){ //si ya el vector está lleno
+    if (pElement.getMovements().size() >= frames && pElement.getAttribute() != "line"){ //si ya el vector está lleno retorna
+        return;
+    }
+    if(pElement.getMovements2().size() >= frames){
         return;
     }
 
@@ -184,14 +207,26 @@ void thirdQuadrant(Element &pElement, int pLastX, int pLastY, int pHeight, doubl
     }
     //nuevas coordenadas pX pY pY
     newX = (pLastX - auxDisplacement); //nueva X
-    newY = pElement.getYCoord() + ((pElement.getXCoord() - newX) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual + (coord X en una grafica * tan(angulo))
+    //newY = pElement.getYCoord() + ((pElement.getXCoord() - newX) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual + (coord X en una grafica * tan(angulo))
+    if (pElement.getAttribute() == "line"){newY = pElement.getLineEndYValue() + ((pElement.getLineEndXValue() - newX) * (tan(actualDegrees * (M_PI/180))));} // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+    else{newY = pElement.getYCoord() + ((pElement.getXCoord() - newX) * (tan(actualDegrees * (M_PI/180))));}
 
     if (newX < 0 || newY > pHeight){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
         newX = pLastX; newY = pLastY;
-        pElement.addMovement(newX, newY);
+        if (pElement.getAttribute() == "line" && pElement.getMovements().size() >= frames){
+            pElement.addMovement2(newX, newY);
+        }
+        else{
+            pElement.addMovement(newX, newY);
+        }
     }
     else{ //si no, se agrega el nuevo punto
-        pElement.addMovement(newX, newY);
+        if (pElement.getAttribute() == "line" && pElement.getMovements().size() >= frames){
+            pElement.addMovement2(newX, newY);
+        }
+        else{
+            pElement.addMovement(newX, newY);
+        }
     }
 
     //llamada recursiva
@@ -202,9 +237,13 @@ void fourthQuadrant(Element &pElement, int pLastX, int pLastY, int pHeight, int 
     int newX, newY, displacement = pElement.getDisplacement(), auxDisplacement = displacement, frames = pElement.getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
-    if (pElement.getMovements().size() >= pElement.getHypotenuse() / displacement){ //si ya el vector está lleno
+    if (pElement.getMovements().size() >= frames && pElement.getAttribute() != "line"){ //si ya el vector está lleno retorna
         return;
     }
+    if(pElement.getMovements2().size() >= frames){
+        return;
+    }
+
     if (!pElement.isRect()){
         int finalDegrees = pDegrees + (frames / 4); //grados en los que tiene que empezar a "devolverse" para construir la curva
         lastDegrees++;
@@ -220,14 +259,26 @@ void fourthQuadrant(Element &pElement, int pLastX, int pLastY, int pHeight, int 
     }
     //nuevas coordenadas pX pY pY
     newX = (pLastX + auxDisplacement); //nueva X
-    newY = pElement.getYCoord() + ((newX - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual + (coord X en una grafica * tan(angulo))
+    // newY = pElement.getYCoord() + ((newX - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual + (coord X en una grafica * tan(angulo))
+    if (pElement.getAttribute() == "line"){newY = pElement.getLineEndYValue() + ((newX - pElement.getLineEndXValue()) * (tan(actualDegrees * (M_PI/180))));} // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+    else{newY = pElement.getYCoord() + ((newX - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180))));}
 
     if (newX > pWidth || newY > pHeight){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
         newX = pLastX; newY = pLastY;
-        pElement.addMovement(newX, newY);
+        if (pElement.getAttribute() == "line" && pElement.getMovements().size() >= frames){
+            pElement.addMovement2(newX, newY);
+        }
+        else{
+            pElement.addMovement(newX, newY);
+        }
     }
     else{ //si no, se agrega el nuevo punto
-         pElement.addMovement(newX, newY);
+        if (pElement.getAttribute() == "line" && pElement.getMovements().size() >= frames){
+            pElement.addMovement2(newX, newY);
+        }
+        else{
+            pElement.addMovement(newX, newY);
+        }
     }
 
     //llamada recursiva
@@ -267,7 +318,16 @@ void determinePoints90(Element &pElement, int pWidth, double pDegrees, int pFram
     displacement = hypotenuse / pFrames;
     pElement.setDisplacement(displacement);
 
-    firstQuadrant(pElement, pX, pY, pWidth, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+    if (pElement.getAttribute() == "line"){
+        pElement.setAttribute("none");
+        firstQuadrant(pElement, pX, pY, pWidth, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+        pElement.setAttribute("line");
+        firstQuadrant(pElement, pElement.getLineEndXValue(), pElement.getLineEndYValue(), pWidth, pDegrees, pDegrees);
+    }
+    else{
+        firstQuadrant(pElement, pX, pY, pWidth, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+    }
+    
 }
 
 void determinePoints180(Element &pElement, double pDegrees, int pFrames){
@@ -301,8 +361,16 @@ void determinePoints180(Element &pElement, double pDegrees, int pFrames){
     pElement.setFinalYCoord(finalY);
     displacement = hypotenuse / pFrames;
     pElement.setDisplacement(displacement);
-        
-    secondQuadrant(pElement, pX, pY, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+
+    if (pElement.getAttribute() == "line"){
+        pElement.setAttribute("none");
+        secondQuadrant(pElement, pX, pY, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+        pElement.setAttribute("line");
+        secondQuadrant(pElement, pElement.getLineEndXValue(), pElement.getLineEndYValue(), pDegrees, pDegrees);
+    }
+    else{
+        secondQuadrant(pElement, pX, pY, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+    }
 }
 
 void determinePoints270(Element &pElement, int pHeight, double pDegrees, int pFrames){
@@ -338,7 +406,15 @@ void determinePoints270(Element &pElement, int pHeight, double pDegrees, int pFr
     displacement = hypotenuse / pFrames;
     pElement.setDisplacement(displacement);
 
-    thirdQuadrant(pElement, pX, pY, pHeight, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+    if (pElement.getAttribute() == "line"){
+        pElement.setAttribute("none");
+        thirdQuadrant(pElement, pX, pY, pHeight, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+        pElement.setAttribute("line");
+        thirdQuadrant(pElement, pElement.getLineEndXValue(), pElement.getLineEndYValue(),pHeight, pDegrees, pDegrees);
+    }
+    else{
+        thirdQuadrant(pElement, pX, pY, pHeight, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+    }
 
 }
 
@@ -375,7 +451,15 @@ void determinePoints360(Element &pElement, int pWidth, int pHeight, double pDegr
     displacement = hypotenuse / pFrames;
     pElement.setDisplacement(displacement);
 
-    fourthQuadrant(pElement, pX, pY, pHeight, pWidth, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+    if (pElement.getAttribute() == "line"){
+        pElement.setAttribute("none");
+        fourthQuadrant(pElement, pX, pY, pHeight, pWidth, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+        pElement.setAttribute("line");
+        fourthQuadrant(pElement, pElement.getLineEndXValue(), pElement.getLineEndYValue(),pHeight, pWidth, pDegrees, pDegrees);
+    }
+    else{
+        fourthQuadrant(pElement, pX, pY, pHeight, pWidth, pDegrees, pDegrees); //lamada a la funcion para enrutar el elemento
+    }
 }
 
 

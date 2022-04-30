@@ -57,27 +57,18 @@ int main()
     */
     
 
-    // cout << tan(20) << endl;
-    // cout << tan(20 * (3.14159265358979323846 / 180));
+    cout << tan(20) << endl;
+    cout << tan(20 * (3.14159265358979323846 / 180));
 
-    // Routing* enrutamiento = new Routing();
-    // cout << "ok" << endl;
-    // Line* nuevo = new Line();
-    // cout << "ok" << endl;
-    // nuevo->setXCoord(200);
-    // nuevo->setYCoord(100);
-    // nuevo->setLineEndXValue(300);
-    // nuevo->setLineEndYValue(200);
-    // cout << "ok" << endl;
-    // vector<Element> elements;
-    // elements.push_back(*nuevo);
-    // cout << "ok" << endl;
-    // enrutamiento->route(elements, 20, 20, 666, 780);
-    // cout << "ok" << endl;
-
-
-    
-
+    Routing* enrutamiento = new Routing();
+    Line* nuevo = new Line();
+    nuevo->setXCoord(200);
+    nuevo->setYCoord(100);
+    nuevo->setLineEndXValue(300);
+    nuevo->setLineEndYValue(200);
+    vector<Element> elements;
+    elements.push_back(*nuevo);
+    enrutamiento->route(elements, 20, 340, 666, 780);
 
     
 

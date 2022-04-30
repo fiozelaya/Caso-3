@@ -14,6 +14,7 @@ class Element{
         Element(){};
         Element(double newSide){side=newSide;};
         Element(double newYValue, double newXValue){};
+        void setAttribute(string pNewAttribute){attribute = pNewAttribute;};
         void setXCoord(double newXValue){coordX=newXValue;};
         void setYCoord(double newYValue){coordY=newYValue;};
         void setFinalXCoord(double pNewfinalCoordX){finalCoordX = pNewfinalCoordX;};
@@ -42,8 +43,8 @@ class Element{
             vector<int> point = {x,y}; movements.push_back(point);
         };
 
-        void setLineEndXValue(double newEndXValue){coordX2=newEndXValue; cout << newEndXValue << endl;};
-        void setLineEndYValue(double newEndYValue){coordY2=newEndYValue; cout << newEndYValue << endl;};
+        void setLineEndXValue(double newEndXValue){coordX2=newEndXValue;};
+        void setLineEndYValue(double newEndYValue){coordY2=newEndYValue;};
         double getLineEndXValue(){return coordX2;};
         double getLineEndYValue(){return coordY2;};
         vector<vector<int>> getMovements2(){return movements2;};
@@ -258,23 +259,13 @@ class Line:public Element{
         double endXValue, endYValue;
     public:
         Line(){Element::attribute = "line";};
-<<<<<<< HEAD
         Line(double newYCoord, double newXCoord, double newEndXValue,double newEndYValue,string pColor){Element::coordX=newXCoord; Element::coordY=newYCoord;
         endXValue=newEndXValue;endYValue=newEndYValue; Element::setColor(pColor);};
         Line(double pNewYCoord, double pNewXCoord, double pNewEndXValue,double pNewEndYValue){Element::coordX=pNewYCoord; Element::coordY=pNewXCoord;
         endXValue=pNewEndXValue;endYValue=pNewEndYValue; Element::attribute = "line";};
-        void setEndXValue(double pNewEndXValue){endXValue=pNewEndXValue;};
-        void setEndYValue(double pNewEndYValue){endYValue=pNewEndYValue;};
-        double getEndXValue(){return endXValue;};
-        double getEndYValue(){return endYValue;};
-        bool findMatchPosition(double pXValue, double pYValue);
-=======
-        Line(double newYCoord, double newXCoord, double newEndXValue,double newEndYValue){Element::coordX=newXCoord; Element::coordY=newYCoord;
-        endXValue=newEndXValue;endYValue=newEndYValue; Element::attribute = "line";};
         bool findMatchPosition(double pXValue, double pYValue); 
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
->>>>>>> master
 
         void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());

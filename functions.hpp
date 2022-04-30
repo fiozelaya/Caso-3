@@ -222,7 +222,7 @@ bool matchColor(string pInputColor, string pElementColor){
 
 }
 
-seleccion(xml_node<>* node, vector<string> pColors, vector<vector<double>>pPositions,SVG *pSVG){
+void seleccion(xml_node<>* node, vector<string> pColors, vector<vector<double>>pPositions,SVG *pSVG){
     vector<int> inputColorConverted, elementColorConverted;
     for (node = node->first_node(); node != NULL; node = node->next_sibling()){
     if (node->type() == node_element){

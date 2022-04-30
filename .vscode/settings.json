@@ -48,6 +48,9 @@
         "xutility": "cpp",
         "thread": "cpp",
         "chrono": "cpp",
-        "format": "cpp"
+        "format": "cpp",
+        "xlocmes": "cpp",
+        "xlocmon": "cpp",
+        "xloctime": "cpp"
     }
 }

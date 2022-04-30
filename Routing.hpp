@@ -49,17 +49,17 @@ public:
             }
 
             vector<vector<int>> movimientos = pVector[i].getMovements();
-            Line* lineElement = static_cast<Line*>(&pVector[i]);
-            vector<vector<int>> movimientos2 = lineElement->getMovements2();
+            vector<vector<int>> movimientos2 = pVector[i].getMovements2();
 
             cout << "for" << movimientos.size() << endl;
             for (int i = 0; i < movimientos.size(); i++){
                 cout << i + 1 << ". " << movimientos[i][0] << " " << movimientos[i][1] << endl;
                 
             }
-
+            cout << pVector[i].getAttribute() << endl;
+            cout << movimientos2.size() << endl;
             if (pVector[i].getAttribute() == "line"){
-                for (int i = 0; i < movimientos.size(); i++){
+                for (int i = 0; i < movimientos2.size(); i++){
                     cout << i + 1 << ". " << movimientos2[i][0] << " " << movimientos2[i][1] << endl;
                 }
             }
