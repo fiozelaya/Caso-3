@@ -40,27 +40,43 @@ void prueba2(queue<string> &cola){
 
 int main()
 {
-
+    
     /*
+    Animator()
 
-    cout << tan(20) << endl;
-    cout << tan(20 * (3.14159265358979323846 / 180));
+    Seleccion()
+    Enrutamiento()
+    Generacion()
 
-    Enrutamiento* enrutamiento = new Enrutamiento();
-    cout << "ok" << endl;
-    Element* nuevo = new Element();
-    cout << "ok" << endl;
-    nuevo->setXCoord(406);
-    nuevo->setYCoord(270);
-    cout << "ok" << endl;
-    vector<Element> elements;
-    elements.push_back(*nuevo);
-    cout << "ok" << endl;
-    enrutamiento->enrutar(elements, 20, 20, 666, 780);
-    cout << "ok" << endl;
+    Seleccion.attach(observer)
+    Enrutamiento.attach(observer)
+    Generacion.attach(observer)
 
+    llamar a seleccion
 
     */
+    
+
+    // cout << tan(20) << endl;
+    // cout << tan(20 * (3.14159265358979323846 / 180));
+
+    // Routing* enrutamiento = new Routing();
+    // cout << "ok" << endl;
+    // Line* nuevo = new Line();
+    // cout << "ok" << endl;
+    // nuevo->setXCoord(200);
+    // nuevo->setYCoord(100);
+    // nuevo->setLineEndXValue(300);
+    // nuevo->setLineEndYValue(200);
+    // cout << "ok" << endl;
+    // vector<Element> elements;
+    // elements.push_back(*nuevo);
+    // cout << "ok" << endl;
+    // enrutamiento->route(elements, 20, 20, 666, 780);
+    // cout << "ok" << endl;
+
+
+    
 
 
     

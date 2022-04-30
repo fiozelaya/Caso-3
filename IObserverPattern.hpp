@@ -8,6 +8,8 @@ public:
 };
 
 class Subject {
+private:
+  Observer *observer;
 public:
   virtual ~Subject(){};
   virtual void attach(Observer *observer) = 0;

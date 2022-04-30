@@ -100,6 +100,18 @@ void firstQuadrant(Element &pElement, int pLastX, int pLastY, int pWidth, double
     newX = (pLastX + auxDisplacement); //nueva X
     newY = pElement.getYCoord() - ((newX - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
 
+    if (pElement.getAttribute() == "line"){ //si el elemento es una linea saca las coordenadas de x, y, x2, y2
+        cout << pElement.getAttribute() << endl;
+        int newX2 = pElement.getLineEndXValue();
+        int newY2 = pElement.getLineEndYValue();
+        cout << newX2 << " - " << newY2 << endl;
+        newX2 = (newX2 + auxDisplacement); //nueva X
+        newY2 = pElement.getYCoord() - ((newX2 - pElement.getXCoord()) * (tan(actualDegrees * (M_PI/180)))); // nueva Y = coord pY actual - (coord X en una grafica * tan(angulo))
+        pElement.setLineEndXValue(newX2);
+        pElement.setLineEndXValue(newX2);
+        pElement.addMovement2(newX2, newY2);
+    }
+
     if (newX > pWidth || newY < 0){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
             newX = pLastX; newY = pLastY;
             pElement.addMovement(newX, newY);

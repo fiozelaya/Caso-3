@@ -1,34 +1,14 @@
-/*class Plataforma : public Subject {
-private:
-    list<Observer*> estudiantes;
-
-public:
-    Plataforma() {}
-    ~Plataforma() {}
-
-    void attach(Observer* est) {
-        estudiantes.emplace_back(est);
-    }
-
-    void detach(Observer* est) {
-        estudiantes.remove(est);
-    }
-
-    void notify(void* curso) {
-        for (Observer* actual : estudiantes) {
-            thread t(&Observer::update, actual, curso); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
-            t.join(); // espere a que t termine
-        }
-    }
-};*/
+#ifndef __SVG_PATHS_HEADER__
+#define __SVG_PATHS_HEADER__
 
 #include <math.h>
 
 class Element{
     protected:
-        double coordX, coordY,side, area, finalCoordX, finalCoordY, hypotenuse, displacement;
+        double coordX, coordY, coordX2, coordY2, side, area, finalCoordX, finalCoordY, hypotenuse, displacement;
         bool rect;
         vector<vector<int>> movements; // { {x,y}, {}, {}, {} }
+        vector<vector<int>> movements2;
         string color, attribute;
     public:
         Element(){};
@@ -61,6 +41,13 @@ class Element{
         void addMovement(int x, int y){
             vector<int> point = {x,y}; movements.push_back(point);
         };
+
+        void setLineEndXValue(double newEndXValue){coordX2=newEndXValue; cout << newEndXValue << endl;};
+        void setLineEndYValue(double newEndYValue){coordY2=newEndYValue; cout << newEndYValue << endl;};
+        double getLineEndXValue(){return coordX2;};
+        double getLineEndYValue(){return coordY2;};
+        vector<vector<int>> getMovements2(){return movements2;};
+        void addMovement2(int pNewX2, int pNewY2){vector<int> point = {pNewX2,pNewY2}; movements2.push_back(point);}
 
         virtual void createSVGAttribute(xml_document<> *myDoc){};
 };
@@ -310,13 +297,10 @@ class Line:public Element{
         Line(){Element::attribute = "line";};
         Line(double newYCoord, double newXCoord, double newEndXValue,double newEndYValue){Element::coordX=newXCoord; Element::coordY=newYCoord;
         endXValue=newEndXValue;endYValue=newEndYValue; Element::attribute = "line";};
-        void setEndXValue(double newEndXValue){endXValue=newEndXValue;};
-        void setEndYValue(double newEndYValue){endYValue=newEndYValue;};
-        double getEndXValue(){return endXValue;};
-        double getEndYValue(){return endYValue;};
-        bool findMatchPosition(double pXValue, double pYValue);
+        bool findMatchPosition(double pXValue, double pYValue); 
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
+
         void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
             myDoc->first_node()->append_node(newNode);
@@ -376,3 +360,5 @@ class SVG{
         double getHeight(){return height;};
         double getWidth(){return width;};
 };
+
+#endif
