@@ -10,20 +10,21 @@
 
 using namespace std;
 
-class Enrutamiento: public Subject{
+class Routing: public Subject{
 private:
     Observer* animator;
-    vector<void*> vectorElements;
+    vector<Element> vectorElements;
 public:
-    Enrutamiento() = default;
-    ~Enrutamiento(){}
+    Routing() = default;
+    Routing(vector<Element> pNewVectorElements){vectorElements = pNewVectorElements;};
+    ~Routing(){}
     void attach(Observer* observer){
         animator = observer;
     }
     void detach(Observer* observer){
 
     }
-    void enrutar(vector<Element> &pVector, int pFrames, double pDegrees, int pHeight, int pWidth){
+    void route(vector<Element> &pVector, int pFrames, double pDegrees, int pHeight, int pWidth){
         bool rect;
         for (int i = 0; i < pVector.size(); i++){
             if (rand() % 2 == 0){
@@ -48,9 +49,19 @@ public:
             }
 
             vector<vector<int>> movimientos = pVector[i].getMovements();
+            Line* lineElement = static_cast<Line*>(&pVector[i]);
+            vector<vector<int>> movimientos2 = lineElement->getMovements2();
+
             cout << "for" << movimientos.size() << endl;
             for (int i = 0; i < movimientos.size(); i++){
                 cout << i + 1 << ". " << movimientos[i][0] << " " << movimientos[i][1] << endl;
+                
+            }
+
+            if (pVector[i].getAttribute() == "line"){
+                for (int i = 0; i < movimientos.size(); i++){
+                    cout << i + 1 << ". " << movimientos2[i][0] << " " << movimientos2[i][1] << endl;
+                }
             }
         }
     }

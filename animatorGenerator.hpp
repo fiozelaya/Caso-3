@@ -1,9 +1,13 @@
 #ifndef __ANIMATOR_GENERATOR_HEADER__
 #define __ANIMATOR_GENERATOR_HEADER__
 
+#include "svgPaths.hpp"
+
 class AnimatorGenerator: public Observer{
 private:
-
+    // Selection *seleccion;
+    // Routing *enrutamiento;
+    // Generation *generacion;
 public:
     AnimatorGenerator() = default;
     ~AnimatorGenerator(){}
