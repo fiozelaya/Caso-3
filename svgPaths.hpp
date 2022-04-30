@@ -258,23 +258,11 @@ class Line:public Element{
         double endXValue, endYValue;
     public:
         Line(){Element::attribute = "line";};
-<<<<<<< HEAD
-        Line(double newYCoord, double newXCoord, double newEndXValue,double newEndYValue,string pColor){Element::coordX=newXCoord; Element::coordY=newYCoord;
-        endXValue=newEndXValue;endYValue=newEndYValue; Element::setColor(pColor);};
-        Line(double pNewYCoord, double pNewXCoord, double pNewEndXValue,double pNewEndYValue){Element::coordX=pNewYCoord; Element::coordY=pNewXCoord;
-        endXValue=pNewEndXValue;endYValue=pNewEndYValue; Element::attribute = "line";};
-        void setEndXValue(double pNewEndXValue){endXValue=pNewEndXValue;};
-        void setEndYValue(double pNewEndYValue){endYValue=pNewEndYValue;};
-        double getEndXValue(){return endXValue;};
-        double getEndYValue(){return endYValue;};
-        bool findMatchPosition(double pXValue, double pYValue);
-=======
         Line(double newYCoord, double newXCoord, double newEndXValue,double newEndYValue){Element::coordX=newXCoord; Element::coordY=newYCoord;
         endXValue=newEndXValue;endYValue=newEndYValue; Element::attribute = "line";};
         bool findMatchPosition(double pXValue, double pYValue); 
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
->>>>>>> master
 
         void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
