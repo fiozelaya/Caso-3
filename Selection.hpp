@@ -104,7 +104,7 @@ public:
     }
 
 
-    void selectCurvePoints(vector<vector<double>>* pAllPoints, string pPoints){
+    void selectPathPoints(vector<vector<double>>* pAllPoints, string pPoints){
         vector<double> vectorXYPoints;
         while(!pPoints.empty()){
             vectorXYPoints.push_back(stoi(pPoints.substr(0, pPoints.find(" "))));
@@ -122,17 +122,31 @@ public:
         }
     }
 
-    vector<vector<double>> selectCurveRange(string pPath){
+    vector<vector<double>> selectPathRange(string pPath){
         vector<vector<double>> solution;
+        vector<string>pathCommands={"Cc","Ll","Hh","Vv"};
+        string tempPath;
         int commandPosition;
-        while(commandPosition!=std::string::npos){
-            commandPosition=pPath.find_first_of("Cc");
-            pPath.erase(0,commandPosition+2);
-            commandPosition=pPath.find_first_of("ZzCcLlHhVvSsQqTtAa");
-            selectCurvePoints(&solution,pPath.substr(0,commandPosition));
-            pPath.erase(0,commandPosition+2);
-            commandPosition=pPath.find_first_of("Cc");
+        for(int position=0;position<pathCommands.size();position++){
+                tempPath=pPath;
+                commandPosition=tempPath.find_first_of(pathCommands[position]);
+            while(commandPosition!=std::string::npos){
+                tempPath.erase(0,commandPosition+2);
+                commandPosition=tempPath.find_first_of("ZzCcLlHhVvSsQqTtAa");
+                if(pathCommands[position]=="Hh"){
+                    selectPathPoints(&solution,tempPath.substr(0,commandPosition).append("0"));
+                }
+                else if(pathCommands[position]=="Vv"){
+                    selectPathPoints(&solution,"0 "+tempPath.substr(0,commandPosition));
+                }
+                else{
+                    selectPathPoints(&solution,tempPath.substr(0,commandPosition));
+                }
+                tempPath.erase(0,commandPosition);
+                commandPosition=tempPath.find_first_of(pathCommands[position]);
+            }
         }
+
         return solution;
     }
 
@@ -195,7 +209,7 @@ public:
             string pathValue=pNode->first_attribute("d")->value();
             double pathXValue, pathYValue;
             getMoveValues(pathXValue,pathYValue,pathValue);
-            Path* newPath=new Path(pathXValue,pathYValue,selectCurveRange(pathValue));
+            Path* newPath=new Path(pathXValue,pathYValue,selectPathRange(pathValue));
         }
     }
 
