@@ -254,7 +254,6 @@ void readFile(SVG& svg,file<> file,xml_document<>* myDocument){
     //myDocument.parse<0>(file.data());
     //extractXMLData(myDocument);
 
-
 }
 
 void saveFile(string fileName, xml_document<>* myDoc){
