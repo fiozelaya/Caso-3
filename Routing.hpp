@@ -25,6 +25,7 @@ public:
 
     }
     void route(vector<Element*> pVector, int pFrames, double pDegrees, int pHeight, int pWidth){
+        cout << "entrando" << endl;
         bool rect;
         for (int i = 0; i < pVector.size(); i++){
             if (rand() % 2 == 0){
@@ -33,18 +34,23 @@ public:
             else{
                 rect = false;
             }
-            pVector.at(i)->setRect(false);
+            pVector.at(i)->setRect(rect);
+            cout << rect << endl;
 
             if(pDegrees <= 90){ //I cuadrante
+            cout << "90 degrees " << pVector.at(i)->getAttribute() << endl;
                 determinePoints90(pVector.at(i), pWidth, pDegrees, pFrames);
             }
             else if (pDegrees > 90 && pDegrees <= 180){ //II cuadrante
+            cout << "180 degrees" << endl;
                 determinePoints180(pVector.at(i), pDegrees, pFrames);
             }
             else if (pDegrees > 180 && pDegrees <= 270){ //III cuadrante
+            cout << "270 degrees" << endl;
                 determinePoints270(pVector.at(i), pHeight, pDegrees, pFrames);
             }
             else{ //IV cuadrante
+            cout << "360 degrees" << endl;
                 determinePoints360(pVector.at(i), pWidth, pHeight, pDegrees, pFrames);
             }
 

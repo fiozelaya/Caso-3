@@ -20,9 +20,9 @@ public:
 
     }
     void notify(void* pCode){
-        cout << "seleccion" << endl;
+        //cout << "seleccion" << endl;
          //int value = *(int*)pCode;
-        //cout<<value;
+        ////cout<<value;
         // for (Observer* actual : elementsList) {
         //     thread t(&Observer::update, actual, pCode); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
         //     t.join(); // espere a que t termine
@@ -48,7 +48,7 @@ public:
         int r, g, b;
         sscanf(pHexColor, "#%02x%02x%02x", &r, &g, &b);
         //notify(cursoPointer);
-        //std::cout << r << ',' << g << ',' << b<<endl;
+        //std:://cout << r << ',' << g << ',' << b<<endl;
         return {r,g,b};
     }
 
@@ -58,9 +58,9 @@ public:
 
     void setSelectedElements(vector<Element*> pNewSelectedElements){
         selectedElements = pNewSelectedElements;
-        cout << "imprimiendo vector..." << endl;
+        //cout << "imprimiendo vector..." << endl;
         for (int i = 0; i < selectedElements.size(); i++){
-            cout << selectedElements[i]->getAttribute() << " " << selectedElements[i]->getXCoord() << " " << selectedElements[i]->getYCoord() << endl;
+            //cout << selectedElements[i]->getAttribute() << " " << selectedElements[i]->getXCoord() << " " << selectedElements[i]->getYCoord() << endl;
         }
     }
 
@@ -99,10 +99,10 @@ public:
     //     int commandPosition;
     //     commandPosition=pPath.find_first_of("Mm");
     //     pPath.erase(0,commandPosition+1);
-    //     cout << pPath.substr(0,pPath.find(" ")) << endl;
+    //     //cout << pPath.substr(0,pPath.find(" ")) << endl;
     //     //pXvalue=stod(pPath.substr(0,pPath.find(" ")));
     //     pPath.erase(0,pPath.find(" ")+1);
-    //     cout << pPath.substr(0,pPath.find(" ")) << endl;
+    //     //cout << pPath.substr(0,pPath.find(" ")) << endl;
     //     //pYValue=stod(pPath.substr(0,pPath.find(" ")));
     // }
 
@@ -148,7 +148,7 @@ public:
 
     void selectPathPoints(vector<vector<double>>* pAllPoints, string pPoints){
         vector<double> vectorXYPoints;
-        cout<<pPoints<<endl<<endl;
+        //cout<<pPoints<<endl<<endl;
         while(!pPoints.empty()){
             vectorXYPoints.push_back(stoi(pPoints.substr(0, pPoints.find(","))));
             pPoints.erase(0,pPoints.find(",")+1);
@@ -225,7 +225,7 @@ public:
         if(string(pNode->name())=="circle"){
             Circle* newCircle=new Circle(atof(pNode->first_attribute("r")->value()), atof(pNode->first_attribute("cx")->value()),atof(pNode->first_attribute("cy")->value()),
                                         pMatchColor);
-            cout << "EL CIRCULO: " << newCircle->getXCoord() << " " << newCircle->getYCoord() << pNode->first_attribute("r")->value() << endl;
+            //cout << "EL CIRCULO: " << newCircle->getXCoord() << " " << newCircle->getYCoord() << pNode->first_attribute("r")->value() << endl;
             for(int position=0;position<pPositions.size();position++){
                 if(newCircle->findMatchPosition(pPositions[position][0],pPositions[position][1])){
                     pSVG->setElement(newCircle);
@@ -276,7 +276,7 @@ public:
         else if(string(pNode->name())=="line"){
             Line* newLine=new Line(atof(pNode->first_attribute("y1")->value()),atof(pNode->first_attribute("x1")->value()),
                                          atof(pNode->first_attribute("x2")->value()),atof(pNode->first_attribute("y2")->value()),pMatchColor);
-            cout << newLine->getXCoord() << " " << newLine->getYCoord() << " " << newLine->getFinalXCoord() << " " << newLine->getFinalYCoord() << endl;
+            //cout << newLine->getXCoord() << " " << newLine->getYCoord() << " " << newLine->getFinalXCoord() << " " << newLine->getFinalYCoord() << endl;
             for(int position=0;position<pPositions.size();position++){
                 if(newLine->findMatchPosition(pPositions[position][0],pPositions[position][1])){
                     pSVG->setElement(newLine);
@@ -302,59 +302,59 @@ public:
     bool matchColor(string pInputColor, string pElementColor){
 
         vector<int> inputColor=colorConverterHexToRBG(pInputColor.c_str()),elementColor=colorConverterHexToRBG(pElementColor.c_str());
-        //cout<<inputColor[0]<<","<<inputColor[1]<<","<<inputColor[2]<<endl;
-        //cout<<elementColor[0]<<","<<elementColor[1]<<","<<elementColor[2]<<endl<<endl;
+        ////cout<<inputColor[0]<<","<<inputColor[1]<<","<<inputColor[2]<<endl;
+        ////cout<<elementColor[0]<<","<<elementColor[1]<<","<<elementColor[2]<<endl<<endl;
 
         if(inputColor[0]==elementColor[0]&&inputColor[1]==elementColor[1]&&inputColor[2]==elementColor[2]){
-            cout<<"IGUALES" << endl;
+            //cout<<"IGUALES" << endl;
             return true;
         }
         else if(inputColor[0]>=50&&inputColor[0]<=255&&elementColor[0]>=50&&elementColor[0]<=255&&inputColor[1]>=0&&inputColor[1]<=190&&elementColor[1]>=0&&elementColor[1]<=190&&
            inputColor[2]>=0&&inputColor[2]<=190&&elementColor[2]>=0&&elementColor[2]<=190){
-            cout<<"ROJO" << endl;
+            //cout<<"ROJO" << endl;
             return true;
         }
         else if(inputColor[0]>=170&&inputColor[0]<=255&&elementColor[0]>=170&&elementColor[0]<=255&&inputColor[1]>=50&&inputColor[1]<=190&&
                 elementColor[1]>=50&&elementColor[1]<=190&&inputColor[2]>=0&&inputColor[2]<=80&&elementColor[2]>=0&&elementColor[2]<=80){
-            cout<<"NARANJA" << endl;
+            //cout<<"NARANJA" << endl;
             return true;
         }
         else if(inputColor[0]>=170&&inputColor[0]<=255&&elementColor[0]>=170&&elementColor[0]<=255&&inputColor[1]>=160&&inputColor[1]<=255&&
                 elementColor[1]>=160&&elementColor[1]<=255&&inputColor[2]>=0&&inputColor[2]<=190&&elementColor[2]>=0&&elementColor[2]<=190){
-            cout<<"AMARILLO" << endl;
+            //cout<<"AMARILLO" << endl;
             return true;
         }
         else if(inputColor[0]>=0&&inputColor[0]<=200&&elementColor[0]>=0&&elementColor[0]<=200&&inputColor[1]>=170&&inputColor[1]<=255&&elementColor[1]>=170&&
                 elementColor[1]<=255&&inputColor[2]>=0&&inputColor[2]<=190&&elementColor[2]>=0&&elementColor[2]<=190){
-            cout<<"VERDE" << endl;
+            //cout<<"VERDE" << endl;
             return true;
         }
         else if(inputColor[0]>=0&&inputColor[0]<=200&&elementColor[0]>=0&&elementColor[0]<=200&&inputColor[1]>=0&&inputColor[1]<=250&&
                 elementColor[1]>=0&&elementColor[1]<=250&&inputColor[2]>=140&&inputColor[2]<=255&&elementColor[2]>=140&&elementColor[2]<=255||
                 inputColor[0]>=150&&inputColor[0]<=255&&elementColor[0]>=150&&elementColor[0]<=255&&inputColor[1]>=0&&inputColor[1]<=90&&
                 elementColor[1]>=0&&elementColor[1]<=90&&inputColor[2]>=90&&inputColor[2]<=255&&elementColor[2]>=90&&elementColor[2]<=255){
-            cout<<"AZUL" << endl;
+            //cout<<"AZUL" << endl;
             return true;
         }
         else if(inputColor[0]>=80&&inputColor[0]<=150&&elementColor[0]>=80&&elementColor[0]<=150&&inputColor[1]>=25&&inputColor[1]<=50&&
                 elementColor[1]>=25&&elementColor[1]<=50&&inputColor[2]==0&&elementColor[2]==0){
-            cout<<"CAFE" << endl;
+            //cout<<"CAFE" << endl;
             return true;
         }
         else if(inputColor[0]>=0&&inputColor[0]<=230&&elementColor[0]>=0&&elementColor[0]<=230&&inputColor[1]>=0&&inputColor[1]<=230&&
                 elementColor[1]>=0&&elementColor[1]<=230&&inputColor[2]>=0&&inputColor[2]<=230&&elementColor[2]>=0&&elementColor[2]<=230
                 &&inputColor[0]==elementColor[0]&&inputColor[1]==elementColor[1]&&inputColor[2]==elementColor[2]){
-            cout<<"GRIS" << endl;
+            //cout<<"GRIS" << endl;
             return true;
         }
         else if(inputColor[0]>=230&&inputColor[0]<=250&&elementColor[0]>=230&&elementColor[0]<=250&&inputColor[1]>=230&&inputColor[1]<=250&&
                 elementColor[1]>=230&&elementColor[1]<=250&&inputColor[2]>=230&&inputColor[2]<=250&&elementColor[2]>=230&&elementColor[2]<=250
                 &&inputColor[0]==elementColor[0]&&inputColor[1]==elementColor[1]&&inputColor[2]==elementColor[2]){
-            cout<<"BLANCO" << endl;
+            //cout<<"BLANCO" << endl;
             return true;
         }
         else{
-            cout<<"NO HAY MATCH" << endl;
+            //cout<<"NO HAY MATCH" << endl;
             return false;
         }
 
@@ -365,25 +365,25 @@ public:
         for (node = node->first_node(); node != NULL; node = node->next_sibling()){
         if (node->type() == node_element){
                 for(int position=0;position<pColors.size();position++){
-                    cout << "entra al for" << endl;
+                    //cout << "entra al for" << endl;
                     if(node->first_attribute("fill")){
                         if(matchColor(pColors[position],node->first_attribute("fill")->value())){
-                            cout<<"MATCHED COLOR: "<<node->first_attribute("fill")->value()<<endl << endl;
+                            //cout<<"MATCHED COLOR: "<<node->first_attribute("fill")->value()<<endl << endl;
                             matchPosition(node,pColors,pPositions,pColors[position],pSVG);
                         }
                     }
                     else if(node->first_attribute("stroke")){
                         if(matchColor(pColors[position],node->first_attribute("fill")->value())){
-                            cout<<"MATCHED COLOR" << endl;
+                            //cout<<"MATCHED COLOR" << endl;
                             matchPosition(node,pColors,pPositions,pColors[position],pSVG);
                         }
                     }
                     else if(node->first_attribute("style")){
-                        cout << "style" << endl; 
+                        //cout << "style" << endl; 
                         string styleValue=node->first_attribute("style")->value();
                         string hexColor=styleValue.substr(styleValue.find_first_of("#"),styleValue.find_first_of(";")-styleValue.find_first_of("#"));
                         if(matchColor(pColors[position],hexColor)){
-                            cout<<"MATCHED COLOR";
+                            //cout<<"MATCHED COLOR";
                             matchPosition(node,pColors,pPositions,pColors[position],pSVG);
                         }
                     }
@@ -408,9 +408,9 @@ public:
     }
 
     void update(){
-        cout<<"Nuevo elemento fue seleccionado\n";
+        //cout<<"Nuevo elemento fue seleccionado\n";
         Routing* newRouting=new Routing();
-        //cout<<subject->getSelectedElements().size();
+        ////cout<<subject->getSelectedElements().size();
         newRouting->start(subject->getSelectedElements());
     }
 };*/

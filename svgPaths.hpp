@@ -326,13 +326,8 @@ class Path:public Element{
             newY.erase( newY.find_last_not_of('0') + 1, std::string::npos );
             newY.erase( newY.find_last_not_of('.') + 1, std::string::npos );
 
-            cout << mIndex << " " << separatorIndex << " " << finalIndex << endl;
-            cout << attributeD << endl;
             attributeD.replace(separatorIndex+1, finalIndex-1-separatorIndex, newY);
-            cout << attributeD << endl;
-            attributeD.replace(mIndex + 1, separatorIndex-1, newX);
-            cout << attributeD << endl;
-            
+            attributeD.replace(mIndex + 1, separatorIndex-1, newX);            
 
             cout << attributeD << endl;
 
@@ -347,8 +342,8 @@ class Path:public Element{
 };
 
 bool Path::findMatchPosition(double pXValue, double pYValue){
-    cout << "entrando a fund match..." << endl;
-    cout << "size: " << curvePositions.size() << endl;
+    // cout << "entrando a fund match..." << endl;
+    // cout << "size: " << curvePositions.size() << endl;
     if(curvePositions.size() == 0){
         return false;
     }
@@ -360,7 +355,7 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
         maxXValue=((curvePositions[posicion][0]>maxXValue)?curvePositions[posicion][0]:maxXValue);
         minXValue=((curvePositions[posicion][0]<minXValue)?curvePositions[posicion][0]:minXValue);
 
-        cout << curvePositions[posicion][0] << " // " << curvePositions[posicion][1] << endl;
+        //cout << curvePositions[posicion][0] << " // " << curvePositions[posicion][1] << endl;
     }
     if((pXValue>=minXValue)&&(pXValue<=maxXValue)&&(pYValue>=minYValue)&&(pYValue<=maxYValue)){
         return true;
@@ -387,8 +382,8 @@ class SVG{
         void setFrames(int pNewFrames){frames = pNewFrames;};
         void setDegrees(int pNewDegrees){degrees = pNewDegrees;};
         void setDoc(xml_document<> *pNewDocument){document = pNewDocument;};
-        double getHeight(){return height;};
-        double getWidth(){return width;};
+        double getHeight(){cout << height; return height;};
+        double getWidth(){cout << width; return width;};
         int getFrames(){return frames;};
         int getDegrees(){return degrees;};
         xml_document<>* getDoc(){return document;};

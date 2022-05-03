@@ -6,6 +6,7 @@ Ericka Yu Min Guo Chen
 
 */
 
+
 #include "rapidxml/rapidxml_ext.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 #include <iostream>
@@ -100,11 +101,14 @@ int main()
     file<> file("Images/passenger-1.svg");
     document.parse<0>(file.data());
     if(document.first_node()->first_attribute("height")){
-        svgDetails.setHeight(atof(document.first_node()->first_attribute("height")->value()));
+        double height = stod(document.first_node()->first_attribute("height")->value());
+        svgDetails.setHeight(height);
     }
     if(document.first_node()->first_attribute("width")){
-        svgDetails.setHeight(atof(document.first_node()->first_attribute("width")->value()));
+        double width = stod(document.first_node()->first_attribute("width")->value());
+        svgDetails.setWidth(width);
     }
+    cout << svgDetails.getHeight() << " " << svgDetails.getWidth() << endl;
     svgDetails.setDoc(&document);
     
     vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800"};

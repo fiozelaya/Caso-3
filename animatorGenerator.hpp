@@ -15,6 +15,7 @@ private:
     Routing* routing;
     Generation* generation;
     SVG svg;
+    xml_document<> myDoc;
     string hola;
 
 public:
@@ -26,7 +27,7 @@ public:
 
     void setSelection(Selection* newSelection){
         selection=newSelection;
-        selection->prueba();
+        //selection->prueba();
     }
 
     void setRouting(Routing* newRouting){
@@ -50,13 +51,16 @@ public:
 
     void start(xml_node<>* pNode, vector<string> pColors, vector<vector<double>> pPositions, SVG &pSVGdetails){
         svg = pSVGdetails;
+
+        
+
         selection->seleccion(pNode,pColors,pPositions,&pSVGdetails);
         int code = 1;
         int* codePointer = &code;
         selection->setSelectedElements(pSVGdetails.getVectorElements());
         selection->notify(codePointer);
-        // code = 2;
-        // routing->notify(codePointer);
+        code = 2;
+        routing->notify(codePointer);
         // code = 0;
         // generation->notify(codePointer);
     }
@@ -71,11 +75,11 @@ public:
         }
         else if (value == 1){
             cout << "Iniciar enrutamiento..." << endl;
-            //routing->route(selection->getSelectedElements(), svg.getFrames(), svg.getDegrees(), svg.getHeight(), svg.getWidth());
+            routing->route(selection->getSelectedElements(), svg.getFrames(), svg.getDegrees(), svg.getHeight(), svg.getWidth());
         }
         else if (value == 2){
             cout << "Iniciar generacion..." << endl;
-            //generation->start(svg.getDoc(), svg.getVectorElements(), svg.getFrames());
+            generation->start(selection->getSelectedElements(), svg.getFrames());
         }
     }
 

@@ -85,7 +85,6 @@ void firstQuadrant(Element* &pElement, int pLastX, int pLastY, int pWidth, doubl
     if(pElement->getMovements2().size() >= frames){
         return;
     }
-
     if (!pElement->isRect()){ //si es linea curva, se modifica el angulo que debe ser usado
         int finalDegrees = pDegrees + (frames / 4); //grados en los que tiene que empezar a "devolverse" para construir la curva
         lastDegrees++;
@@ -94,7 +93,6 @@ void firstQuadrant(Element* &pElement, int pLastX, int pLastY, int pWidth, doubl
             actualDegrees = (finalDegrees + 1 - (lastDegrees - finalDegrees));
         }
     }
-
     while (auxDisplacement < 10){ //se modifica el desplazamiento para que sea significativo
         auxDisplacement += displacement;
         pElement->addMovement(pLastX, pLastY);
@@ -123,7 +121,6 @@ void firstQuadrant(Element* &pElement, int pLastX, int pLastY, int pWidth, doubl
             pElement->addMovement(newX, newY);
         }
     }
-
     //lamada recursiva
     firstQuadrant(pElement, newX, newY, pWidth, pDegrees, lastDegrees);
 }
@@ -286,6 +283,7 @@ void fourthQuadrant(Element* &pElement, int pLastX, int pLastY, int pHeight, int
 }
 
 void determinePoints90(Element* &pElement, int pWidth, double pDegrees, int pFrames){
+    cout << pWidth << " " << pDegrees << " " << pFrames << endl;
     double pX = pElement->getXCoord(), pY = pElement->getYCoord();
     double finalX = pWidth - pX, finalY, hypotenuse, displacement;
     double tangentOfAngle = tan(pDegrees * (M_PI/180));
@@ -317,6 +315,8 @@ void determinePoints90(Element* &pElement, int pWidth, double pDegrees, int pFra
     pElement->setFinalYCoord(finalY);
     displacement = hypotenuse / pFrames;
     pElement->setDisplacement(displacement);
+
+    cout << displacement << " - " << hypotenuse;
 
     if (pElement->getAttribute() == "line"){
         pElement->setAttribute("none");
