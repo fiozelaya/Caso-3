@@ -143,7 +143,7 @@ class Ellipse:public Element{
         double getYRadio(){return yRadio;};
         bool findMatchPosition(double pXValue, double pYValue);
 
-        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+        void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
             myDoc->first_node()->append_node(newNode);
             xml_attribute<> *cx = myDoc->allocate_attribute("cx", to_string(coordX).c_str());
@@ -267,7 +267,7 @@ class Line:public Element{
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
 
-        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+        void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
             myDoc->first_node()->append_node(newNode);
             xml_attribute<> *x1 = myDoc->allocate_attribute("x1", to_string(coordX).c_str());
@@ -295,14 +295,55 @@ bool Line::findMatchPosition(double pXValue, double pYValue){
 
 class Path:public Element{
     private:
+        string attributeD;
         vector<vector<double>>curvePositions;
     public:
         Path(){Element::attribute = "path";};
         Path(double pNewXMove, double pNewYMove, vector<vector<double>>pNewCurvePositions){Element::setXCoord(pNewXMove);Element::setYCoord(pNewYMove);
         curvePositions=pNewCurvePositions; Element::attribute = "path";};
         void setCurvePositions(vector<double> pNewCurvePosition){curvePositions.push_back(pNewCurvePosition);};
+        void setAttributeD(string newAttributeD){attributeD = newAttributeD;};
         vector<vector<double>> getCurvePositions(){return curvePositions;};
+        string getAttributeD(){return attributeD;};
         bool findMatchPosition(double pXValue, double pYValue);
+        void createSVGAttribute(xml_document<> *myDoc){
+            
+            int mIndex = attributeD.find_first_of('m');
+            if (mIndex == -1 ){mIndex = attributeD.find_first_of('M');}
+            int separatorIndex = attributeD.find_first_of(',');
+            int finalIndex = attributeD.find_first_not_of(" m1234567890.,") -1;
+
+            // double newXValue = stod(attributeD.substr(mIndex+1, separatorIndex - 1));
+            // double newYValue = stod(attributeD.substr(separatorIndex + 1, finalIndex));
+
+            double newXValue = Element::coordX;
+            double newYValue = Element::coordY;
+
+            string newX = to_string(newXValue);
+            newX.erase( newX.find_last_not_of('0') + 1, std::string::npos );
+            newX.erase( newX.find_last_not_of('.') + 1, std::string::npos );
+            string newY = to_string(newYValue);
+            newY.erase( newY.find_last_not_of('0') + 1, std::string::npos );
+            newY.erase( newY.find_last_not_of('.') + 1, std::string::npos );
+
+            cout << mIndex << " " << separatorIndex << " " << finalIndex << endl;
+            cout << attributeD << endl;
+            attributeD.replace(separatorIndex+1, finalIndex-1-separatorIndex, newY);
+            cout << attributeD << endl;
+            attributeD.replace(mIndex + 1, separatorIndex-1, newX);
+            cout << attributeD << endl;
+            
+
+            cout << attributeD << endl;
+
+            // xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
+            // myDoc->first_node()->append_node(newNode);
+            // xml_attribute<> *d = myDoc->allocate_attribute("d", attributeD.c_str());
+            // newNode->append_attribute(d);
+            //  xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+            // newNode->append_attribute(fill);
+
+        }
 };
 
 bool Path::findMatchPosition(double pXValue, double pYValue){
@@ -327,6 +368,8 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
     else{
         return false;
     }
+
+    
 }
 
 class SVG{

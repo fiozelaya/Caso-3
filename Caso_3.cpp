@@ -73,7 +73,7 @@ int main()
 
     */
 
-
+   
    
    int frames = 20;
    int degrees = 20;
@@ -113,7 +113,18 @@ int main()
 
     
 
-    
+    /*
+   string attributeD = "m 459.976, 646.99 c 7.263,0 13.189,5.924 13.189,13.19 0,7.266 -5.926,13.192 -13.189,13.192 -7.269,0 -13.195,-5.926 -13.195,-13.192 0,-7.266 5.926,-13.19 13.195,-13.19";
+
+    Path *newPath = new Path();
+    newPath->setAttributeD(attributeD);
+    newPath->setXCoord(200.23);
+    newPath->setYCoord(100.567);
+
+    newPath->createSVGAttribute(nullptr);
+
+    */
+
 
     return 0;
 }

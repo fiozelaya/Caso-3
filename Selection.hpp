@@ -289,6 +289,7 @@ public:
             double pathXValue, pathYValue;
             getMoveValues(pathXValue,pathYValue,pathValue);
             Path* newPath=new Path(pathXValue,pathYValue,selectPathRange(pathValue));
+            newPath->setAttributeD(pathValue);
             for(int position=0;position<pPositions.size();position++){
                 if(newPath->findMatchPosition(pPositions[position][0],pPositions[position][1])){
                     pSVG->setElement(newPath);

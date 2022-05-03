@@ -98,11 +98,6 @@
              //     xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
 
              // }
-             // else if (attribute == "path"){
-             //     xml_attribute<> *d = myDoc->allocate_attribute("d", "5");
-             //     xml_attribute<> *fill = myDoc->allocate_attribute("fill", "5");
-
-             // }
             
          }
      }
