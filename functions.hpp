@@ -157,7 +157,7 @@ void matchPosition(xml_node<>* pNode, vector<string>pColors, vector<vector<doubl
         string pathValue=pNode->first_attribute("d")->value();
         double pathXValue, pathYValue;
         getMoveValues(pathXValue,pathYValue,pathValue);
-        Path* newPath=new Path(pathXValue,pathYValue,selectCurveRange(pathValue));
+        Path* newPath=new Path(pathXValue,pathYValue,selectCurveRange(pathValue),pMatchColor);
     }
 }
 

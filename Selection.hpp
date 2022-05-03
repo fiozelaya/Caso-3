@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <list>
+#include <vector>
 class Selection: public Subject{
 private:
     Observer* animator;
@@ -288,7 +289,7 @@ public:
             string pathValue=pNode->first_attribute("d")->value();
             double pathXValue, pathYValue;
             getMoveValues(pathXValue,pathYValue,pathValue);
-            Path* newPath=new Path(pathXValue,pathYValue,selectPathRange(pathValue));
+            Path* newPath=new Path(pathXValue,pathYValue,selectPathRange(pathValue),pMatchColor);
             newPath->setAttributeD(pathValue);
             for(int position=0;position<pPositions.size();position++){
                 if(newPath->findMatchPosition(pPositions[position][0],pPositions[position][1])){
@@ -379,7 +380,7 @@ public:
                         }
                     }
                     else if(node->first_attribute("style")){
-                        cout << "style" << endl; 
+                        cout << "style" << endl;
                         string styleValue=node->first_attribute("style")->value();
                         string hexColor=styleValue.substr(styleValue.find_first_of("#"),styleValue.find_first_of(";")-styleValue.find_first_of("#"));
                         if(matchColor(pColors[position],hexColor)){
