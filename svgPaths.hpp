@@ -2,7 +2,7 @@
 #define __SVG_PATHS_HEADER__
 
 #include <math.h>
-
+#include <vector>
 class Element{
     protected:
         double coordX, coordY, coordX2, coordY2, side, area, finalCoordX, finalCoordY, hypotenuse, displacement;
@@ -217,7 +217,7 @@ class Polygon:public Element{
         vector<vector<double>> xyCoords;
     public:
         Polygon(){Element::attribute = "polygon";};
-        Polygon(vector<vector<double>> newCoords,string pColor){xyCoords=newCoords; Element::setColor(pColor); Element::attribute = "polygon";};
+        Polygon(vector<vector<double>> pNewCoords,string pColor){xyCoords=pNewCoords; Element::setColor(pColor); Element::attribute = "polygon";};
         Polygon(vector<vector<double>> pNewCoords){xyCoords=pNewCoords;Element::attribute = "polygon";};
         void setXYCoord(vector<double> pNewxyCoords){xyCoords.push_back(pNewxyCoords);};
         vector<vector<double>> getXYCoord(){return xyCoords;};
@@ -263,7 +263,7 @@ class Line:public Element{
         endXValue=newEndXValue;endYValue=newEndYValue; Element::setColor(pColor); Element::attribute = "line";};
         Line(double pNewYCoord, double pNewXCoord, double pNewEndXValue,double pNewEndYValue){Element::coordX=pNewYCoord; Element::coordY=pNewXCoord;
         endXValue=pNewEndXValue;endYValue=pNewEndYValue; Element::attribute = "line";};
-        bool findMatchPosition(double pXValue, double pYValue); 
+        bool findMatchPosition(double pXValue, double pYValue);
         /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
         +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
 
@@ -299,15 +299,15 @@ class Path:public Element{
         vector<vector<double>>curvePositions;
     public:
         Path(){Element::attribute = "path";};
-        Path(double pNewXMove, double pNewYMove, vector<vector<double>>pNewCurvePositions){Element::setXCoord(pNewXMove);Element::setYCoord(pNewYMove);
-        curvePositions=pNewCurvePositions; Element::attribute = "path";};
+        Path(double pNewXMove, double pNewYMove, vector<vector<double>>pNewCurvePositions,string pColor){Element::setXCoord(pNewXMove);Element::setYCoord(pNewYMove);
+        curvePositions=pNewCurvePositions; Element::attribute = "path"; Element::color=pColor;};
         void setCurvePositions(vector<double> pNewCurvePosition){curvePositions.push_back(pNewCurvePosition);};
         void setAttributeD(string newAttributeD){attributeD = newAttributeD;};
         vector<vector<double>> getCurvePositions(){return curvePositions;};
         string getAttributeD(){return attributeD;};
         bool findMatchPosition(double pXValue, double pYValue);
         void createSVGAttribute(xml_document<> *myDoc){
-            
+
             int mIndex = attributeD.find_first_of('m');
             if (mIndex == -1 ){mIndex = attributeD.find_first_of('M');}
             int separatorIndex = attributeD.find_first_of(',');
@@ -348,7 +348,7 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
         return false;
     }
     double maxYValue=curvePositions[0][1], maxXValue=curvePositions[0][0], minYValue=curvePositions[0][1], minXValue=curvePositions[0][0];
-    
+
     for(int posicion=1;posicion<curvePositions.size();posicion++){
         maxYValue=((curvePositions[posicion][1]>maxYValue)?curvePositions[posicion][1]:maxYValue);
         minYValue=((curvePositions[posicion][1]<minYValue)?curvePositions[posicion][1]:minYValue);
@@ -364,7 +364,7 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
         return false;
     }
 
-    
+
 }
 
 class SVG{
