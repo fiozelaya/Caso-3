@@ -384,8 +384,8 @@ class SVG{
         void setFrames(int pNewFrames){frames = pNewFrames;};
         void setDegrees(int pNewDegrees){degrees = pNewDegrees;};
         void setDoc(xml_document<> *pNewDocument){document = pNewDocument;};
-        double getHeight(){cout << height; return height;};
-        double getWidth(){cout << width; return width;};
+        double getHeight(){return height;};
+        double getWidth(){return width;};
         int getFrames(){return frames;};
         int getDegrees(){return degrees;};
         xml_document<>* getDoc(){return document;};

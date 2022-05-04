@@ -78,6 +78,8 @@ int main()
    
    int frames = 20;
    int degrees = 20;
+   double height;
+   double width;
 
    AnimatorGenerator *animator = new AnimatorGenerator();
    Selection *selection = new Selection();
@@ -101,14 +103,35 @@ int main()
     file<> file("Images/passenger-1.svg");
     document.parse<0>(file.data());
     if(document.first_node()->first_attribute("height")){
-        double height = stod(document.first_node()->first_attribute("height")->value());
+        height = stod(document.first_node()->first_attribute("height")->value());
         svgDetails.setHeight(height);
     }
     if(document.first_node()->first_attribute("width")){
-        double width = stod(document.first_node()->first_attribute("width")->value());
+        width = stod(document.first_node()->first_attribute("width")->value());
         svgDetails.setWidth(width);
     }
-    cout << svgDetails.getHeight() << " " << svgDetails.getWidth() << endl;
+
+    if((int)svgDetails.getHeight() == 0 || (int)svgDetails.getWidth() == 0){
+        string viewBox = document.first_node()->first_attribute("viewBox")->value();
+        string viewBoxParameter[4];
+        int i = 0;
+        stringstream ssin(viewBox);
+        while (ssin.good() && i < 4){
+            ssin >> viewBoxParameter[i];
+            ++i;
+        }
+        for(i = 0; i < 4; i++){
+            cout << viewBoxParameter[i] << endl;
+        }
+        height = stod(viewBoxParameter[2]);
+        width = stod(viewBoxParameter[3]);
+        svgDetails.setHeight(height);
+        svgDetails.setWidth(width);
+        
+    }
+
+    cout << height << " /// " << width << endl;
+    cout << (int)svgDetails.getHeight() << " /// " << (int)svgDetails.getWidth() << endl;
     svgDetails.setDoc(&document);
     
     vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800"};

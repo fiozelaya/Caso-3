@@ -51,9 +51,7 @@ public:
 
     void start(xml_node<>* pNode, vector<string> pColors, vector<vector<double>> pPositions, SVG &pSVGdetails){
         svg = pSVGdetails;
-
-        
-
+        cout << "seleccion" << endl;
         selection->seleccion(pNode,pColors,pPositions,&pSVGdetails);
         int code = 1;
         int* codePointer = &code;

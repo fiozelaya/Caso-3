@@ -389,6 +389,7 @@ public:
                         }
                     }
             }
+            cout << "función 2" << endl;
             seleccion(node,pColors,pPositions,pSVG);
         }
       }
