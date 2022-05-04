@@ -36,8 +36,7 @@
 
      void initDocument(){
          
-         file<> file("Images/passenger-1.svg");
-         Generation::myDoc.parse<0>(file.data());
+         
      }
 
      /*
@@ -64,9 +63,6 @@
                 cout << currentElement->getAttribute() << endl;
                 vector<vector<int>> movimientos = currentElement->getMovements();
 
-                //newX = currentElement->getMovements()[currentFrame][0]; // se agarra el elemento j de la lista, y se le asigna la coordenada x del punto currentFrame (frame) de la lista de movimientos
-                //newY = currentElement->getMovements()[currentFrame][1]; // se agarra el elemento j de la lista, y se le asigna la coordenada y del punto i (frame) de la lista de movimientos
-
                 newX = currentElement->getMovements().at(currentFrame).at(0); // se agarra el elemento j de la lista, y se le asigna la coordenada x del punto currentFrame (frame) de la lista de movimientos
                 newY = currentElement->getMovements().at(currentFrame).at(1); // se agarra el elemento j de la lista, y se le asigna la coordenada y del punto i (frame) de la lista de movimientos
 
@@ -82,17 +78,17 @@
                     currentElementPointer = 0;
                     currentFrame++;
                     Generation::createAnotherSVG = true;
-                    //initDocument();
-                    //generation();
+                    // initDocument();
+                    generation();
                     cout << "agregando aqueue" << endl;
-                    queueOfElements.push(*currentElement); //push a la cola de eventos
+                    //queueOfElements.push(*currentElement); //push a la cola de eventos
                     cout << "limite" << endl;
                     continue;
                 }
                 else{
                     currentElementPointer++;
-                    //generation();
-                    queueOfElements.push(*currentElement); //push a la cola de eventos
+                    generation();
+                    //queueOfElements.push(*currentElement); //push a la cola de eventos
                     continue;
                 }
 
@@ -112,30 +108,29 @@
         //  file<> file("Images/passenger-1.svg");
         //  myDoc.parse<0>(file.data());
 
-        cout << createAnotherSVG << endl;
+        cout << "bandera: " << createAnotherSVG << endl;
         string attribute = "";
         //añadir el elemento al del archivo svg actual
 
         currentElement->createSVGAttribute(&myDoc);
+
         if (createAnotherSVG){
-             cout << "crear" << endl;
              string fileName = "svg";
-             cout << "crear" << endl;
              fileName.append(to_string(currentFrame));
-             cout << "crear" << endl;
              fileName.append(".xml");
-             cout << "crear" << endl;
              fileName = "svg/" + fileName;
-             cout << "crear" << endl;
+
              ofstream theNewFile(fileName); //Crea el archivo en la ubicación indicada
              stringstream ss;
              ss << *myDoc.first_node(); //Convierte el árbol DOM en un stringstream
-             cout << "crear" << endl;
              string stringXML = ss.str(); //Convierte de stringstream a string
-             cout << "crear" << endl;
              theNewFile << stringXML; //Escribe el string en el archivo
-             cout << "crear" << endl;
              theNewFile.close();
+             cout << "crear" << endl;
+
+            //  string strXML;
+            // print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable
+            // cout << strXML << endl;
 
              createAnotherSVG = false;
          }
@@ -147,25 +142,41 @@
              //sleep(4);
              if(!queueOfElements.empty()){
                  cout << "entro al queue" << endl;
-                 generation();
+                 Generation::generation();
                  queueOfElements.pop();
              }
              if(currentFrame == -1){
+                 cout << "stop while" << endl;
                  break;
              }
 
          }
      }
 
+     void extractXMLData(xml_document<>* doc){
+        xml_node<>* node = doc->first_node();
+
+        cout << "Etiqueta: " << node->name() << endl;
+        for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
+            cout << " Atributo: " << attrib->name() << endl;
+            cout << "\tValor: " << attrib->value() << endl;
+        }
+     }
+
      void start(vector<Element*> pElementsList, int pFrames){
          //Declarando los hilos
          //thread hilo1(productor);
-         thread thread1(&consumer, this);
+         file<> file("Images/passenger-1.svg");
+         Generation::myDoc.parse<0>(file.data());
+        //  extractXMLData(&myDoc);
+
+        //  return;
+         //thread thread1(&consumer, this);
          producer(pElementsList, pFrames);
 
          //join permite que un hilo espere a que otro termine su ejecución
          //hilo1.join();
-         thread1.join();
+         //thread1.join();
      }
         
  };

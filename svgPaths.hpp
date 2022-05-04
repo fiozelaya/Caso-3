@@ -308,6 +308,7 @@ class Path:public Element{
         bool findMatchPosition(double pXValue, double pYValue);
         void createSVGAttribute(xml_document<> *myDoc){
 
+            string auxAttributeD = attributeD;
             int mIndex = attributeD.find_first_of('m');
             if (mIndex == -1 ){mIndex = attributeD.find_first_of('M');}
             int separatorIndex = attributeD.find_first_of(',');
@@ -326,17 +327,18 @@ class Path:public Element{
             newY.erase( newY.find_last_not_of('0') + 1, std::string::npos );
             newY.erase( newY.find_last_not_of('.') + 1, std::string::npos );
 
-            attributeD.replace(separatorIndex+1, finalIndex-1-separatorIndex, newY);
-            attributeD.replace(mIndex + 1, separatorIndex-1, newX);            
+            auxAttributeD.replace(separatorIndex+1, finalIndex-1-separatorIndex, newY);
+            auxAttributeD.replace(mIndex + 1, separatorIndex-1, newX);            
 
-            cout << attributeD << endl;
+            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
+            
+            xml_attribute<> *d = myDoc->allocate_attribute("d", auxAttributeD.c_str());
+            newNode->append_attribute(d);
+            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+            newNode->append_attribute(fill);
+            myDoc->first_node()->append_node(newNode);
 
-            // xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
-            // myDoc->first_node()->append_node(newNode);
-            // xml_attribute<> *d = myDoc->allocate_attribute("d", attributeD.c_str());
-            // newNode->append_attribute(d);
-            //  xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
-            // newNode->append_attribute(fill);
+            cout << newNode->first_attribute()->value() << endl;
 
         }
 };
