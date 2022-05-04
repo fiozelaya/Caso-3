@@ -364,34 +364,42 @@ public:
     void seleccion(xml_node<>* node, vector<string> pColors, vector<vector<double>>pPositions,SVG *pSVG){
         vector<int> inputColorConverted, elementColorConverted;
         for (node = node->first_node(); node != NULL; node = node->next_sibling()){
-        if (node->type() == node_element){
-                for(int position=0;position<pColors.size();position++){
-                    //cout << "entra al for" << endl;
-                    if(node->first_attribute("fill")){
-                        if(matchColor(pColors[position],node->first_attribute("fill")->value())){
-                            //cout<<"MATCHED COLOR: "<<node->first_attribute("fill")->value()<<endl << endl;
-                            matchPosition(node,pColors,pPositions,pColors[position],pSVG);
+            if (node->type() == node_element){
+                    for(int position=0;position<pColors.size();position++){
+                        //cout << "entra al for" << endl;
+                        if(node->first_attribute("fill")){
+                            if(matchColor(pColors[position],node->first_attribute("fill")->value())){
+                                //cout<<"MATCHED COLOR: "<<node->first_attribute("fill")->value()<<endl << endl;
+                                matchPosition(node,pColors,pPositions,pColors[position],pSVG);
+                            }
                         }
-                    }
-                    else if(node->first_attribute("stroke")){
-                        if(matchColor(pColors[position],node->first_attribute("fill")->value())){
-                            //cout<<"MATCHED COLOR" << endl;
-                            matchPosition(node,pColors,pPositions,pColors[position],pSVG);
+                        else if(node->first_attribute("stroke")){
+                            if(matchColor(pColors[position],node->first_attribute("fill")->value())){
+                                //cout<<"MATCHED COLOR" << endl;
+                                matchPosition(node,pColors,pPositions,pColors[position],pSVG);
+                            }
                         }
-                    }
-                    else if(node->first_attribute("style")){
-                        //cout << "style" << endl; 
-                        string styleValue=node->first_attribute("style")->value();
-                        string hexColor=styleValue.substr(styleValue.find_first_of("#"),styleValue.find_first_of(";")-styleValue.find_first_of("#"));
-                        if(matchColor(pColors[position],hexColor)){
-                            //cout<<"MATCHED COLOR";
-                            matchPosition(node,pColors,pPositions,pColors[position],pSVG);
+                        else if(node->first_attribute("style")){
+                            //cout << "style" << endl;
+                            string styleValue=node->first_attribute("style")->value();
+                            if(styleValue.find_first_of("#")!=string::npos){
+                                string hexColor=styleValue.substr(styleValue.find_first_of("#"),styleValue.find_first_of(";")-styleValue.find_first_of("#"));
+                                if(matchColor(pColors[position],hexColor)){
+                                    //cout<<"MATCHED COLOR";
+                                    matchPosition(node,pColors,pPositions,pColors[position],pSVG);
+                                }
+                            }
+                            else{
+                                seleccion(node,pColors,pPositions,pSVG);
+                            }
                         }
-                    }
+                        else{
+                            seleccion(node,pColors,pPositions,pSVG);
+                        }
+                }
+                cout << "función 2" << endl;
+                seleccion(node,pColors,pPositions,pSVG);
             }
-            cout << "función 2" << endl;
-            seleccion(node,pColors,pPositions,pSVG);
-        }
       }
 
     }
