@@ -41,7 +41,7 @@ void prueba2(queue<string> &cola){
 
 int main()
 {
-    
+
     /*
     Animator()
 
@@ -56,7 +56,7 @@ int main()
     llamar a seleccion
 
     */
-    
+
 
     /*
     cout << tan(20) << endl;
@@ -74,8 +74,8 @@ int main()
 
     */
 
-   
-   
+
+
    int frames = 20;
    int degrees = 20;
    double height;
@@ -100,7 +100,7 @@ int main()
 
     xml_document<> document;
 
-    file<> file("Images/passenger-1.svg");
+    file<> file("Images/wifi-3.svg");
     document.parse<0>(file.data());
     if(document.first_node()->first_attribute("height")){
         height = stod(document.first_node()->first_attribute("height")->value());
@@ -127,18 +127,18 @@ int main()
         width = stod(viewBoxParameter[3]);
         svgDetails.setHeight(height);
         svgDetails.setWidth(width);
-        
+
     }
 
     cout << height << " /// " << width << endl;
     cout << (int)svgDetails.getHeight() << " /// " << (int)svgDetails.getWidth() << endl;
     svgDetails.setDoc(&document);
-    
+
     vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800"};
     vector<vector<double>> positions = {{406, 270}, {500, 600}, {466, 3687}, {2295, 2676}};
     animator->start(document.first_node(), colors, positions, svgDetails);
 
-    
+
 
     /*
    string attributeD = "m 459.976, 646.99 c 7.263,0 13.189,5.924 13.189,13.19 0,7.266 -5.926,13.192 -13.189,13.192 -7.269,0 -13.195,-5.926 -13.195,-13.192 0,-7.266 5.926,-13.19 13.195,-13.19";

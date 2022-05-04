@@ -55,12 +55,13 @@ public:
         selection->seleccion(pNode,pColors,pPositions,&pSVGdetails);
         int code = 1;
         int* codePointer = &code;
+
         selection->setSelectedElements(pSVGdetails.getVectorElements());
         selection->notify(codePointer);
         code = 2;
         routing->notify(codePointer);
         // code = 0;
-        // generation->notify(codePointer);
+        // generation->notify(codePointer);*/
     }
 
     void update(void* curso) {
