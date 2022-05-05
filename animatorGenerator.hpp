@@ -57,6 +57,12 @@ public:
         int* codePointer = &code;
 
         selection->setSelectedElements(pSVGdetails.getVectorElements());
+
+        for(int i = 0; i < pSVGdetails.getVectorElements().size(); i++){
+            cout << pSVGdetails.getVectorElements().at(i)->getXCoord() << endl;
+            cout << pSVGdetails.getVectorElements().at(i)->getYCoord() << endl;
+        }
+
         selection->notify(codePointer);
         code = 2;
         routing->notify(codePointer);

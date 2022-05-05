@@ -23,6 +23,7 @@ Ericka Yu Min Guo Chen
 //#include "svgPaths.hpp"
 #include <queue>
 
+
 using namespace std;
 
 //variables globales
@@ -111,7 +112,7 @@ int main()
         svgDetails.setWidth(width);
     }
 
-    if((int)svgDetails.getHeight() == 0 || (int)svgDetails.getWidth() == 0){
+    if((int)svgDetails.getHeight() == 0 || (int)svgDetails.getWidth() == 0 || document.first_node()->first_attribute("viewBox")->value() != ""){
         string viewBox = document.first_node()->first_attribute("viewBox")->value();
         string viewBoxParameter[4];
         int i = 0;
@@ -134,8 +135,8 @@ int main()
     cout << (int)svgDetails.getHeight() << " /// " << (int)svgDetails.getWidth() << endl;
     svgDetails.setDoc(&document);
 
-    vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800"};
-    vector<vector<double>> positions = {{406, 270}, {500, 600}, {466, 3687}, {2295, 2676}};
+    vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800", "F7FF00", "00FF1A" };
+    vector<vector<double>> positions = {{406, 270}, {500, 600}, {466, 3687}, {2295, 2676}, {1000, 1800}, {2645, 1820}};
     animator->start(document.first_node(), colors, positions, svgDetails);
 
 

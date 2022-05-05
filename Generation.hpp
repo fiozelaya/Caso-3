@@ -166,7 +166,7 @@
      void start(vector<Element*> pElementsList, int pFrames){
          //Declarando los hilos
          //thread hilo1(productor);
-         file<> file("Images/passenger-1.svg");
+         file<> file("Images/wifi-3.svg");
          Generation::myDoc.parse<0>(file.data());
         //  extractXMLData(&myDoc);
 

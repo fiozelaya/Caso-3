@@ -287,10 +287,11 @@ public:
         }
         else if(string(pNode->name())=="path"){
             string pathValue=pNode->first_attribute("d")->value();
+            cout << pNode->first_attribute("d")->value() << endl;
             double pathXValue, pathYValue;
             getMoveValues(pathXValue,pathYValue,pathValue);
             Path* newPath=new Path(pathXValue,pathYValue,selectPathRange(pathValue),pMatchColor);
-            newPath->setAttributeD(pathValue);
+            newPath->setAttributeD(pNode->first_attribute("d")->value());
             for(int position=0;position<pPositions.size();position++){
                 if(newPath->findMatchPosition(pPositions[position][0],pPositions[position][1])){
                     pSVG->setElement(newPath);
@@ -389,15 +390,14 @@ public:
                                     matchPosition(node,pColors,pPositions,pColors[position],pSVG);
                                 }
                             }
-                            else{
-                                seleccion(node,pColors,pPositions,pSVG);
-                            }
+                            // else{
+                            //     seleccion(node,pColors,pPositions,pSVG);
+                            // }
                         }
-                        else{
-                            seleccion(node,pColors,pPositions,pSVG);
-                        }
+                        // else{
+                        //     seleccion(node,pColors,pPositions,pSVG);
+                        // }
                 }
-                cout << "función 2" << endl;
                 seleccion(node,pColors,pPositions,pSVG);
             }
       }

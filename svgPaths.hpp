@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include <vector>
+#include <cstring>
 class Element{
     protected:
         double coordX, coordY, coordX2, coordY2, side, area, finalCoordX, finalCoordY, hypotenuse, displacement;
@@ -65,15 +66,31 @@ class Circle:public Element{
 
         void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
-            myDoc->first_node()->append_node(newNode);
-            xml_attribute<> *cx = myDoc->allocate_attribute("cx", to_string(coordX).c_str());
+            
+
+            string Scx = to_string(coordX);
+            string Scy = to_string(coordY);
+            string Sside = to_string(coordY);
+
+            char* cstrX = new char[to_string(coordX).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrX, to_string(coordX).c_str());
+            xml_attribute<> *cx = myDoc->allocate_attribute("cx", cstrX);
             newNode->append_attribute(cx);
-            xml_attribute<> *cy = myDoc->allocate_attribute("cy", to_string(coordY).c_str());
+
+            char* cstrY = new char[to_string(coordY).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrY, to_string(coordY).c_str());
+            xml_attribute<> *cy = myDoc->allocate_attribute("cy", cstrY);
             newNode->append_attribute(cy);
-            xml_attribute<> *r = myDoc->allocate_attribute("r", to_string(side).c_str());
+
+            char* cstrR = new char[to_string(side).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrR, to_string(side).c_str());
+            xml_attribute<> *r = myDoc->allocate_attribute("r", cstrR);
             newNode->append_attribute(r);
+
             xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
             newNode->append_attribute(fill);
+
+            myDoc->first_node()->append_node(newNode);
         }
 
 };
@@ -146,15 +163,30 @@ class Ellipse:public Element{
         void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
             myDoc->first_node()->append_node(newNode);
-            xml_attribute<> *cx = myDoc->allocate_attribute("cx", to_string(coordX).c_str());
+
+            char* cstrX = new char[to_string(coordX).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrX, to_string(coordX).c_str());
+            xml_attribute<> *cx = myDoc->allocate_attribute("cx", cstrX);
             newNode->append_attribute(cx);
-            xml_attribute<> *cy = myDoc->allocate_attribute("cy", to_string(coordY).c_str());
+
+            char* cstrY = new char[to_string(coordY).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrY, to_string(coordY).c_str());
+            xml_attribute<> *cy = myDoc->allocate_attribute("cy", cstrY);
             newNode->append_attribute(cy);
-            xml_attribute<> *rx = myDoc->allocate_attribute("rx", to_string(side).c_str());
+
+            char* cstrR = new char[to_string(side).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrR, to_string(side).c_str());
+            xml_attribute<> *rx = myDoc->allocate_attribute("rx", cstrR);
             newNode->append_attribute(rx);
-            xml_attribute<> *ry = myDoc->allocate_attribute("ry", to_string(yRadio).c_str());
+
+            char* cstrRY = new char[to_string(yRadio).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrRY, to_string(yRadio).c_str());
+            xml_attribute<> *ry = myDoc->allocate_attribute("ry", cstrRY);
             newNode->append_attribute(ry);
-            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+
+            char* cstrColor = new char[color.size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrColor, color.c_str());
+            xml_attribute<> *fill = myDoc->allocate_attribute("fill", cstrColor);
             newNode->append_attribute(fill);
         }
 };
@@ -313,6 +345,7 @@ class Path:public Element{
             if (mIndex == -1 ){mIndex = attributeD.find_first_of('M');}
             int separatorIndex = attributeD.find_first_of(',');
             int finalIndex = attributeD.find_first_not_of(" m1234567890.,") -1;
+            cout << finalIndex << endl;
 
             // double newXValue = stod(attributeD.substr(mIndex+1, separatorIndex - 1));
             // double newYValue = stod(attributeD.substr(separatorIndex + 1, finalIndex));
@@ -331,14 +364,18 @@ class Path:public Element{
             auxAttributeD.replace(mIndex + 1, separatorIndex-1, newX);            
 
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
-            
-            xml_attribute<> *d = myDoc->allocate_attribute("d", auxAttributeD.c_str());
-            newNode->append_attribute(d);
-            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
-            newNode->append_attribute(fill);
-            myDoc->first_node()->append_node(newNode);
 
-            cout << newNode->first_attribute()->value() << endl;
+            char* cstr = new char[auxAttributeD.size() + 1];  // Create char buffer to store string copy
+            strcpy (cstr, auxAttributeD.c_str());
+            xml_attribute<> *d = myDoc->allocate_attribute("d", cstr);
+            newNode->append_attribute(d);
+
+            char* cstrColor = new char[color.size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrColor, color.c_str());
+            xml_attribute<> *fill = myDoc->allocate_attribute("fill", cstrColor);
+            newNode->append_attribute(fill);
+
+            myDoc->first_node()->append_node(newNode);
 
         }
 };
