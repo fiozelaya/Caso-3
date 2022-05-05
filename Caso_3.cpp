@@ -78,7 +78,7 @@ int main()
 
 
    int frames = 20;
-   int degrees = 20;
+   int degrees = 160;
    double height;
    double width;
 
@@ -101,7 +101,7 @@ int main()
 
     xml_document<> document;
 
-    file<> file("Images/wifi-3.svg");
+    file<> file("Images/passenger-1.svg");
     document.parse<0>(file.data());
     if(document.first_node()->first_attribute("height")){
         height = stod(document.first_node()->first_attribute("height")->value());
@@ -135,8 +135,8 @@ int main()
     cout << (int)svgDetails.getHeight() << " /// " << (int)svgDetails.getWidth() << endl;
     svgDetails.setDoc(&document);
 
-    vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800", "F7FF00", "00FF1A" };
-    vector<vector<double>> positions = {{406, 270}, {500, 600}, {466, 3687}, {2295, 2676}, {1000, 1800}, {2645, 1820}};
+    vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800", "#F7FF00", "#00FF1A", "#FF0101" , "#FF8101"};
+    vector<vector<double>> positions = {{406, 270}, {500, 600}, {466, 3687}, {2295, 2676}, {1000, 1800}, {2645, 1820}, {160, 464}, {200, 500}, {400, 200}, {264.013,440}, {500,500}};
     animator->start(document.first_node(), colors, positions, svgDetails);
 
 

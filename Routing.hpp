@@ -35,7 +35,7 @@ public:
                 rect = false;
             }
             pVector.at(i)->setRect(rect);
-            cout << rect << endl;
+            cout << "rect: " << rect << endl;
 
             if(pDegrees <= 90){ //I cuadrante
             cout << "90 degrees " << pVector.at(i)->getAttribute() << endl;

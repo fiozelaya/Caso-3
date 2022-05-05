@@ -118,7 +118,7 @@
              string fileName = "svg";
              fileName.append(to_string(currentFrame));
              fileName.append(".xml");
-             fileName = "svg/" + fileName;
+             fileName = "svganimation/images/svg/" + fileName;
 
              ofstream theNewFile(fileName); //Crea el archivo en la ubicación indicada
              stringstream ss;
@@ -166,7 +166,7 @@
      void start(vector<Element*> pElementsList, int pFrames){
          //Declarando los hilos
          //thread hilo1(productor);
-         file<> file("Images/wifi-3.svg");
+         file<> file("Images/passenger-1.svg");
          Generation::myDoc.parse<0>(file.data());
         //  extractXMLData(&myDoc);
 

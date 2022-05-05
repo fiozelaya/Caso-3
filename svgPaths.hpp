@@ -87,6 +87,10 @@ class Circle:public Element{
             xml_attribute<> *r = myDoc->allocate_attribute("r", cstrR);
             newNode->append_attribute(r);
 
+            xml_attribute<> *opacity = myDoc->allocate_attribute("opacity", "0.5");
+            newNode->append_attribute(opacity);
+
+
             xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
             newNode->append_attribute(fill);
 
