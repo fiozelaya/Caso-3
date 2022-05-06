@@ -326,7 +326,7 @@ class Line:public Element{
             xml_attribute<> *x2 = myDoc->allocate_attribute("x2", cstrx2);
             newNode->append_attribute(x2);
 
-            char* cstry1 = new char[to_string(endYValue).size() + 1];  // Create char buffer to store string copy
+            char* cstry2 = new char[to_string(endYValue).size() + 1];  // Create char buffer to store string copy
             strcpy (cstry2, to_string(endYValue).c_str());
             xml_attribute<> *y2 = myDoc->allocate_attribute("y2", cstry2);
             newNode->append_attribute(y2);
