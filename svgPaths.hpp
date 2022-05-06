@@ -391,7 +391,11 @@ class Path:public Element{
             }
             return str + ")";
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 0442aafb4d7f1204729aaa79bc31b551d4ce51f0
         void createSVGAttribute(xml_document<> *myDoc){
 
             string auxAttributeD = attributeD;
