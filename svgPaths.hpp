@@ -6,7 +6,7 @@
 #include <cstring>
 class Element{
     protected:
-        double coordX, coordY, coordX2, coordY2, side, area, finalCoordX, finalCoordY, hypotenuse, displacement;
+        double coordX, coordY, coordX2, coordY2, side, area, finalCoordX, finalCoordY, hypotenuse, displacement, auxCoordX, auxCoordY;
         bool rect;
         vector<vector<int>> movements; // { {x,y}, {}, {}, {} }
         vector<vector<int>> movements2;
@@ -18,6 +18,8 @@ class Element{
         void setAttribute(string pNewAttribute){attribute = pNewAttribute;};
         void setXCoord(double newXValue){coordX=newXValue;};
         void setYCoord(double newYValue){coordY=newYValue;};
+        void setAuxXCoord(double newAuxXValue){auxCoordX=newAuxXValue;};
+        void setAuxYCoord(double newAuxYValue){auxCoordY=newAuxYValue;};
         void setFinalXCoord(double pNewfinalCoordX){finalCoordX = pNewfinalCoordX;};
         void setFinalYCoord(double pNewfinalCoordY){finalCoordY = pNewfinalCoordY;};
         void setHypotenuse(double pNewHypotenuse){hypotenuse = pNewHypotenuse;};
@@ -30,6 +32,8 @@ class Element{
         void setColor(string newColor){color=newColor;};
         double getXCoord(){return coordX;};
         double getYCoord(){return coordY;};
+        double getAuxXCoord(){return auxCoordX;};
+        double getAuxYCoord(){return auxCoordY;};
         double getSide(){return side;};
         double getArea(){return area;};
         string getColor(){return color;};
@@ -166,7 +170,7 @@ class Ellipse:public Element{
 
         void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
-            myDoc->first_node()->append_node(newNode);
+            xml_node<> *parentNode = myDoc->first_node();
 
             char* cstrX = new char[to_string(coordX).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrX, to_string(coordX).c_str());
@@ -331,6 +335,7 @@ bool Line::findMatchPosition(double pXValue, double pYValue){
 
 class Path:public Element{
     private:
+        int degrees;
         string attributeD;
         vector<vector<double>>curvePositions;
     public:
@@ -339,9 +344,54 @@ class Path:public Element{
         curvePositions=pNewCurvePositions; Element::attribute = "path"; Element::color=pColor;};
         void setCurvePositions(vector<double> pNewCurvePosition){curvePositions.push_back(pNewCurvePosition);};
         void setAttributeD(string newAttributeD){attributeD = newAttributeD;};
+        void setDegrees(int pDegrees){degrees = pDegrees;};
         vector<vector<double>> getCurvePositions(){return curvePositions;};
         string getAttributeD(){return attributeD;};
+        int getDegrees(){return degrees;};
         bool findMatchPosition(double pXValue, double pYValue);
+
+        xml_node<>* findGNode(xml_node<>* pNode){
+            xml_node<>* currentNode = pNode;
+            while(true){
+                if (currentNode->next_sibling() == NULL){
+                    if (currentNode->first_node()->name() == (string)"path"){
+                        //cout << "fin" << endl;
+                        return currentNode;
+                    }
+                    else{
+                        //cout << "next child" << endl;
+                        currentNode = currentNode->first_node();
+                    }
+                }
+                else{
+                    //cout << "next sibling" << endl;
+                    currentNode = currentNode->next_sibling();
+                }
+            }
+        }
+
+        string getTransformCoords(){
+            int currentDegrees = degrees;
+            string str = "translate(";
+            if(currentDegrees <= 90){ //I cuadrante
+            cout << "90 degrees " << endl;
+                str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
+            }
+            else if (currentDegrees > 90 && currentDegrees <= 180){ //II cuadrante
+            cout << "180 degrees" << endl;
+                str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
+            }
+            else if (currentDegrees > 180 && currentDegrees <= 270){ //III cuadrante
+            cout << "270 degrees" << endl;
+                str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(coordY - this->getAuxYCoord());
+            }
+            else{ //IV cuadrante
+            cout << "360 degrees" << endl;
+                str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(coordY - this->getAuxYCoord());
+            }
+            return str + ")";
+        }
+        
         void createSVGAttribute(xml_document<> *myDoc){
 
             string auxAttributeD = attributeD;
@@ -349,10 +399,6 @@ class Path:public Element{
             if (mIndex == -1 ){mIndex = attributeD.find_first_of('M');}
             int separatorIndex = attributeD.find_first_of(',');
             int finalIndex = attributeD.find_first_not_of(" m1234567890.,") -1;
-            cout << finalIndex << endl;
-
-            // double newXValue = stod(attributeD.substr(mIndex+1, separatorIndex - 1));
-            // double newYValue = stod(attributeD.substr(separatorIndex + 1, finalIndex));
 
             double newXValue = Element::coordX;
             double newYValue = Element::coordY;
@@ -369,8 +415,8 @@ class Path:public Element{
 
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
 
-            char* cstr = new char[auxAttributeD.size() + 1];  // Create char buffer to store string copy
-            strcpy (cstr, auxAttributeD.c_str());
+            char* cstr = new char[attributeD.size() + 1];  // Create char buffer to store string copy
+            strcpy (cstr, attributeD.c_str());
             xml_attribute<> *d = myDoc->allocate_attribute("d", cstr);
             newNode->append_attribute(d);
 
@@ -379,7 +425,13 @@ class Path:public Element{
             xml_attribute<> *fill = myDoc->allocate_attribute("fill", cstrColor);
             newNode->append_attribute(fill);
 
-            myDoc->first_node()->append_node(newNode);
+            char* cstrTransform = new char[getTransformCoords().size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrTransform, getTransformCoords().c_str());
+            xml_attribute<> *transform = myDoc->allocate_attribute("transform", cstrTransform);
+            newNode->append_attribute(transform);
+
+            xml_node<>* nodeG = findGNode(myDoc->first_node());
+            nodeG->append_node(newNode);
 
         }
 };
