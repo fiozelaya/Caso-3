@@ -40,6 +40,24 @@ void prueba2(queue<string> &cola){
     else{cout<<"con algo";}
 }
 
+// void extractXMLData(xml_node<>* node){
+
+//     if (node->next_sibling() == NULL){
+//         if (node->first_node()->name() == (string)"path"){
+//             cout << "fin" << endl;
+//             return;
+//         }
+//         else{
+//             cout << "next child" << endl;
+//             extractXMLData(node->first_node());
+//         }
+//     }
+//     else{
+//         cout << "next sibling" << endl;
+//         extractXMLData(node->next_sibling());
+//     }
+// }
+
 int main()
 {
 
@@ -100,9 +118,12 @@ int main()
     svgDetails.setDegrees(degrees);
 
     xml_document<> document;
-
     file<> file("Images/passenger-1.svg");
     document.parse<0>(file.data());
+
+    //  extractXMLData(document.first_node());
+    //  return 0;
+
     if(document.first_node()->first_attribute("height")){
         height = stod(document.first_node()->first_attribute("height")->value());
         svgDetails.setHeight(height);

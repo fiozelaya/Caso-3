@@ -34,10 +34,25 @@
      }
 
 
-     void initDocument(){
-         
-         
-     }
+     xml_node<>* findGNode(xml_node<>* pNode){
+            xml_node<>* currentNode = pNode;
+            while(true){
+                if (currentNode->next_sibling() == NULL){
+                    if (currentNode->first_node()->name() == (string)"path"){
+                        //cout << "fin" << endl;
+                        return currentNode;
+                    }
+                    else{
+                        //cout << "next child" << endl;
+                        currentNode = currentNode->first_node();
+                    }
+                }
+                else{
+                    //cout << "next sibling" << endl;
+                    currentNode = currentNode->next_sibling();
+                }
+            }
+        }
 
      /*
      Función producer: Procesa los datos que van a ser utilizados por el consumer
@@ -151,16 +166,6 @@
              }
 
          }
-     }
-
-     void extractXMLData(xml_document<>* doc){
-        xml_node<>* node = doc->first_node();
-
-        cout << "Etiqueta: " << node->name() << endl;
-        for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
-            cout << " Atributo: " << attrib->name() << endl;
-            cout << "\tValor: " << attrib->value() << endl;
-        }
      }
 
      void start(vector<Element*> pElementsList, int pFrames){
