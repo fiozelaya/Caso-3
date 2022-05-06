@@ -35,6 +35,8 @@ public:
                 rect = false;
             }
             pVector.at(i)->setRect(rect);
+            pVector.at(i)->setAuxXCoord(pVector.at(i)->getXCoord());
+            pVector.at(i)->setAuxYCoord(pVector.at(i)->getYCoord());
             cout << "rect: " << rect << endl;
 
             if(pDegrees <= 90){ //I cuadrante
