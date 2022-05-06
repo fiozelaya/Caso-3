@@ -129,6 +129,10 @@ void secondQuadrant(Element* &pElement, int pLastX, int pLastY, double pDegrees,
     int newX, newY, displacement = pElement->getDisplacement(), auxDisplacement = displacement, frames = pElement->getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
+    cout << pElement->getMovements().size() << endl;
+    cout << pElement->getMovements2().size() << endl;
+    cout << auxDisplacement << endl;
+
     if (pElement->getMovements().size() >= frames && pElement->getAttribute() != "line"){ //si ya el vector está lleno retorna
         return;
     }
@@ -146,7 +150,8 @@ void secondQuadrant(Element* &pElement, int pLastX, int pLastY, double pDegrees,
     }
 
     while (auxDisplacement < 10){
-        auxDisplacement -= displacement;
+        cout << "while" << endl;
+        auxDisplacement += displacement;
         pElement->addMovement(pLastX, pLastY);
     }
     
@@ -199,7 +204,7 @@ void thirdQuadrant(Element* &pElement, int pLastX, int pLastY, int pHeight, doub
     }
 
     while (auxDisplacement < 10){
-        auxDisplacement -= displacement;
+        auxDisplacement += displacement;
         pElement->addMovement(pLastX, pLastY);
     }
     //nuevas coordenadas pX pY pY

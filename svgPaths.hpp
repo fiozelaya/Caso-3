@@ -403,6 +403,9 @@ class Path:public Element{
             double newXValue = Element::coordX;
             double newYValue = Element::coordY;
 
+            // double newXValue = Element::auxCoordX;
+            // double newYValue = Element::auxCoordY;
+
             string newX = to_string(newXValue);
             newX.erase( newX.find_last_not_of('0') + 1, std::string::npos );
             newX.erase( newX.find_last_not_of('.') + 1, std::string::npos );
@@ -443,7 +446,7 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
         return false;
     }
     //double maxYValue=curvePositions[0][1], maxXValue=curvePositions[0][0], minYValue=Element::getYCoord(), minXValue=Element::getXCoord();
-    double maxYValue=Element::getYCoord(), maxXValue=Element::getXCoord(), minYValue=Element::getYCoord(), minXValue=Element::getXCoord();
+    double maxYValue= this->getYCoord(), maxXValue=this->getXCoord(), minYValue=this->getYCoord(), minXValue=this->getXCoord();
     for(int posicion=1;posicion<curvePositions.size();posicion++){
         maxYValue=((curvePositions[posicion][1]>maxYValue)?curvePositions[posicion][1]:maxYValue);
         minYValue=((curvePositions[posicion][1]<minYValue)?curvePositions[posicion][1]:minYValue);

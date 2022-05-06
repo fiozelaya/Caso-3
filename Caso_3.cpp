@@ -96,7 +96,7 @@ int main()
 
 
    int frames = 20;
-   int degrees = 160;
+   int degrees = 200;
    double height;
    double width;
 
@@ -160,7 +160,10 @@ int main()
     vector<vector<double>> positions = {{406, 270}, {500, 600}, {466, 3687}, {2295, 2676}, {1000, 1800}, {2645, 1820}, {160, 464}, {200, 500}, {400, 200}, {264.013,440}, {500,500}};
     animator->start(document.first_node(), colors, positions, svgDetails);
 
-
+    delete(animator);
+    delete(selection);
+    delete(routing);
+    delete(generation);
 
     /*
    string attributeD = "m 459.976, 646.99 c 7.263,0 13.189,5.924 13.189,13.19 0,7.266 -5.926,13.192 -13.189,13.192 -7.269,0 -13.195,-5.926 -13.195,-13.192 0,-7.266 5.926,-13.19 13.195,-13.19";
