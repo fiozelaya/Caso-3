@@ -391,11 +391,7 @@ class Path:public Element{
             }
             return str + ")";
         }
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 0442aafb4d7f1204729aaa79bc31b551d4ce51f0
         void createSVGAttribute(xml_document<> *myDoc){
 
             string auxAttributeD = attributeD;
@@ -446,8 +442,8 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
     if(curvePositions.size() == 0){
         return false;
     }
-    double maxYValue=curvePositions[0][1], maxXValue=curvePositions[0][0], minYValue=curvePositions[0][1], minXValue=curvePositions[0][0];
-    //double maxYValue=Element::getYCoord()-1, maxXValue=Element::getXCoord()-1, minYValue=Element::getYCoord()-1, minXValue=Element::getXCoord()-1;
+    //double maxYValue=curvePositions[0][1], maxXValue=curvePositions[0][0], minYValue=Element::getYCoord(), minXValue=Element::getXCoord();
+    double maxYValue=Element::getYCoord(), maxXValue=Element::getXCoord(), minYValue=Element::getYCoord(), minXValue=Element::getXCoord();
 
     for(int posicion=1;posicion<curvePositions.size();posicion++){
         maxYValue=((curvePositions[posicion][1]>maxYValue)?curvePositions[posicion][1]:maxYValue);

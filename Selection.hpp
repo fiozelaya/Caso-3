@@ -295,7 +295,7 @@ public:
             for(int position=0;position<pPositions.size();position++){
                 if(newPath->findMatchPosition(pPositions[position][0],pPositions[position][1])){
                     pSVG->setElement(newPath);
-                    cout<<"ENCONTRE PATH";
+                    cout<<endl<<"ENCONTRE PATH SJJJJJJJJJJJJJJJJJJJJJJJJJJJJ"<<endl;
                     //exit(0);
                     break;
                 }
