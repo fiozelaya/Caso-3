@@ -96,7 +96,7 @@ int main()
 
 
    int frames = 20;
-   int degrees = 200;
+   int degrees = 230;
    double height;
    double width;
 

@@ -114,6 +114,7 @@
              currentElementPointer = currentFrame;
              createAnotherSVG = true; //falta ponerlo de nuevo en false
              cout << "true!!!" << endl;
+             generation();
          }
 
          currentFrame = -1;

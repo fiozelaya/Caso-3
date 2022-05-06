@@ -310,15 +310,30 @@ class Line:public Element{
         void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
             myDoc->first_node()->append_node(newNode);
-            xml_attribute<> *x1 = myDoc->allocate_attribute("x1", to_string(coordX).c_str());
+
+            char* cstrx1 = new char[to_string(coordX).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrx1, to_string(coordX).c_str());
+            xml_attribute<> *x1 = myDoc->allocate_attribute("x1", cstrx1);
             newNode->append_attribute(x1);
-            xml_attribute<> *y1 = myDoc->allocate_attribute("y1", to_string(coordY).c_str());
+
+            char* cstry1 = new char[to_string(coordY).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstry1, to_string(coordY).c_str());
+            xml_attribute<> *y1 = myDoc->allocate_attribute("y1", cstry1);
             newNode->append_attribute(y1);
-            xml_attribute<> *x2 = myDoc->allocate_attribute("x2", to_string(endXValue).c_str());
+
+            char* cstrx2 = new char[to_string(endXValue).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrx2, to_string(endXValue).c_str());
+            xml_attribute<> *x2 = myDoc->allocate_attribute("x2", cstrx2);
             newNode->append_attribute(x2);
-            xml_attribute<> *y2 = myDoc->allocate_attribute("y2", to_string(endYValue).c_str());
+
+            char* cstry1 = new char[to_string(endYValue).size() + 1];  // Create char buffer to store string copy
+            strcpy (cstry2, to_string(endYValue).c_str());
+            xml_attribute<> *y2 = myDoc->allocate_attribute("y2", cstry2);
             newNode->append_attribute(y2);
-            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+
+            char* cstrcolor = new char[color.size() + 1];  // Create char buffer to store string copy
+            strcpy (cstrcolor, color.c_str());
+            xml_attribute<> *fill = myDoc->allocate_attribute("fill", cstrcolor);
             newNode->append_attribute(fill);
         }
 
@@ -373,22 +388,23 @@ class Path:public Element{
         string getTransformCoords(){
             int currentDegrees = degrees;
             string str = "translate(";
-            if(currentDegrees <= 90){ //I cuadrante
-            cout << "90 degrees " << endl;
-                str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
-            }
-            else if (currentDegrees > 90 && currentDegrees <= 180){ //II cuadrante
-            cout << "180 degrees" << endl;
-                str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
-            }
-            else if (currentDegrees > 180 && currentDegrees <= 270){ //III cuadrante
-            cout << "270 degrees" << endl;
-                str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(coordY - this->getAuxYCoord());
-            }
-            else{ //IV cuadrante
-            cout << "360 degrees" << endl;
-                str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(coordY - this->getAuxYCoord());
-            }
+            // if(currentDegrees <= 90){ //I cuadrante
+            // cout << "90 degrees " << endl;
+            //     str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
+            // }
+            // else if (currentDegrees > 90 && currentDegrees <= 180){ //II cuadrante
+            // cout << "180 degrees" << endl;
+            //     str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
+            // }
+            // else if (currentDegrees > 180 && currentDegrees <= 270){ //III cuadrante
+            // cout << "270 degrees" << endl;
+            //     str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
+            // }
+            // else{ //IV cuadrante
+            // cout << "360 degrees" << endl;
+            //     str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
+            // }
+            str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
             return str + ")";
         }
 
