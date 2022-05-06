@@ -444,7 +444,6 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
     }
     //double maxYValue=curvePositions[0][1], maxXValue=curvePositions[0][0], minYValue=Element::getYCoord(), minXValue=Element::getXCoord();
     double maxYValue=Element::getYCoord(), maxXValue=Element::getXCoord(), minYValue=Element::getYCoord(), minXValue=Element::getXCoord();
-
     for(int posicion=1;posicion<curvePositions.size();posicion++){
         maxYValue=((curvePositions[posicion][1]>maxYValue)?curvePositions[posicion][1]:maxYValue);
         minYValue=((curvePositions[posicion][1]<minYValue)?curvePositions[posicion][1]:minYValue);
