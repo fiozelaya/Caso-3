@@ -166,8 +166,8 @@ public:
         }
     }
 
-    vector<vector<double>> selectPathRange(string pPath, double pXValue, double pYValue){
-        vector<vector<double>> solution={{pXValue, pYValue}};
+    vector<vector<double>> selectPathRange(string pPath){
+        vector<vector<double>> solution;
         vector<string>pathCommands={"Cc","Ll","Hh","Vv"};
         string tempPath;
         int commandPosition;
@@ -290,12 +290,12 @@ public:
             cout << pNode->first_attribute("d")->value() << endl;
             double pathXValue, pathYValue;
             getMoveValues(pathXValue,pathYValue,pathValue);
-            Path* newPath=new Path(pathXValue,pathYValue,selectPathRange(pathValue,pathXValue, pathYValue),pMatchColor);
+            Path* newPath=new Path(pathXValue,pathYValue,selectPathRange(pathValue),pMatchColor);
             newPath->setAttributeD(pNode->first_attribute("d")->value());
             for(int position=0;position<pPositions.size();position++){
                 if(newPath->findMatchPosition(pPositions[position][0],pPositions[position][1])){
                     pSVG->setElement(newPath);
-                    cout<<"ENCONTRE PATH";
+                    cout<<endl<<"ENCONTRE PATH SJJJJJJJJJJJJJJJJJJJJJJJJJJJJ"<<endl;
                     //exit(0);
                     break;
                 }

@@ -70,7 +70,7 @@ class Circle:public Element{
 
         void createSVGAttribute(xml_document<> *myDoc){
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
-            
+
 
             string Scx = to_string(coordX);
             string Scy = to_string(coordY);
@@ -391,7 +391,7 @@ class Path:public Element{
             }
             return str + ")";
         }
-        
+
         void createSVGAttribute(xml_document<> *myDoc){
 
             string auxAttributeD = attributeD;
@@ -411,7 +411,7 @@ class Path:public Element{
             newY.erase( newY.find_last_not_of('.') + 1, std::string::npos );
 
             auxAttributeD.replace(separatorIndex+1, finalIndex-1-separatorIndex, newY);
-            auxAttributeD.replace(mIndex + 1, separatorIndex-1, newX);            
+            auxAttributeD.replace(mIndex + 1, separatorIndex-1, newX);
 
             xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
 
@@ -442,8 +442,8 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
     if(curvePositions.size() == 0){
         return false;
     }
-    double maxYValue=curvePositions[0][1], maxXValue=curvePositions[0][0], minYValue=curvePositions[0][1], minXValue=curvePositions[0][0];
-
+    //double maxYValue=curvePositions[0][1], maxXValue=curvePositions[0][0], minYValue=Element::getYCoord(), minXValue=Element::getXCoord();
+    double maxYValue=Element::getYCoord(), maxXValue=Element::getXCoord(), minYValue=Element::getYCoord(), minXValue=Element::getXCoord();
     for(int posicion=1;posicion<curvePositions.size();posicion++){
         maxYValue=((curvePositions[posicion][1]>maxYValue)?curvePositions[posicion][1]:maxYValue);
         minYValue=((curvePositions[posicion][1]<minYValue)?curvePositions[posicion][1]:minYValue);
