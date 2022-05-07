@@ -6,12 +6,10 @@ Ericka Yu Min Guo Chen
 
 */
 
-
+//Inclusion of libraries
 #include "rapidxml/rapidxml_ext.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 #include <iostream>
-#include "functions.hpp"
-#include "path.hpp"
 #include <math.h>
 #include <string>
 #include <vector>
@@ -20,13 +18,12 @@ Ericka Yu Min Guo Chen
 #include "Selection.hpp"
 #include "Routing.hpp"
 #include "Generation.hpp"
-//#include "svgPaths.hpp"
 #include <queue>
 
 
 using namespace std;
 
-//variables globales
+//Global variables
 int frames;
 int degrees;
 int height;
