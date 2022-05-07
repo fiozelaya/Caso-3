@@ -1,9 +1,9 @@
-#ifndef __FUNCTIONS_HEADER__
+/*#ifndef __FUNCTIONS_HEADER__
 #define __FUNCTIONS_HEADER__
 
 #include <sstream>
 #include "main.hpp"
-#include "svgPaths.hpp"
+#include "SvgElements.hpp"
 #include <iostream>
 #include <string>
 
@@ -269,4 +269,4 @@ void prueba(){
     //cout<<"Hola";
 }
 
-#endif
+#endif*/

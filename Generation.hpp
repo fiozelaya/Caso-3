@@ -2,7 +2,7 @@
  #define __GENERATION_HEADER__
 
  #include <vector>
- #include "svgPaths.hpp"
+ #include "SvgElements.hpp"
  #include <queue>
  #include <thread>
  #include <iostream>
@@ -60,13 +60,13 @@
 
      Esta función recorre una estructura implícita del siguiente tipo:
 
-         {  { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }  } 
+         {  { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }  }
          ^  j0  i0   i1  i2  i3    j1 i0    i1  i2  i3    j2  i0   i1  i2  i3    ^
 
          i = punto del elementos que corresponde al #frame que se está procesando
          j = recorre los elementos de la lista
 
-    
+
      */
      void producer(vector<Element*> &pElementsList, int pFrames){ //producer ????
          int currentElementPointer = 0, auxFrames = pFrames;
@@ -84,11 +84,11 @@
                 currentElement->setXCoord(newX);
                 currentElement->setYCoord(newY);
 
-                
-                //Sleep(1000);
-             
 
-             if(currentElementPointer != pFrames){ 
+                //Sleep(1000);
+
+
+             if(currentElementPointer != pFrames){
                 if (currentElementPointer+1 >= pElementsList.size()){
                     currentElementPointer = 0;
                     currentFrame++;
@@ -107,7 +107,7 @@
                     continue;
                 }
 
-                
+
              }
 
              currentFrame++;
@@ -184,7 +184,7 @@
          //hilo1.join();
          //thread1.join();
      }
-        
+
  };
 
  #endif
