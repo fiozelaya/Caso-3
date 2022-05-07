@@ -7,7 +7,7 @@
 #include "Generation.hpp"
 #include <iostream>
 
-#include "svgPaths.hpp"
+#include "SvgElements.hpp"
 
 class AnimatorGenerator: public Observer{
 private:
@@ -40,19 +40,26 @@ public:
         //generation->start();
     }
 
-    string getSelection(){
-        return selection->prueba2();
-    }
-
     void setSelectedPoints(string pSelectedPoints){
         hola=pSelectedPoints;
         cout<<hola;
     }
 
     void start(xml_node<>* pNode, vector<string> pColors, vector<vector<double>> pPositions, SVG &pSVGdetails){
+         /*
+        Functioning: Call the startSelection function with its respective parameters.
+
+        Input:
+        -pNode
+        -pColors
+        -pPositions
+        -pSVGdetails
+
+        Output: N/A
+        */
         svg = pSVGdetails;
         cout << "seleccion" << endl;
-        selection->seleccion(pNode,pColors,pPositions,&pSVGdetails);
+        selection->startSelection(pNode,pColors,pPositions,&pSVGdetails);
         int code = 1;
         int* codePointer = &code;
 
@@ -70,10 +77,18 @@ public:
         // generation->notify(codePointer);*/
     }
 
-    void update(void* curso) {
+    void update(void* pCode) {
+        /*
+        Functioning: It will receive a code and depending on the number it will start with the corresponding function (routing or generation)
+
+        Input:
+        -pCode
+
+        Output: N/A
+        */
         // (int*) = castear el puntero void a puntero a int
         // *(int*) = valor del int al que apunta
-        int value = *(int*)curso;
+        int value = *(int*)pCode;
 
         if (value == 0){
             cout << "Terminando..." << endl;
