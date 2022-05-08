@@ -6,6 +6,7 @@
  #include <queue>
  #include <thread>
  #include <iostream>
+ #include <chrono>
  //#include <Windows.h>
  //#include <unistd.h>
 
@@ -63,6 +64,7 @@
 
              if(currentElementPointer != pFrames){
                 if (currentElementPointer+1 >= pElementsList.size()){
+                    cout << "apunto de crear" << endl;
                     currentElementPointer = 0;
                     currentFrame++;
                     Generation::createAnotherSVG = true;
@@ -79,10 +81,11 @@
 
 
              }
-            //queueOfElements.push(*currentElement); //push a la cola de eventos
+             
              currentFrame++;
              currentElementPointer = currentFrame;
              createAnotherSVG = true; //falta ponerlo de nuevo en false
+             //queueOfElements.push(*currentElement); //push a la cola de eventos
              generation();
          }
 
@@ -115,14 +118,12 @@
      void consumer(){
          bool finishLoop=false;
          while(!finishLoop){
-             //sleep(4);
+             std::this_thread::sleep_for(std::chrono::milliseconds(100));
              if(!queueOfElements.empty()){
-                 cout << "entro al queue" << endl;
                  Generation::generation();
                  queueOfElements.pop();
              }
              if(currentFrame == -1){
-                 cout << "stop while" << endl;
                  break;
              }
 
@@ -134,7 +135,14 @@
          strcpy (svgFileName, filename.c_str());
          file<> file(svgFileName);
          Generation::myDoc.parse<0>(file.data());
-         producer(pElementsList, pFrames);
+
+        // thread thread1(&consumer, this);
+        producer(pElementsList, pFrames);
+
+        // //join permite que un hilo espere a que otro termine su ejecución
+        // //hilo1.join();
+        // thread1.join();
+         
      }
 
  };

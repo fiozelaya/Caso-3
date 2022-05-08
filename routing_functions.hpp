@@ -276,7 +276,6 @@ void thirdQuadrant(Element* &pElement, int pLastX, int pLastY, int pHeight, doub
     */
     int newX, newY, displacement = pElement->getDisplacement(), auxDisplacement = displacement, frames = pElement->getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
-
     if (pElement->getMovements().size() >= frames && pElement->getAttribute() != "line"){ //si ya el vector está lleno retorna
         return;
     }
@@ -294,7 +293,7 @@ void thirdQuadrant(Element* &pElement, int pLastX, int pLastY, int pHeight, doub
     }
 
     while (auxDisplacement < 10){
-        auxDisplacement += displacement;
+        auxDisplacement += displacement + 1;
         pElement->addMovement(pLastX, pLastY);
     }
     //nuevas coordenadas pX pY pY
@@ -561,6 +560,7 @@ void determinePoints270(Element* &pElement, int pHeight, double pDegrees, int pF
     pElement->setFinalYCoord(finalY);
     displacement = hypotenuse / pFrames;
     pElement->setDisplacement(displacement);
+
 
     if (pElement->getAttribute() == "line"){
         pElement->setAttribute("none");

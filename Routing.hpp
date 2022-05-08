@@ -53,7 +53,7 @@ public:
             pVector.at(i)->setAuxYCoord(pVector.at(i)->getYCoord());
 
             if(pDegrees <= 90){ //I cuadrante
-            // cout << "90 degrees " << pVector.at(i)->getAttribute() << endl;
+             cout << "90 degrees " << pVector.at(i)->getAttribute() << endl;
                 determinePoints90(pVector.at(i), pWidth, pDegrees, pFrames);
             }
             else if (pDegrees > 90 && pDegrees <= 180){ //II cuadrante

@@ -155,7 +155,9 @@ public:
 
         */
         vector<double> vectorXYPoints;
-        while(!pPoints.empty()){
+        try
+        {
+           while(!pPoints.empty()){
             vectorXYPoints.push_back(stoi(pPoints.substr(0, pPoints.find(","))));
             pPoints.erase(0,pPoints.find(",")+1);
             if(pPoints.find(" ")!= string::npos){
@@ -168,7 +170,14 @@ public:
             }
             pAllPoints->push_back(vectorXYPoints);
             vectorXYPoints.clear();
+        } /* code */
         }
+        catch(const std::exception& e)
+        {
+            cout << "jump" << endl;
+        }
+        
+        
     }
 
     vector<vector<double>> selectPathRange(string pPath){

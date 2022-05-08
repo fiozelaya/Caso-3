@@ -27,10 +27,11 @@ using namespace std;
 int main()
 {
 
-   int frames = 20;
-   int degrees = 230;
+   int frames = 35;
+   int degrees = 360;
    double height;
    double width;
+   string fileName = "Images/bird.svg";
 
    AnimatorGenerator *animator = new AnimatorGenerator();
    Selection *selection = new Selection();
@@ -50,7 +51,6 @@ int main()
     svgDetails.setDegrees(degrees);
 
     xml_document<> document;
-    string fileName = "Images/passenger-1.svg";
     char* svgFileName = new char[fileName.size() + 1];  // Create char buffer to store string copy
     strcpy (svgFileName, fileName.c_str());
     file<> file(svgFileName);
