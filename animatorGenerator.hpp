@@ -21,23 +21,17 @@ private:
 public:
     AnimatorGenerator() = default;
     ~AnimatorGenerator(){}
-    /*void update(){
-        cout << "nuevo update" << endl;
-    }*/
 
     void setSelection(Selection* newSelection){
         selection=newSelection;
-        //selection->prueba();
     }
 
     void setRouting(Routing* newRouting){
         routing=newRouting;
-        //routing->route();
     }
 
     void setGeneration(Generation* newGeneration){
         generation=newGeneration;
-        //generation->start();
     }
 
     void setSelectedPoints(string pSelectedPoints){
@@ -65,10 +59,10 @@ public:
 
         selection->setSelectedElements(pSVGdetails.getVectorElements());
 
-        for(int i = 0; i < pSVGdetails.getVectorElements().size(); i++){
-            cout << pSVGdetails.getVectorElements().at(i)->getXCoord() << endl;
-            cout << pSVGdetails.getVectorElements().at(i)->getYCoord() << endl;
-        }
+        // for(int i = 0; i < pSVGdetails.getVectorElements().size(); i++){
+        //     cout << pSVGdetails.getVectorElements().at(i)->getXCoord() << endl;
+        //     cout << pSVGdetails.getVectorElements().at(i)->getYCoord() << endl;
+        // }
 
         selection->notify(codePointer);
         code = 2;
@@ -99,38 +93,11 @@ public:
         }
         else if (value == 2){
             cout << "Iniciar generacion..." << endl;
+            generation->setFileName(svg.getFileName());
             generation->start(selection->getSelectedElements(), svg.getFrames());
         }
     }
 
 };
-
-/*
-class AnimatorGenerator: public Observer{
-private:
-    // Selection *seleccion;
-    // Routing *enrutamiento;
-    // Generation *generacion;
-public:
-    AnimatorGenerator() = default;
-    ~AnimatorGenerator(){}
-    /*void update(){
-        cout << "nuevo update" << endl;
-    }*/
-    /*void update(void* curso) {
-        // (int*) = castear el puntero void a puntero a int
-        // *(int*) = valor del int al que apunta
-        int value = *(int*)curso;
-
-        if (value == 0)
-            cout << "Se ha publicado una nueva tarea del curso Analisis de Algoritmos" << endl;
-        else if (value == 1)
-            //cout << "Se ha publicado una nueva tarea del curso Bases de Datos 1" << endl;
-            prueba();
-        else if (value == 2)
-            cout << "Se ha publicado una nueva tarea del curso Ambiente Humano" << endl;
-    }
-
-};*/
 
 #endif

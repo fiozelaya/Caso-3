@@ -23,74 +23,9 @@ Ericka Yu Min Guo Chen
 
 using namespace std;
 
-//Global variables
-int frames;
-int degrees;
-int height;
-int width;
-
-
-void prueba2(queue<string> &cola){
-    if(cola.empty()){
-        cout<<"vacia";
-    }
-    else{cout<<"con algo";}
-}
-
-// void extractXMLData(xml_node<>* node){
-
-//     if (node->next_sibling() == NULL){
-//         if (node->first_node()->name() == (string)"path"){
-//             cout << "fin" << endl;
-//             return;
-//         }
-//         else{
-//             cout << "next child" << endl;
-//             extractXMLData(node->first_node());
-//         }
-//     }
-//     else{
-//         cout << "next sibling" << endl;
-//         extractXMLData(node->next_sibling());
-//     }
-// }
 
 int main()
 {
-
-    /*
-    Animator()
-
-    Seleccion()
-    Enrutamiento()
-    Generacion()
-
-    Seleccion.attach(observer)
-    Enrutamiento.attach(observer)
-    Generacion.attach(observer)
-
-    llamar a seleccion
-
-    */
-
-
-    /*
-    cout << tan(20) << endl;
-    cout << tan(20 * (3.14159265358979323846 / 180));
-
-    Routing* enrutamiento = new Routing();
-    Line* nuevo = new Line();
-    nuevo->setXCoord(200);
-    nuevo->setYCoord(100);
-    nuevo->setLineEndXValue(300);
-    nuevo->setLineEndYValue(200);
-    vector<Element*> elements;
-    elements.push_back(nuevo);
-    enrutamiento->route(elements, 20, 340, 666, 780);
-
-    */
-
-
 
    int frames = 20;
    int degrees = 230;
@@ -115,11 +50,11 @@ int main()
     svgDetails.setDegrees(degrees);
 
     xml_document<> document;
-    file<> file("Images/passenger-1.svg");
+    string fileName = "Images/passenger-1.svg";
+    char* svgFileName = new char[fileName.size() + 1];  // Create char buffer to store string copy
+    strcpy (svgFileName, fileName.c_str());
+    file<> file(svgFileName);
     document.parse<0>(file.data());
-
-    //  extractXMLData(document.first_node());
-    //  return 0;
 
     if(document.first_node()->first_attribute("height")){
         height = stod(document.first_node()->first_attribute("height")->value());
@@ -152,6 +87,7 @@ int main()
     cout << height << " /// " << width << endl;
     cout << (int)svgDetails.getHeight() << " /// " << (int)svgDetails.getWidth() << endl;
     svgDetails.setDoc(&document);
+    svgDetails.setFileName(fileName);
 
     vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800", "#F7FF00", "#00FF1A", "#FF0101" , "#FF8101"};
     vector<vector<double>> positions = {{406, 270}, {500, 600}, {466, 3687}, {2295, 2676}, {1000, 1800}, {2645, 1820}, {160, 464}, {200, 500}, {400, 200}, {264.013,440}, {500,500}};
@@ -161,18 +97,6 @@ int main()
     delete(selection);
     delete(routing);
     delete(generation);
-
-    /*
-   string attributeD = "m 459.976, 646.99 c 7.263,0 13.189,5.924 13.189,13.19 0,7.266 -5.926,13.192 -13.189,13.192 -7.269,0 -13.195,-5.926 -13.195,-13.192 0,-7.266 5.926,-13.19 13.195,-13.19";
-
-    Path *newPath = new Path();
-    newPath->setAttributeD(attributeD);
-    newPath->setXCoord(200.23);
-    newPath->setYCoord(100.567);
-
-    newPath->createSVGAttribute(nullptr);
-
-    */
 
 
     return 0;

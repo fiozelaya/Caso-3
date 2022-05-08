@@ -13,7 +13,6 @@
 class Selection: public Subject{
 private:
     Observer* animator;
-    //list<Observer*> elementsList;
     vector<Element*> selectedElements;
 
 public:
@@ -124,17 +123,6 @@ public:
 
     }
 
-    // void getMoveValues(double& pXvalue, double& pYValue, string pPath){
-    //     int commandPosition;
-    //     commandPosition=pPath.find_first_of("Mm");
-    //     pPath.erase(0,commandPosition+1);
-    //     //cout << pPath.substr(0,pPath.find(" ")) << endl;
-    //     //pXvalue=stod(pPath.substr(0,pPath.find(" ")));
-    //     pPath.erase(0,pPath.find(" ")+1);
-    //     //cout << pPath.substr(0,pPath.find(" ")) << endl;
-    //     //pYValue=stod(pPath.substr(0,pPath.find(" ")));
-    // }
-
     void getMoveValues(double& pXvalue, double& pYValue, string pPath){
         /*
         Functioning: Extracts the xy values of the Move command from the path.
@@ -154,45 +142,6 @@ public:
         pPath.erase(0,pPath.find(",")+1);
         pYValue=stod(pPath.substr(0,pPath.find(",")));
     }
-
-    /*bool verifyElementPosition(vector<vector<double>>pInputPoints, xml_node<>*pNode){
-        /*
-        Functioning:
-
-        Input:
-
-        Output: N/A
-
-        */
-        /*if(string(pNode->name())=="circle"||string(pNode->name())=="rect"||string(pNode->name())=="ellipse"||string(pNode->name())=="polyline"||
-           string(pNode->name())=="polygon"||string(pNode->name())=="line"||string(pNode->name())=="path"){
-            return true;
-        }
-        else{
-            return false;
-        }
-
-        return true;
-    }*/
-
-
-    // void selectPathPoints(vector<vector<double>>* pAllPoints, string pPoints){
-    //     vector<double> vectorXYPoints;
-    //     while(!pPoints.empty()){
-    //         vectorXYPoints.push_back(stoi(pPoints.substr(0, pPoints.find(" "))));
-    //         pPoints.erase(0,pPoints.find(" ")+1);
-    //         if(pPoints.find(",")!= string::npos){
-    //             vectorXYPoints.push_back(stoi(pPoints.substr(0, pPoints.find(","))));
-    //             pPoints.erase(0,pPoints.find(",")+2);
-    //         }
-    //         else{
-    //             vectorXYPoints.push_back(stoi(pPoints.substr(0, pPoints.length())));
-    //             pPoints.erase(0,pPoints.length());
-    //         }
-    //         pAllPoints->push_back(vectorXYPoints);
-    //         vectorXYPoints.clear();
-    //     }
-    // }
 
     void selectPathPoints(vector<vector<double>>* pAllPoints, string pPoints){
         /*
@@ -261,33 +210,6 @@ public:
         return pathPoints;
     }
 
-    // vector<vector<double>> selectPathRange(string pPath){
-    //     vector<vector<double>> solution;
-    //     vector<string>pathCommands={"Cc","Ll","Hh","Vv"};
-    //     string tempPath;
-    //     int commandPosition;
-    //     for(int position=0;position<pathCommands.size();position++){
-    //             tempPath=pPath;
-    //             commandPosition=tempPath.find_first_of(pathCommands[position]);
-    //         while(commandPosition!=std::string::npos){
-    //             tempPath.erase(0,commandPosition+1);
-    //             commandPosition=tempPath.find_first_of("ZzCcLlHhVvSsQqTtAa");
-    //             if(pathCommands[position]=="Hh"){
-    //                 selectPathPoints(&solution,tempPath.substr(0,commandPosition).append("0"));
-    //             }
-    //             else if(pathCommands[position]=="Vv"){
-    //                 selectPathPoints(&solution,"0 "+tempPath.substr(0,commandPosition));
-    //             }
-    //             else{
-    //                 selectPathPoints(&solution,tempPath.substr(0,commandPosition));
-    //             }
-    //             tempPath.erase(0,commandPosition);
-    //             commandPosition=tempPath.find_first_of(pathCommands[position]);
-    //         }
-    //     }
-
-    //     return solution;
-    // }
 
     void matchPosition(xml_node<>* pNode, vector<string>pColors, vector<vector<double>>pPositions,string pMatchColor,SVG* pSVG){
         /*
@@ -366,7 +288,7 @@ public:
         }
         else if(string(pNode->name())=="path"){
             string pathValue=pNode->first_attribute("d")->value();
-            cout << pNode->first_attribute("d")->value() << endl;
+            //cout << pNode->first_attribute("d")->value() << endl;
             double pathXValue, pathYValue;
             getMoveValues(pathXValue,pathYValue,pathValue);
             Path* newPath=new Path(pathXValue,pathYValue,selectPathRange(pathValue),pMatchColor);

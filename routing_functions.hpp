@@ -9,6 +9,18 @@
 using namespace std;
 
 void generatePointsDegrees90(Element* &pElement, int pX, int pY){
+    /*
+        Functioning: This function generates de points of a certain element if the degrees input equals 90
+
+        Input:
+        -pElement -> element
+        -pX -> initial X coordinate
+        -pY -> inital Y coordinate
+
+
+        Output: The vector of the element with all the points (x,y) at a 90 degree angle
+
+    */
     int displacement = pElement->getDisplacement(), auxDisplacement = displacement;
     while (auxDisplacement < 10){ //ajustar el desplazamiento para que sea significativo
         auxDisplacement += displacement;
@@ -25,6 +37,18 @@ void generatePointsDegrees90(Element* &pElement, int pX, int pY){
 }
 
 void generatePointsDegrees180(Element* &pElement, int pX, int pY){
+    /*
+        Functioning: This function generates de points of a certain element if the degrees input equals 180
+
+        Input:
+        -pElement -> element
+        -pX -> initial X coordinate
+        -pY -> inital Y coordinate
+
+
+        Output: The vector of the element with all the points (x,y) at a 180 degree angle
+
+    */
     int displacement = pElement->getDisplacement(), auxDisplacement = displacement;
     while (auxDisplacement < 10){ //ajustar el desplazamiento para que sea significativo
         auxDisplacement += displacement;
@@ -42,6 +66,18 @@ void generatePointsDegrees180(Element* &pElement, int pX, int pY){
 }
 
 void generatePointsDegrees270(Element* &pElement, int pX, int pY){
+    /*
+        Functioning: This function generates de points of a certain element if the degrees input equals 270
+
+        Input:
+        -pElement -> element
+        -pX -> initial X coordinate
+        -pY -> inital Y coordinate
+
+
+        Output: The vector of the element with all the points (x,y) at a 270 degree angle
+
+    */
     int displacement = pElement->getDisplacement(), auxDisplacement = displacement;
     while (auxDisplacement < 10){ //ajustar el desplazamiento para que sea significativo
         auxDisplacement += displacement;
@@ -59,6 +95,18 @@ void generatePointsDegrees270(Element* &pElement, int pX, int pY){
 }
 
 void generatePointsDegrees360(Element* &pElement, int pX, int pY){
+    /*
+        Functioning: This function generates de points of a certain element if the degrees input equals 360
+
+        Input:
+        -pElement -> element
+        -pX -> initial X coordinate
+        -pY -> inital Y coordinate
+
+
+        Output: The vector of the element with all the points (x,y) at a 360 degree angle
+
+    */
     int displacement = pElement->getDisplacement(), auxDisplacement = displacement;
     while (auxDisplacement < 10){ //ajustar el desplazamiento para que sea significativo
         auxDisplacement += displacement;
@@ -76,6 +124,21 @@ void generatePointsDegrees360(Element* &pElement, int pX, int pY){
 }
 
 void firstQuadrant(Element* &pElement, int pLastX, int pLastY, int pWidth, double pDegrees, double lastDegrees){ 
+    /*
+        Functioning: This function generates the points of a certain element if the degrees input is between 0 and 90 degrees.
+
+        Input:
+        -pElement -> element
+        -pLastX -> the X coordinate of the last generated point
+        -pLastY -> the Y coordinate of the last generated point
+        -pWidth -> width of the svg image
+        -pDegrees -> selected degrees
+        -lastDegrees -> the degrees of the last generated point (this will be used if the line is a curve)
+
+
+        Output: The vector of the element with all the points (x,y) at the selected degree angle
+
+    */
     int newX, newY, displacement = pElement->getDisplacement(), auxDisplacement = displacement, frames = pElement->getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
@@ -104,7 +167,6 @@ void firstQuadrant(Element* &pElement, int pLastX, int pLastY, int pWidth, doubl
 
     if (newX > pWidth || newY < 0){ //si el siguiente punto queda afuera del SVG se descarta pY se mantiene el viejo punto
         newX = pLastX; newY = pLastY;
-        // (pElement->getAttribute() == "line") ? pElement->addMovement(newX, newY) : pElement->addMovement2(newX, newY);
         if (pElement->getAttribute() == "line" && pElement->getMovements().size() >= frames){
             pElement->addMovement2(newX, newY);
         }
@@ -113,7 +175,6 @@ void firstQuadrant(Element* &pElement, int pLastX, int pLastY, int pWidth, doubl
         }
     }
     else{ //si no, se agrega el nuevo punto
-        // (pElement->getAttribute() == "line") ? pElement->addMovement(newX, newY) : pElement->addMovement2(newX, newY);
         if (pElement->getAttribute() == "line" && pElement->getMovements().size() >= frames){
             pElement->addMovement2(newX, newY);
         }
@@ -126,6 +187,20 @@ void firstQuadrant(Element* &pElement, int pLastX, int pLastY, int pWidth, doubl
 }
 
 void secondQuadrant(Element* &pElement, int pLastX, int pLastY, double pDegrees, double lastDegrees){
+    /*
+        Functioning: This function generates the points of a certain element if the degrees input is between 90 and 180 degrees.
+
+        Input:
+        -pElement -> element
+        -pLastX -> the X coordinate of the last generated point
+        -pLastY -> the Y coordinate of the last generated point
+        -pDegrees -> selected degrees
+        -lastDegrees -> the degrees of the last generated point (this will be used if the line is a curve)
+
+
+        Output: The vector of the element with all the points (x,y) at the selected degree angle
+
+    */
     int newX, newY, displacement = pElement->getDisplacement(), auxDisplacement = displacement, frames = pElement->getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
@@ -184,6 +259,21 @@ void secondQuadrant(Element* &pElement, int pLastX, int pLastY, double pDegrees,
 }
 
 void thirdQuadrant(Element* &pElement, int pLastX, int pLastY, int pHeight, double pDegrees, double lastDegrees){
+    /*
+        Functioning: This function generates the points of a certain element if the degrees input is between 180 and 270 degrees.
+
+        Input:
+        -pElement -> element
+        -pLastX -> the X coordinate of the last generated point
+        -pLastY -> the Y coordinate of the last generated point
+        -pHeight -> height of the svg image
+        -pDegrees -> selected degrees
+        -lastDegrees -> the degrees of the last generated point (this will be used if the line is a curve)
+
+
+        Output: The vector of the element with all the points (x,y) at the selected degree angle
+
+    */
     int newX, newY, displacement = pElement->getDisplacement(), auxDisplacement = displacement, frames = pElement->getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
@@ -236,6 +326,22 @@ void thirdQuadrant(Element* &pElement, int pLastX, int pLastY, int pHeight, doub
 }
 
 void fourthQuadrant(Element* &pElement, int pLastX, int pLastY, int pHeight, int pWidth, double pDegrees, double lastDegrees){
+    /*
+        Functioning: This function generates the points of a certain element if the degrees input is between 270 and 360 degrees.
+
+        Input:
+        -pElement -> element
+        -pLastX -> the X coordinate of the last generated point
+        -pLastY -> the Y coordinate of the last generated point
+        -pWidth -> width of the svg image
+        ->pHeight -> height of the svg image
+        -pDegrees -> selected degrees
+        -lastDegrees -> the degrees of the last generated point (this will be used if the line is a curve)
+
+
+        Output: The vector of the element with all the points (x,y) at the selected degree angle
+
+    */
     int newX, newY, displacement = pElement->getDisplacement(), auxDisplacement = displacement, frames = pElement->getHypotenuse() / displacement;
     int actualDegrees = pDegrees;
 
@@ -288,7 +394,22 @@ void fourthQuadrant(Element* &pElement, int pLastX, int pLastY, int pHeight, int
 }
 
 void determinePoints90(Element* &pElement, int pWidth, double pDegrees, int pFrames){
-    cout << pWidth << " " << pDegrees << " " << pFrames << endl;
+    /*
+        Functioning: This function will determine some needed details to generate the points of the element. It will
+                     generate the hypotenuse (distance from the initial point to the final point of the element) and the 
+                     displacement (using the hypotenuse and the frames) to make sure the element moves to the end. 
+                     This is a function for the first quadrant (0-90 degrees).
+
+        Input:
+        -pElement -> element
+        -pWidth -> width of the svg image
+        -pDegrees -> selected degrees
+        -pFrames -> selected frames
+
+
+        Output: N/A
+
+    */
     double pX = pElement->getXCoord(), pY = pElement->getYCoord();
     double finalX = pWidth - pX, finalY, hypotenuse, displacement;
     double tangentOfAngle = tan(pDegrees * (M_PI/180));
@@ -302,7 +423,6 @@ void determinePoints90(Element* &pElement, int pWidth, double pDegrees, int pFra
         return;
     }
 
-    // -----------------------------------------------POR EL MOMENTO, EL PUNTO FINAL ES ASÍ PARA LINEA CURVA Y RECTA ------------------------------------------
     //Calculo del punto (x,y) final del elemento 
     if ((pY - ((tangentOfAngle) * finalX) <= 0)){ //si el límite de la hipotenusa está en el extremo de arriba
             finalY = 0; //punto final de Y
@@ -336,6 +456,21 @@ void determinePoints90(Element* &pElement, int pWidth, double pDegrees, int pFra
 }
 
 void determinePoints180(Element* &pElement, double pDegrees, int pFrames){
+    /*
+        Functioning: This function will determine some needed details to generate the points of the element. It will
+                     generate the hypotenuse (distance from the initial point to the final point of the element) and the 
+                     displacement (using the hypotenuse and the frames) to make sure the element moves to the end. 
+                     This is a function for the second quadrant (90-180 degrees).
+
+        Input:
+        -pElement -> element
+        -pDegrees -> selected degrees
+        -pFrames -> selected frames
+
+
+        Output: N/A
+
+    */
     double pX = pElement->getXCoord(), pY = pElement->getYCoord();
     double finalX = 0, finalY, hypotenuse, displacement;
     pDegrees = 180 - pDegrees;
@@ -379,6 +514,22 @@ void determinePoints180(Element* &pElement, double pDegrees, int pFrames){
 }
 
 void determinePoints270(Element* &pElement, int pHeight, double pDegrees, int pFrames){
+    /*
+        Functioning: This function will determine some needed details to generate the points of the element. It will
+                     generate the hypotenuse (distance from the initial point to the final point of the element) and the 
+                     displacement (using the hypotenuse and the frames) to make sure the element moves to the end. 
+                     This is a function for the third quadrant (180-270 degrees).
+
+        Input:
+        -pElement -> element
+        -pHeight -> height of the svg image
+        -pDegrees -> selected degrees
+        -pFrames -> selected frames
+
+
+        Output: N/A
+
+    */
     double pX = pElement->getXCoord(), pY = pElement->getYCoord();
     double finalX = 0, finalY = pHeight - pY, hypotenuse, displacement;
     pDegrees = pDegrees - 180;
@@ -424,6 +575,23 @@ void determinePoints270(Element* &pElement, int pHeight, double pDegrees, int pF
 }
 
 void determinePoints360(Element* &pElement, int pWidth, int pHeight, double pDegrees, int pFrames){
+    /*
+        Functioning: This function will determine some needed details to generate the points of the element. It will
+                     generate the hypotenuse (distance from the initial point to the final point of the element) and the 
+                     displacement (using the hypotenuse and the frames) to make sure the element moves to the end. 
+                     This is a function for the fourth quadrant (270-360 degrees).
+
+        Input:
+        -pElement -> element
+        -pWidth -> width of the svg image
+        -pHeight -> height of the svg image
+        -pDegrees -> selected degrees
+        -pFrames -> selected frames
+
+
+        Output: N/A
+
+    */
     double pX = pElement->getXCoord(), pY = pElement->getYCoord();
     double finalX = pWidth, finalY = pHeight, hypotenuse, displacement;
     pDegrees = 360 - pDegrees;
