@@ -9,13 +9,13 @@
  #include <chrono>
  //#include <Windows.h>
  //#include <unistd.h>
-
+#include <unistd.h>
 
  class Generation: public Subject{
  private:
      string filename;
      Observer* animator;
-     queue<Element> queueOfElements;//Declarando la cola de strings
+     queue<Element*> queueOfElements;//Declarando la cola de strings
      bool createAnotherSVG;
      int currentFrame;
      xml_document<> myDoc;
@@ -68,25 +68,25 @@
                     currentElementPointer = 0;
                     currentFrame++;
                     Generation::createAnotherSVG = true;
-                    generation();
-                    //queueOfElements.push(*currentElement); //push a la cola de eventos
+                    //generation();
+                    queueOfElements.push(currentElement); //push a la cola de eventos
                     continue;
                 }
                 else{
                     currentElementPointer++;
-                    generation();
-                    //queueOfElements.push(*currentElement); //push a la cola de eventos
+                    //generation();
+                    queueOfElements.push(currentElement); //push a la cola de eventos
                     continue;
                 }
 
 
              }
-             
+
              currentFrame++;
              currentElementPointer = currentFrame;
              createAnotherSVG = true; //falta ponerlo de nuevo en false
-             //queueOfElements.push(*currentElement); //push a la cola de eventos
-             generation();
+             queueOfElements.push(currentElement); //push a la cola de eventos
+             //generation();
          }
 
          currentFrame = -1;
@@ -119,9 +119,14 @@
          bool finishLoop=false;
          while(!finishLoop){
              std::this_thread::sleep_for(std::chrono::milliseconds(100));
+             //sleep(4);
              if(!queueOfElements.empty()){
+                cout<<"encontre elemento en cola";
                  Generation::generation();
                  queueOfElements.pop();
+             }
+             else{
+                cout<<"no encontre eleemento en cola";
              }
              if(currentFrame == -1){
                  break;
@@ -136,13 +141,13 @@
          file<> file(svgFileName);
          Generation::myDoc.parse<0>(file.data());
 
-        // thread thread1(&consumer, this);
-        producer(pElementsList, pFrames);
+         thread thread1(&consumer, this);
+         producer(pElementsList, pFrames);
 
         // //join permite que un hilo espere a que otro termine su ejecución
         // //hilo1.join();
-        // thread1.join();
-         
+         thread1.join();
+
      }
 
  };
