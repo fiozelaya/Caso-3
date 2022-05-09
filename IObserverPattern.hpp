@@ -1,6 +1,11 @@
 #ifndef __INTERFACE_OBSERVER_PATTERN_HEADER__
 #define __INTERFACE_OBSERVER_PATTERN_HEADER__
 
+/**
+ * @brief Observer Pattern
+ * 
+ */
+
 class Observer {
 public:
   virtual ~Observer(){};
