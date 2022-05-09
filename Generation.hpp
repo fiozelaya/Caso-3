@@ -9,7 +9,7 @@
  #include <chrono>
  //#include <Windows.h>
  //#include <unistd.h>
-#include <unistd.h>
+
 
  class Generation: public Subject{
  private:
@@ -64,20 +64,17 @@
 
              if(currentElementPointer != pFrames){
                 if (currentElementPointer+1 >= pElementsList.size()){
-                    cout << "apunto de crear" << endl;
                     currentElementPointer = 0;
                     currentFrame++;
                     Generation::createAnotherSVG = true;
-                    //generation();
-                    cout<<"Entrando al primer push";
-                    queueOfElements.push(currentElement); //push a la cola de eventos
+                    generation();
+                    //queueOfElements.push(currentElement); //push a la cola de eventos
                     continue;
                 }
                 else{
                     currentElementPointer++;
-                    //generation();
-                    cout<<"Entrando al segundo push";
-                    queueOfElements.push(currentElement); //push a la cola de eventos
+                    generation();
+                    //queueOfElements.push(currentElement); //push a la cola de eventos
                     continue;
                 }
 
@@ -87,9 +84,8 @@
              currentFrame++;
              currentElementPointer = currentFrame;
              createAnotherSVG = true; //falta ponerlo de nuevo en false
-             cout<<"Entrando al tercer push";
-             queueOfElements.push(currentElement); //push a la cola de eventos
-             //generation();
+             //queueOfElements.push(currentElement); //push a la cola de eventos
+             generation();
          }
 
          currentFrame = -1;
@@ -124,7 +120,6 @@
              std::this_thread::sleep_for(std::chrono::milliseconds(100));
              //sleep(1);
              if(!queueOfElements.empty()){
-                cout<<"encontre elemento en cola "<<queueOfElements.size()<<endl;
                  Generation::generation();
                  queueOfElements.pop();
              }
@@ -141,12 +136,12 @@
          file<> file(svgFileName);
          Generation::myDoc.parse<0>(file.data());
 
-         thread thread1(&consumer, this);
+         //thread thread1(&consumer, this);
          producer(pElementsList, pFrames);
 
         // //join permite que un hilo espere a que otro termine su ejecución
         // //hilo1.join();
-         thread1.join();
+         //thread1.join();
 
      }
 
