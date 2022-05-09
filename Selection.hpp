@@ -7,6 +7,7 @@
 #include <sstream>
 #include "main.hpp"
 #include "SvgElements.hpp"
+#include "SVG.hpp"
 #include <iostream>
 #include <string>
 

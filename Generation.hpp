@@ -29,25 +29,33 @@
 
      }
      void notify(void* pCode){
-         cout << "generacion" << endl;
+        animator->update(pCode);
      }
+
      void setFileName(string pNewFileName){filename = pNewFileName;}
 
-     /*
-     Función producer: Procesa los datos que van a ser utilizados por el consumer
-     @param: Lista de elementos seleccionados, frames
-
-     Esta función recorre una estructura implícita del siguiente tipo:
-
-         {  { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }  }
-         ^  j0  i0   i1  i2  i3    j1 i0    i1  i2  i3    j2  i0   i1  i2  i3    ^
-
-         i = punto del elementos que corresponde al #frame que se está procesando
-         j = recorre los elementos de la lista
-
-
-     */
+     
      void producer(vector<Element*> &pElementsList, int pFrames){ 
+         /*
+        Función producer: Process the data that is going to be use by the consumer.
+                        This functions goes through the points of each elements, so
+                        it selects only the points that correspond to the current frame.
+                            It has the following structure:
+
+            {  { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }, { {x,y}, {}, {}, {} }  }
+            ^  j0  i0   i1  i2  i3    j1 i0    i1  i2  i3    j2  i0   i1  i2  i3    ^
+
+            i = points to the element in a certain frame
+            j = goes through all the points of all elements
+
+        parameters:
+        -pElementsList -> list of selected elements
+        -pFrames -> frames
+
+        Output: N/A
+
+
+        */
          int currentElementPointer = 0, auxFrames = pFrames;
          int newX, newY;
          if (pElementsList.size() == 0){
@@ -98,12 +106,20 @@
 
          currentFrame = -1;
      }
+
+     
      void generation(){
+         /*
+        Function: This function generates de XML file, or adds the current element
+                  to the XML file that it's going to be generated.
+        
+        parameters: N/A
 
-        string attribute = "";
-        //añadir el elemento al del archivo svg actual
+        Output: N/A
 
-        currentElement->createSVGAttribute(&myDoc);
+        */
+
+        currentElement->createSVGAttribute(&myDoc); //añade el elemento actual
 
         if (createAnotherSVG){
              string fileName = "svg";
@@ -123,6 +139,15 @@
      }
 
      void consumer(){
+          /*
+        Function: This function is the consumer. It calls the function generation() when
+                  there's something in the queue.
+        
+        parameters: N/A
+
+        Output: N/A
+
+        */
          bool finishLoop=false;
          while(!finishLoop){
              std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -139,6 +164,17 @@
      }
 
      void start(vector<Element*> pElementsList, int pFrames){
+          /*
+        Function: This function starts the generation process. It reads the
+                  SVG file and saves it so it can be modified. 
+        
+        parameters: 
+        -pElementsList -> list of selected elements
+        -pFrames -> frames
+
+        Output: N/A
+
+        */
          char* svgFileName = new char[filename.size() + 1];  // Create char buffer to store string copy
          strcpy (svgFileName, filename.c_str());
          file<> file(svgFileName);

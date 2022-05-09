@@ -18,6 +18,7 @@ Ericka Yu Min Guo Chen
 #include "Selection.hpp"
 #include "Routing.hpp"
 #include "Generation.hpp"
+#include "SVG.hpp"
 #include <queue>
 
 
@@ -28,10 +29,10 @@ int main()
 {
 
    int frames = 20;
-   int degrees = 230;
+   int degrees = 80;
    double height;
    double width;
-   string fileName = "Images/bird.svg";
+   string fileName = "Images/wifi-3.svg";
 
    AnimatorGenerator *animator = new AnimatorGenerator();
    Selection *selection = new Selection();
@@ -50,12 +51,14 @@ int main()
     svgDetails.setFrames(frames);
     svgDetails.setDegrees(degrees);
 
+    //parsing of SVG file
     xml_document<> document;
-    char* svgFileName = new char[fileName.size() + 1];  // Create char buffer to store string copy
+    char* svgFileName = new char[fileName.size() + 1]; 
     strcpy (svgFileName, fileName.c_str());
     file<> file(svgFileName);
     document.parse<0>(file.data());
 
+    //gets width and height of the SVG
     if(document.first_node()->first_attribute("height")){
         height = stod(document.first_node()->first_attribute("height")->value());
         svgDetails.setHeight(height);
@@ -64,7 +67,6 @@ int main()
         width = stod(document.first_node()->first_attribute("width")->value());
         svgDetails.setWidth(width);
     }
-
     if((int)svgDetails.getHeight() == 0 || (int)svgDetails.getWidth() == 0 || document.first_node()->first_attribute("viewBox")->value() != ""){
         string viewBox = document.first_node()->first_attribute("viewBox")->value();
         string viewBoxParameter[4];
@@ -73,9 +75,6 @@ int main()
         while (ssin.good() && i < 4){
             ssin >> viewBoxParameter[i];
             ++i;
-        }
-        for(i = 0; i < 4; i++){
-            cout << viewBoxParameter[i] << endl;
         }
         height = stod(viewBoxParameter[2]);
         width = stod(viewBoxParameter[3]);
@@ -87,8 +86,11 @@ int main()
     svgDetails.setDoc(&document);
     svgDetails.setFileName(fileName);
 
+    //vector of colors and points
     vector<string> colors = {"#00E4FF", "#FF00B9", "#FFE800", "#F7FF00", "#00FF1A", "#FF0101" , "#FF8101", "#FFFFFF"};
     vector<vector<double>> positions = {{406, 270}, {500, 600}, {730, 32}, {466, 3687}, {2295, 2676}, {1000, 1800}, {2645, 1820}, {160, 464}, {200, 500}, {400, 200}, {264.013,440}, {500,500}};
+    
+    //start
     animator->start(document.first_node(), colors, positions, svgDetails);
 
     delete(animator);

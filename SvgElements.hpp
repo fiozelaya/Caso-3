@@ -4,32 +4,33 @@
 #include <math.h>
 #include <vector>
 #include <cstring>
+//#include "SVG.hpp"
+
 class Element{
     protected:
         double coordX, coordY, coordX2, coordY2, side, area, finalCoordX, finalCoordY, hypotenuse, displacement, auxCoordX, auxCoordY;
-        bool rect;
+        bool rect,generateElement;
         vector<vector<int>> movements; // { {x,y}, {}, {}, {} }
         vector<vector<int>> movements2;
         string color, attribute;
+        int fileName;
     public:
         Element(){};
-        Element(double newSide){side=newSide;};
-        Element(double newYValue, double newXValue){};
+        Element(double pNewSide){side=pNewSide;};
+        Element(double pNewXValue, double pNewYValue){coordX=pNewXValue;coordY=pNewYValue;};
         void setAttribute(string pNewAttribute){attribute = pNewAttribute;};
-        void setXCoord(double newXValue){coordX=newXValue;};
-        void setYCoord(double newYValue){coordY=newYValue;};
-        void setAuxXCoord(double newAuxXValue){auxCoordX=newAuxXValue;};
-        void setAuxYCoord(double newAuxYValue){auxCoordY=newAuxYValue;};
+        void setXCoord(double pNewXValue){coordX=pNewXValue;};
+        void setYCoord(double pNewYValue){coordY=pNewYValue;};
+        void setAuxXCoord(double pNewAuxXValue){auxCoordX=pNewAuxXValue;};
+        void setAuxYCoord(double pNewAuxYValue){auxCoordY=pNewAuxYValue;};
         void setFinalXCoord(double pNewfinalCoordX){finalCoordX = pNewfinalCoordX;};
         void setFinalYCoord(double pNewfinalCoordY){finalCoordY = pNewfinalCoordY;};
         void setHypotenuse(double pNewHypotenuse){hypotenuse = pNewHypotenuse;};
         void setDisplacement(double pNewDisplacement){displacement = pNewDisplacement;};
-        void setSide(double newSide){side=newSide;};
-        void setRect(bool newRect){rect = newRect;};
-        //void setArea(double newArea){area=newArea;};
-        //virtual void setArea(){};
+        void setSide(double pNewSide){side=pNewSide;};
+        void setRect(bool pNewRect){rect = pNewRect;};
         virtual void findMatchPosition(){};
-        void setColor(string newColor){color=newColor;};
+        void setColor(string pNewColor){color=pNewColor;};
         double getXCoord(){return coordX;};
         double getYCoord(){return coordY;};
         double getAuxXCoord(){return auxCoordX;};
@@ -44,18 +45,21 @@ class Element{
         string getAttribute(){return attribute;};
         vector<vector<int>> getMovements(){return movements;};
         bool isRect(){return rect;};
-        void addMovement(int x, int y){
-            vector<int> point = {x,y}; movements.push_back(point);
+        void addMovement(int pXValue, int pYValue){
+            vector<int> point = {pXValue,pYValue}; movements.push_back(point);
         };
 
-        void setLineEndXValue(double newEndXValue){coordX2=newEndXValue;};
-        void setLineEndYValue(double newEndYValue){coordY2=newEndYValue;};
+        void setLineEndXValue(double pNewEndXValue){coordX2=pNewEndXValue;};
+        void setLineEndYValue(double pNewEndYValue){coordY2=pNewEndYValue;};
         double getLineEndXValue(){return coordX2;};
         double getLineEndYValue(){return coordY2;};
         vector<vector<int>> getMovements2(){return movements2;};
         void addMovement2(int pNewX2, int pNewY2){vector<int> point = {pNewX2,pNewY2}; movements2.push_back(point);}
-
-        virtual void createSVGAttribute(xml_document<> *myDoc){};
+        void setGenerateElement(bool state){generateElement=state;};
+        bool getGenerateElement(){return generateElement;};
+        void setNumberFileName(int pFileName){fileName=pFileName;};
+        int getNumberFileName(){return fileName;};
+        virtual void createSVGAttribute(xml_document<> *pMyDoc){};
 };
 
 class Circle:public Element{
@@ -64,12 +68,11 @@ class Circle:public Element{
         Circle(){ Element::attribute = "circle";};
         Circle(double pNewRadio, double pNewXCoord, double pNewYCoord, string pNewColor){Element::setXCoord(pNewXCoord);Element::setYCoord(pNewYCoord);
         Element::setSide(pNewRadio);Element::setColor(pNewColor); Element::attribute = "circle";};
-        Circle(double newRadio){Element::setSide(newRadio); Element::attribute = "circle";};
-        void setArea(){Element::area= (2 * acos(0.0))*pow(Element::side,2.0);};
+        Circle(double pNewRadio){Element::setSide(pNewRadio); Element::attribute = "circle";};
         bool findMatchPosition(double pXValue, double pYValue);
 
-        void createSVGAttribute(xml_document<> *myDoc){
-            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
+        void createSVGAttribute(xml_document<> *pMyDoc){
+            xml_node<> *newNode = pMyDoc->allocate_node(node_element, attribute.c_str());
 
 
             string Scx = to_string(coordX);
@@ -78,27 +81,27 @@ class Circle:public Element{
 
             char* cstrX = new char[to_string(coordX).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrX, to_string(coordX).c_str());
-            xml_attribute<> *cx = myDoc->allocate_attribute("cx", cstrX);
+            xml_attribute<> *cx = pMyDoc->allocate_attribute("cx", cstrX);
             newNode->append_attribute(cx);
 
             char* cstrY = new char[to_string(coordY).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrY, to_string(coordY).c_str());
-            xml_attribute<> *cy = myDoc->allocate_attribute("cy", cstrY);
+            xml_attribute<> *cy = pMyDoc->allocate_attribute("cy", cstrY);
             newNode->append_attribute(cy);
 
             char* cstrR = new char[to_string(side).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrR, to_string(side).c_str());
-            xml_attribute<> *r = myDoc->allocate_attribute("r", cstrR);
+            xml_attribute<> *r = pMyDoc->allocate_attribute("r", cstrR);
             newNode->append_attribute(r);
 
-            xml_attribute<> *opacity = myDoc->allocate_attribute("opacity", "0.5");
+            xml_attribute<> *opacity = pMyDoc->allocate_attribute("opacity", "0.5");
             newNode->append_attribute(opacity);
 
 
-            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+            xml_attribute<> *fill = pMyDoc->allocate_attribute("fill", color.c_str());
             newNode->append_attribute(fill);
 
-            myDoc->first_node()->append_node(newNode);
+            pMyDoc->first_node()->append_node(newNode);
         }
 
 };
@@ -128,18 +131,18 @@ class Rectangle:public Element{
         int getHeight(){return height;};
         bool findMatchPosition(double pXValue, double pYValue);
 
-        void createSVGAttribute(xml_document<> *myDoc){
-            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
-            myDoc->first_node()->append_node(newNode);
-            xml_attribute<> *x = myDoc->allocate_attribute("x", to_string(coordX).c_str());
+        void createSVGAttribute(xml_document<> *pMyDoc){
+            xml_node<> *newNode = pMyDoc->allocate_node(node_element, attribute.c_str());
+            pMyDoc->first_node()->append_node(newNode);
+            xml_attribute<> *x = pMyDoc->allocate_attribute("x", to_string(coordX).c_str());
             newNode->append_attribute(x);
-            xml_attribute<> *y = myDoc->allocate_attribute("y", to_string(coordY).c_str());
+            xml_attribute<> *y = pMyDoc->allocate_attribute("y", to_string(coordY).c_str());
             newNode->append_attribute(y);
-            xml_attribute<> *attrWidth = myDoc->allocate_attribute("width", to_string(width).c_str());
+            xml_attribute<> *attrWidth = pMyDoc->allocate_attribute("width", to_string(width).c_str());
             newNode->append_attribute(attrWidth);
-            xml_attribute<> *attrHeight = myDoc->allocate_attribute("height", to_string(height).c_str());
+            xml_attribute<> *attrHeight = pMyDoc->allocate_attribute("height", to_string(height).c_str());
             newNode->append_attribute(attrHeight);
-            xml_attribute<> *fill = myDoc->allocate_attribute("fill", color.c_str());
+            xml_attribute<> *fill = pMyDoc->allocate_attribute("fill", color.c_str());
             newNode->append_attribute(fill);
         }
 
@@ -168,33 +171,33 @@ class Ellipse:public Element{
         double getYRadio(){return yRadio;};
         bool findMatchPosition(double pXValue, double pYValue);
 
-        void createSVGAttribute(xml_document<> *myDoc){
-            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
-            xml_node<> *parentNode = myDoc->first_node();
+        void createSVGAttribute(xml_document<> *pMyDoc){
+            xml_node<> *newNode = pMyDoc->allocate_node(node_element, attribute.c_str());
+            xml_node<> *parentNode = pMyDoc->first_node();
 
             char* cstrX = new char[to_string(coordX).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrX, to_string(coordX).c_str());
-            xml_attribute<> *cx = myDoc->allocate_attribute("cx", cstrX);
+            xml_attribute<> *cx = pMyDoc->allocate_attribute("cx", cstrX);
             newNode->append_attribute(cx);
 
             char* cstrY = new char[to_string(coordY).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrY, to_string(coordY).c_str());
-            xml_attribute<> *cy = myDoc->allocate_attribute("cy", cstrY);
+            xml_attribute<> *cy = pMyDoc->allocate_attribute("cy", cstrY);
             newNode->append_attribute(cy);
 
             char* cstrR = new char[to_string(side).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrR, to_string(side).c_str());
-            xml_attribute<> *rx = myDoc->allocate_attribute("rx", cstrR);
+            xml_attribute<> *rx = pMyDoc->allocate_attribute("rx", cstrR);
             newNode->append_attribute(rx);
 
             char* cstrRY = new char[to_string(yRadio).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrRY, to_string(yRadio).c_str());
-            xml_attribute<> *ry = myDoc->allocate_attribute("ry", cstrRY);
+            xml_attribute<> *ry = pMyDoc->allocate_attribute("ry", cstrRY);
             newNode->append_attribute(ry);
 
             char* cstrColor = new char[color.size() + 1];  // Create char buffer to store string copy
             strcpy (cstrColor, color.c_str());
-            xml_attribute<> *fill = myDoc->allocate_attribute("fill", cstrColor);
+            xml_attribute<> *fill = pMyDoc->allocate_attribute("fill", cstrColor);
             newNode->append_attribute(fill);
         }
 };
@@ -220,7 +223,7 @@ class Polyline:public Element{
         vector<vector<double>> getXYCoord(){return xyCoords;};
         bool findMatchPosition(double pXValue, double pYValue);
 
-        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *pMyDoc){
 
         }
 
@@ -263,7 +266,7 @@ class Polygon:public Element{
         vector<vector<double>> getXYCoord(){return xyCoords;};
         bool findMatchPosition(double pXValue, double pYValue);
 
-        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *myDoc){
+        void createSVGAttribute(xml_attribute<> *newAttr, xml_document<> *pMyDoc){
 
         }
 
@@ -304,36 +307,34 @@ class Line:public Element{
         Line(double pNewYCoord, double pNewXCoord, double pNewEndXValue,double pNewEndYValue){Element::coordX=pNewYCoord; Element::coordY=pNewXCoord;
         endXValue=pNewEndXValue;endYValue=pNewEndYValue; Element::attribute = "line";};
         bool findMatchPosition(double pXValue, double pYValue);
-        /*string getString(){return "Rectangle: X Value = "+to_string(Element::coordX)+" Y Value = "+to_string(Element::coordY)
-        +" Horizontal Radio = "+to_string(xRadio)+" Vertical Radio = "+to_string(yRadio)+" Area = "+to_string(Element::getArea())+"\n";};*/
 
-        void createSVGAttribute(xml_document<> *myDoc){
-            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
-            myDoc->first_node()->append_node(newNode);
+        void createSVGAttribute(xml_document<> *pMyDoc){
+            xml_node<> *newNode = pMyDoc->allocate_node(node_element, attribute.c_str());
+            pMyDoc->first_node()->append_node(newNode);
 
             char* cstrx1 = new char[to_string(coordX).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrx1, to_string(coordX).c_str());
-            xml_attribute<> *x1 = myDoc->allocate_attribute("x1", cstrx1);
+            xml_attribute<> *x1 = pMyDoc->allocate_attribute("x1", cstrx1);
             newNode->append_attribute(x1);
 
             char* cstry1 = new char[to_string(coordY).size() + 1];  // Create char buffer to store string copy
             strcpy (cstry1, to_string(coordY).c_str());
-            xml_attribute<> *y1 = myDoc->allocate_attribute("y1", cstry1);
+            xml_attribute<> *y1 = pMyDoc->allocate_attribute("y1", cstry1);
             newNode->append_attribute(y1);
 
             char* cstrx2 = new char[to_string(endXValue).size() + 1];  // Create char buffer to store string copy
             strcpy (cstrx2, to_string(endXValue).c_str());
-            xml_attribute<> *x2 = myDoc->allocate_attribute("x2", cstrx2);
+            xml_attribute<> *x2 = pMyDoc->allocate_attribute("x2", cstrx2);
             newNode->append_attribute(x2);
 
             char* cstry2 = new char[to_string(endYValue).size() + 1];  // Create char buffer to store string copy
             strcpy (cstry2, to_string(endYValue).c_str());
-            xml_attribute<> *y2 = myDoc->allocate_attribute("y2", cstry2);
+            xml_attribute<> *y2 = pMyDoc->allocate_attribute("y2", cstry2);
             newNode->append_attribute(y2);
 
             char* cstrcolor = new char[color.size() + 1];  // Create char buffer to store string copy
             strcpy (cstrcolor, color.c_str());
-            xml_attribute<> *fill = myDoc->allocate_attribute("fill", cstrcolor);
+            xml_attribute<> *fill = pMyDoc->allocate_attribute("fill", cstrcolor);
             newNode->append_attribute(fill);
         }
 
@@ -388,27 +389,11 @@ class Path:public Element{
         string getTransformCoords(){
             int currentDegrees = degrees;
             string str = "translate(";
-            // if(currentDegrees <= 90){ //I cuadrante
-            // cout << "90 degrees " << endl;
-            //     str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
-            // }
-            // else if (currentDegrees > 90 && currentDegrees <= 180){ //II cuadrante
-            // cout << "180 degrees" << endl;
-            //     str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
-            // }
-            // else if (currentDegrees > 180 && currentDegrees <= 270){ //III cuadrante
-            // cout << "270 degrees" << endl;
-            //     str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
-            // }
-            // else{ //IV cuadrante
-            // cout << "360 degrees" << endl;
-            //     str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
-            // }
             str = str + to_string(coordX - this->getAuxXCoord()) + ", " + to_string(this->getAuxYCoord() - coordY);
             return str + ")";
         }
 
-        void createSVGAttribute(xml_document<> *myDoc){
+        void createSVGAttribute(xml_document<> *pMyDoc){
 
             string auxAttributeD = attributeD;
             int mIndex = attributeD.find_first_of('m');
@@ -418,9 +403,6 @@ class Path:public Element{
 
             double newXValue = Element::coordX;
             double newYValue = Element::coordY;
-
-            // double newXValue = Element::auxCoordX;
-            // double newYValue = Element::auxCoordY;
 
             string newX = to_string(newXValue);
             newX.erase( newX.find_last_not_of('0') + 1, std::string::npos );
@@ -432,24 +414,24 @@ class Path:public Element{
             auxAttributeD.replace(separatorIndex+1, finalIndex-1-separatorIndex, newY);
             auxAttributeD.replace(mIndex + 1, separatorIndex-1, newX);
 
-            xml_node<> *newNode = myDoc->allocate_node(node_element, attribute.c_str());
+            xml_node<> *newNode = pMyDoc->allocate_node(node_element, attribute.c_str());
 
             char* cstr = new char[attributeD.size() + 1];  // Create char buffer to store string copy
             strcpy (cstr, attributeD.c_str());
-            xml_attribute<> *d = myDoc->allocate_attribute("d", cstr);
+            xml_attribute<> *d = pMyDoc->allocate_attribute("d", cstr);
             newNode->append_attribute(d);
 
             char* cstrColor = new char[color.size() + 1];  // Create char buffer to store string copy
             strcpy (cstrColor, color.c_str());
-            xml_attribute<> *fill = myDoc->allocate_attribute("fill", cstrColor);
+            xml_attribute<> *fill = pMyDoc->allocate_attribute("fill", cstrColor);
             newNode->append_attribute(fill);
 
             char* cstrTransform = new char[getTransformCoords().size() + 1];  // Create char buffer to store string copy
             strcpy (cstrTransform, getTransformCoords().c_str());
-            xml_attribute<> *transform = myDoc->allocate_attribute("transform", cstrTransform);
+            xml_attribute<> *transform = pMyDoc->allocate_attribute("transform", cstrTransform);
             newNode->append_attribute(transform);
 
-            xml_node<>* nodeG = findGNode(myDoc->first_node());
+            xml_node<>* nodeG = findGNode(pMyDoc->first_node());
             nodeG->append_node(newNode);
 
         }
@@ -469,7 +451,6 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
         maxXValue=((curvePositions[posicion][0]>maxXValue)?curvePositions[posicion][0]:maxXValue);
         minXValue=((curvePositions[posicion][0]<minXValue)?curvePositions[posicion][0]:minXValue);
 
-        //cout << curvePositions[posicion][0] << " // " << curvePositions[posicion][1] << endl;
     }
     if((pXValue>=minXValue)&&(pXValue<=maxXValue)&&(pYValue>=minYValue)&&(pYValue<=maxYValue)){
         return true;
@@ -480,32 +461,5 @@ bool Path::findMatchPosition(double pXValue, double pYValue){
 
 
 }
-
-class SVG{
-    private:
-        double height, width;
-        int frames, degrees;
-        string filename;
-        vector<Element*>selectedElements;
-        xml_document<> *document;
-    public:
-        SVG(){};
-        void setHeight(double pNewHeight){height=pNewHeight;};
-        void setWidth(double pNewWidth){width=pNewWidth;};
-        void setVectorElements(vector<Element*> pVectorElements){selectedElements=pVectorElements;};
-        void setElement(Element* pElement){selectedElements.push_back(pElement);};
-        void setFrames(int pNewFrames){frames = pNewFrames;};
-        void setDegrees(int pNewDegrees){degrees = pNewDegrees;};
-        void setDoc(xml_document<> *pNewDocument){document = pNewDocument;};
-        void setFileName(string pNewFileName){filename = pNewFileName;}
-        double getHeight(){return height;};
-        double getWidth(){return width;};
-        int getFrames(){return frames;};
-        int getDegrees(){return degrees;};
-        xml_document<>* getDoc(){return document;};
-        vector<Element*> getVectorElements(){return selectedElements;};
-        string getFileName(){return filename;}
-
-};
 
 #endif
