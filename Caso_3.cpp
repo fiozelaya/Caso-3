@@ -28,7 +28,7 @@ int main()
 {
 
    int frames = 35;
-   int degrees = 360;
+   int degrees = 230;
    double height;
    double width;
    string fileName = "Images/bird.svg";
