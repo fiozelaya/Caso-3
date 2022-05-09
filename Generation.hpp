@@ -7,10 +7,19 @@
  #include <thread>
  #include <iostream>
  #include <chrono>
- //#include <Windows.h>
- //#include <unistd.h>
-
-
+ 
+/**
+ * @brief class Generation is in charge of the generation
+ *        of the SVG files with the selected elements. 
+ *        For this approach we're using a Divide & Conquer algorithm.
+ *        
+ *        n = the points of the elements that need to be written in the
+ *            SVG file.
+ *        
+ *        divisions: each division is the current point of the elements that
+ *                   corresponds to the frame we're working on.
+ * 
+ */
  class Generation: public Subject{
  private:
      string filename;

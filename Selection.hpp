@@ -11,6 +11,23 @@
 #include <iostream>
 #include <string>
 
+/**
+ * @brief class Selection is in charge of the selection
+ *        of the elements in the SVG that match with the colors and
+ *        positions given.
+ *        For this approach we're using a Backtracking algorithm.
+ *        
+ *        n = all the elements in the SVG file.
+ *        
+ *        solution vector = all the elements in the SVG file.
+ * 
+ *        result = an Element vector with all the elements that match
+ *                 with the colors and positions given.
+ * 
+ *        constraint = if an element doesn't match any of the colors given,
+ *                     it's inmmediately discarded.
+ * 
+ */
 class Selection: public Subject{
 private:
     Observer* animator;

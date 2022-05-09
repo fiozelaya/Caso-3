@@ -4,8 +4,11 @@
 #include <math.h>
 #include <vector>
 #include <cstring>
-//#include "SVG.hpp"
 
+/**
+ * @brief parent class Element
+ * 
+ */
 class Element{
     protected:
         double coordX, coordY, coordX2, coordY2, side, area, finalCoordX, finalCoordY, hypotenuse, displacement, auxCoordX, auxCoordY;

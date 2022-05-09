@@ -5,6 +5,27 @@
 
 using namespace std;
 
+
+/**
+ * @brief class Routing is in charge of generating the route
+ *        of the selected elements. It needs to calculate the next
+ *        positions of the elements in every frame. 
+ *        For this approach we're using a Dynamic Porgramming algorithm.
+ *        
+ *        n = the selected elements.
+ *        
+ *        stages = each stage is the calculation that needs to be done to
+ *                 obtain the next point, considering the previous one to 
+ *                 determine if the movements is significative. The result
+ *                 of one stage is the input for the next.
+ * 
+ *        subproblem optimal solution = the element's next position at the 
+ *                                      next frame.
+ * 
+ *        overall problem optimal solution = all the element's positions for
+ *                                           each frame
+ * 
+ */
 class Routing: public Subject{
 private:
     Observer* animator;

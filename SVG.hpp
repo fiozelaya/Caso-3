@@ -3,6 +3,10 @@
 
 #include "SvgElements.hpp"
 
+/**
+ * @brief class SVG. It saves important aspects of the SVG file.
+ * 
+ */
 class SVG{
     private:
         double height, width;

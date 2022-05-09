@@ -5,10 +5,13 @@
 #include "Selection.hpp"
 #include "Routing.hpp"
 #include "Generation.hpp"
-//#include <iostream>
-
 #include "SvgElements.hpp"
 
+/**
+ * @brief class AnimatorGenerator it's the observer. It
+ *        notifies when one process has finished so another
+ *        can start.
+ */
 class AnimatorGenerator: public Observer{
 private:
     Selection* selection;
@@ -53,12 +56,6 @@ public:
         int* codePointer = &code;
 
         selection->setSelectedElements(pSVGdetails.getVectorElements());
-
-        // for(int i = 0; i < pSVGdetails.getVectorElements().size(); i++){
-        //     cout << pSVGdetails.getVectorElements().at(i)->getXCoord() << endl;
-        //     cout << pSVGdetails.getVectorElements().at(i)->getYCoord() << endl;
-        // }
-
         selection->notify(codePointer);
         code = 2;
         routing->notify(codePointer);
