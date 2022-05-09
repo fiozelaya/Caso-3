@@ -16,7 +16,6 @@ private:
     Generation* generation;
     SVG svg;
     xml_document<> myDoc;
-    string hola;
 
 public:
     AnimatorGenerator() = default;
@@ -34,10 +33,6 @@ public:
         generation=newGeneration;
     }
 
-    void setSelectedPoints(string pSelectedPoints){
-        hola=pSelectedPoints;
-        cout<<hola;
-    }
 
     void start(xml_node<>* pNode, vector<string> pColors, vector<vector<double>> pPositions, SVG &pSVGdetails){
          /*

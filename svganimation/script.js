@@ -18,7 +18,7 @@ function step(startTime) {
   // then we check if it is time to update the frame
   if (timeFromLastUpdate > timePerFrame) {
     // and update it accordingly
-    $element.attr('src', imagePath + `/svg${frameNumber}.xml`);
+    $element.attr('src', imagePath + `/svg${frameNumber}.svg`);
     // reset the last update time
     timeWhenLastUpdate = startTime;
 
@@ -38,7 +38,7 @@ function step(startTime) {
 // that will force browser to download the images
 $(document).ready(() => {
   for (var i = 1; i < totalFrames + 1; i++) {
-    $('body').append(`<div id="preload-image-${i}" style="background-image: url('${imagePath}/svg${i}.xml');"></div>`);
+    $('body').append(`<div id="preload-image-${i}" style="background-image: url('${imagePath}/svg${i}.svg');"></div>`);
   }
 });
 

@@ -29,10 +29,10 @@ int main()
 {
 
    int frames = 20;
-   int degrees = 80;
+   int degrees = 230;
    double height;
    double width;
-   string fileName = "Images/wifi-3.svg";
+   string fileName = "Images/passenger-1.svg";
 
    AnimatorGenerator *animator = new AnimatorGenerator();
    Selection *selection = new Selection();

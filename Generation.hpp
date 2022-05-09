@@ -124,7 +124,7 @@
         if (createAnotherSVG){
              string fileName = "svg";
              fileName.append(to_string(currentFrame));
-             fileName.append(".xml");
+             fileName.append(".svg");
              fileName = "svganimation/images/svg/" + fileName;
 
              ofstream theNewFile(fileName); //Crea el archivo en la ubicación indicada
