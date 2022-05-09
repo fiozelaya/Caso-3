@@ -1,6 +1,10 @@
 #ifndef __PATH_HEADER__
 #define __PATH_HEADER__
 
+/**
+ * @brief child class Path
+ * 
+ */
 class Path:public Element{
     private:
         int degrees;
@@ -46,7 +50,15 @@ class Path:public Element{
         }
 
         void createSVGAttribute(xml_document<> *pMyDoc){
+            /*
+            Function: this function writes the new attributes in the new SVG file.
 
+            parameters:
+            -pMyDoc -> it's the DOM of the SVG file.
+
+            output: N/A
+
+            */
             string auxAttributeD = attributeD;
             int mIndex = attributeD.find_first_of('m');
             if (mIndex == -1 ){mIndex = attributeD.find_first_of('M');}
@@ -68,17 +80,17 @@ class Path:public Element{
 
             xml_node<> *newNode = pMyDoc->allocate_node(node_element, attribute.c_str());
 
-            char* cstr = new char[attributeD.size() + 1];  // Create char buffer to store string copy
+            char* cstr = new char[attributeD.size() + 1];  
             strcpy (cstr, attributeD.c_str());
             xml_attribute<> *d = pMyDoc->allocate_attribute("d", cstr);
             newNode->append_attribute(d);
 
-            char* cstrColor = new char[color.size() + 1];  // Create char buffer to store string copy
+            char* cstrColor = new char[color.size() + 1];  
             strcpy (cstrColor, color.c_str());
             xml_attribute<> *fill = pMyDoc->allocate_attribute("fill", cstrColor);
             newNode->append_attribute(fill);
 
-            char* cstrTransform = new char[getTransformCoords().size() + 1];  // Create char buffer to store string copy
+            char* cstrTransform = new char[getTransformCoords().size() + 1];  
             strcpy (cstrTransform, getTransformCoords().c_str());
             xml_attribute<> *transform = pMyDoc->allocate_attribute("transform", cstrTransform);
             newNode->append_attribute(transform);
@@ -90,8 +102,19 @@ class Path:public Element{
 };
 
 bool Path::findMatchPosition(double pXValue, double pYValue){
-    // cout << "entrando a fund match..." << endl;
-    // cout << "size: " << curvePositions.size() << endl;
+    /*
+    Function: this function finds out if the position of the current element matches
+              any of the positions given.
+
+    parameters:
+    -pXValue -> X coordenate
+    -pYValue -> Y coordenate
+
+    output:
+    -true -> if there's a match
+    -false -> if there's no match
+
+    */
     if(curvePositions.size() == 0){
         return false;
     }

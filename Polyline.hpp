@@ -1,6 +1,11 @@
 #ifndef __POLYLINE_HEADER__
 #define __POLYLINE_HEADER__
 
+
+/**
+ * @brief child class Polyline
+ * 
+ */
 class Polyline:public Element{
     private:
         vector<vector<double>> xyCoords;
@@ -19,6 +24,19 @@ class Polyline:public Element{
 };
 
 bool Polyline::findMatchPosition(double pXValue, double pYValue){
+    /*
+    Function: this function finds out if the position of the current element matches
+              any of the positions given.
+
+    parameters:
+    -pXValue -> X coordenate
+    -pYValue -> Y coordenate
+
+    output:
+    -true -> if there's a match
+    -false -> if there's no match
+
+    */
     double maxYValue=xyCoords[0][1], maxXValue=xyCoords[0][0], minYValue=xyCoords[0][1], minXValue=xyCoords[0][0];
 
     for(int posicion=1;posicion<xyCoords.size();posicion++){

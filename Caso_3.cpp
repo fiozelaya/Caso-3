@@ -28,11 +28,11 @@ using namespace std;
 int main()
 {
 
-   int frames = 20;
-   int degrees = 230;
+   int frames = 25;
+   int degrees = 200;
    double height;
    double width;
-   string fileName = "Images/bird.svg";
+   string fileName = "Images/passenger-1.svg";
 
    AnimatorGenerator *animator = new AnimatorGenerator();
    Selection *selection = new Selection();
