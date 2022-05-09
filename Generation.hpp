@@ -69,12 +69,14 @@
                     currentFrame++;
                     Generation::createAnotherSVG = true;
                     //generation();
+                    cout<<"Entrando al primer push";
                     queueOfElements.push(currentElement); //push a la cola de eventos
                     continue;
                 }
                 else{
                     currentElementPointer++;
                     //generation();
+                    cout<<"Entrando al segundo push";
                     queueOfElements.push(currentElement); //push a la cola de eventos
                     continue;
                 }
@@ -85,6 +87,7 @@
              currentFrame++;
              currentElementPointer = currentFrame;
              createAnotherSVG = true; //falta ponerlo de nuevo en false
+             cout<<"Entrando al tercer push";
              queueOfElements.push(currentElement); //push a la cola de eventos
              //generation();
          }
@@ -119,16 +122,13 @@
          bool finishLoop=false;
          while(!finishLoop){
              std::this_thread::sleep_for(std::chrono::milliseconds(100));
-             //sleep(4);
+             //sleep(1);
              if(!queueOfElements.empty()){
-                cout<<"encontre elemento en cola";
+                cout<<"encontre elemento en cola "<<queueOfElements.size()<<endl;
                  Generation::generation();
                  queueOfElements.pop();
              }
-             else{
-                cout<<"no encontre eleemento en cola";
-             }
-             if(currentFrame == -1){
+             if(currentFrame == -1 && queueOfElements.empty()){
                  break;
              }
 
